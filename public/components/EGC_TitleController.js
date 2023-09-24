@@ -10,8 +10,8 @@ export class EGC_TitleController extends HTMLElement {
         super();
         this.root = this.attachShadow({mode: 'closed'});
         this.root.appendChild(template.content.cloneNode(true));
-        egc_titlePresenter.subscribe(this);
         this.titleController = this.root.querySelector('#title-controller');
+        egc_titlePresenter.subscribe(this);
         this.titleController.onchange = () => egc_updateGanttTitleCommand.execute(this.titleController.value);
         egc_loadGanttTitleFromMemoryCommand.execute();
     }

@@ -1,6 +1,7 @@
 const inMemoryGanttChart = {
     title: "No Title",
-    date: "2023-09-26"
+    date: "2023-09-26",
+    zoom: "day"
 }
 
 export class EGC_InMemoryRepository {
@@ -14,5 +15,9 @@ export class EGC_InMemoryRepository {
 
     updateDate(newDate) {
         this.state.date = newDate;
+    }
+
+    updateZoom(newZoom) {
+        this.state.zoom = newZoom;
     }
 }
