@@ -6,6 +6,9 @@ import { EGC_DatePresenter } from "./infrastructure/presenters/EGC_DatePresenter
 import { EGC_UpdateDateCommand } from "./infrastructure/commands/EGC_UpdateDateCommand.js";
 import { EGC_LoadDateFromMemoryCommand } from "./infrastructure/commands/EGC_LoadDateFromMemoryCommand.js";
 import { EGC_LoadGanttTitleFromMemoryCommand } from "./infrastructure/commands/EGC_LoadGanttTitleFromMemoryCommand.js";
+import { EGC_UpdateZoomCommand } from "./infrastructure/commands/EGC_UpdateZoomCommand.js";
+import { EGC_ZoomPresenter } from "./infrastructure/presenters/EGC_ZoomPresenter.js";
+import { EGC_LoadZoomFromMemoryCommand } from "./infrastructure/commands/EGC_LoadZoomFromMemoryCommand.js";
 
 // repositories
 export const egc_repository = new EGC_InMemoryRepository()
@@ -14,6 +17,7 @@ export const egc_repository = new EGC_InMemoryRepository()
 export const egc_titlePresenter = new EGC_TitlePresenter();
 export const egc_datePresenter = new EGC_DatePresenter();
 export const egc_errorPresenter = new EGC_ErrorPresenter();
+export const egc_zoomPresenter = new EGC_ZoomPresenter();
 
 // controllers.
 export const egc_loadGanttTitleFromMemoryCommand = new EGC_LoadGanttTitleFromMemoryCommand()
@@ -38,3 +42,15 @@ export const egc_updateDateCommand = new EGC_UpdateDateCommand()
     .presenter(egc_datePresenter)
     .errorPresenter(egc_errorPresenter)
     .callback(async newDate => {console.log(`New Date: ${newDate}`)});
+
+    
+export const egc_loadZoomFromMemoryCommand = new EGC_LoadZoomFromMemoryCommand()
+    .repo(egc_repository)
+    .presenter(egc_zoomPresenter)
+    .errorPresenter(egc_errorPresenter)
+    .callback(async zoom => {console.log(`Zoom: ${newZoom}`)})
+export const egc_updateZoomCommand = new EGC_UpdateZoomCommand()
+    .repo(egc_repository)
+    .presenter(egc_zoomPresenter)
+    .errorPresenter(egc_errorPresenter)
+    .callback(async newZoom => {console.log(`New Zoom: ${newZoom}`)});

@@ -1,4 +1,4 @@
-import { egc_updateZoomCommand, egc_loadZoomFrommemoryCommand, egc_zoomPresenter } from "../instance.js";
+import { egc_updateZoomCommand, egc_loadZoomFromMemoryCommand, egc_zoomPresenter } from "../instance.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -10,10 +10,10 @@ export class EGC_ZoomController extends HTMLElement {
         super();
         this.root = this.attachShadow({mode: 'closed'});
         this.root.appendChild(template.content.cloneNode(true));
-        egc_zoomPresenter.subscribe(this);
         this.zoomController = this.root.querySelector('#title-controller');
+        egc_zoomPresenter.subscribe(this);
         this.zoomController.onchange = () => egc_updateZoomCommand.execute(this.zoomController.value);
-        egc_loadZoomFrommemoryCommand.execute();
+        egc_loadZoomFromMemoryCommand.execute();
     }
 
     zoomDidUpdate(newZoom) {

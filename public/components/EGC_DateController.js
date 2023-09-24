@@ -10,8 +10,8 @@ export class EGC_DateController extends HTMLElement {
         super();
         this.root = this.attachShadow({mode: 'closed'});
         this.root.appendChild(template.content.cloneNode(true));
-        egc_datePresenter.subscribe(this);
         this.dateController = this.root.querySelector('#date-controller');
+        egc_datePresenter.subscribe(this);
         this.dateController.onchange = () => egc_updateDateCommand.execute(this.dateController.value);
         egc_loadDateFromMemoryCommand.execute();
     }
