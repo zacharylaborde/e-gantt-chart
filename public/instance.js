@@ -43,12 +43,12 @@ export const egc_updateDateCommand = new EGC_UpdateDateCommand()
     .errorPresenter(egc_errorPresenter)
     .callback(async newDate => {console.log(`New Date: ${newDate}`)});
 
-    
+
 export const egc_loadZoomFromMemoryCommand = new EGC_LoadZoomFromMemoryCommand()
     .repo(egc_repository)
     .presenter(egc_zoomPresenter)
     .errorPresenter(egc_errorPresenter)
-    .callback(async zoom => {console.log(`Zoom: ${newZoom}`)})
+    .callback(async zoom => {console.log(`Zoom: ${zoom}`)})
 export const egc_updateZoomCommand = new EGC_UpdateZoomCommand()
     .repo(egc_repository)
     .presenter(egc_zoomPresenter)
