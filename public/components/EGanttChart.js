@@ -1,14 +1,9 @@
-import { EGanttChartController } from "./EGanttChartController.js";
-import { EGanttChartEditorPanel } from "./EGanttChartEditorPanel.js";
-import { EGanttChartNotificationPanel } from "./EGanttChartNotificationPanel.js";
-import { EGanttChartTable } from "./EGanttChartTable.js";
-
 const template = document.createElement('template');
 template.innerHTML = `
-    <e-gantt-chart-controller></e-gantt-chart-controller>
-    <e-gantt-chart-table></e-gantt-chart-table>
-    <e-gantt-chart-editor-panel></e-gantt-chart-editor-panel>
-    <e-gantt-chart-notification-panel></e-gantt-chart-notification-panel>
+    <div class="e-gantt-chart-controller"></div>
+    <div class="e-gantt-chart-table"></div>
+    <div class="e-gantt-chart-editor-panel"></div>
+    <div class="e-gantt-chart-notification-panel"></div>
 `;
 
 export class EGanttChart extends HTMLElement {
