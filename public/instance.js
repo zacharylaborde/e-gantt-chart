@@ -1,8 +1,5 @@
 import { EGC_InMemoryRepository } from "./infrastructure/repositories/EGC_InMemoryRepository.js";
 import { EGC_TitlePresenter, EGC_ErrorPresenter, EGC_DatePresenter, EGC_ZoomPresenter } from "./infrastructure/presenters/EGC_Presenters.js";
-import { EGC_LoadDateFromMemoryCommand } from "./infrastructure/commands/EGC_LoadDateFromMemoryCommand.js";
-import { EGC_LoadGanttTitleFromMemoryCommand } from "./infrastructure/commands/EGC_LoadGanttTitleFromMemoryCommand.js";
-import { EGC_LoadZoomFromMemoryCommand } from "./infrastructure/commands/EGC_LoadZoomFromMemoryCommand.js";
 import { EGC_UpdateCommand } from "./infrastructure/commands/EGC_UpdateCommand.js";
 import { EGC_LoadFromMemoryCommand } from "./infrastructure/commands/EGC_LoadFromMemoryCommand.js";
 
