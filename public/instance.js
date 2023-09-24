@@ -1,13 +1,10 @@
 import { EGC_InMemoryRepository } from "./infrastructure/repositories/EGC_InMemoryRepository.js";
 import { EGC_UpdateGanttTitleCommand } from "./infrastructure/commands/EGC_UpdateGanttTitleCommand.js";
-import { EGC_TitlePresenter } from "./infrastructure/presenters/EGC_TitlePresenter.js";
-import { EGC_ErrorPresenter } from "./infrastructure/presenters/EGC_ErrorPresnter.js";
-import { EGC_DatePresenter } from "./infrastructure/presenters/EGC_DatePresenter.js";
+import { EGC_TitlePresenter, EGC_ErrorPresenter, EGC_DatePresenter, EGC_ZoomPresenter } from "./infrastructure/presenters/EGC_Presenters.js";
 import { EGC_UpdateDateCommand } from "./infrastructure/commands/EGC_UpdateDateCommand.js";
 import { EGC_LoadDateFromMemoryCommand } from "./infrastructure/commands/EGC_LoadDateFromMemoryCommand.js";
 import { EGC_LoadGanttTitleFromMemoryCommand } from "./infrastructure/commands/EGC_LoadGanttTitleFromMemoryCommand.js";
 import { EGC_UpdateZoomCommand } from "./infrastructure/commands/EGC_UpdateZoomCommand.js";
-import { EGC_ZoomPresenter } from "./infrastructure/presenters/EGC_ZoomPresenter.js";
 import { EGC_LoadZoomFromMemoryCommand } from "./infrastructure/commands/EGC_LoadZoomFromMemoryCommand.js";
 
 // repositories
