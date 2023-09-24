@@ -1,11 +1,11 @@
-const inMemoryGanttChart = {
+const inMemoryGanttChartRepository = {
     title: "No Title",
     date: "2023-09-26",
     zoom: "day"
 }
 
-export class EGC_InMemoryRepository {
-    constructor(state = inMemoryGanttChart) {
+export class EGC_InMemoryGanttChartRepository {
+    constructor(state = inMemoryGanttChartRepository) {
         this.state = state;
     }
 
