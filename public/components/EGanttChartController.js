@@ -1,6 +1,7 @@
 const template = document.createElement('template');
 template.innerHTML = `
-    Loading...
+    <e-gantt-chart-editable-title></e-gantt-chart-editable-title>
+    <e-gantt-chart-date-picker></e-gantt-chart-date-picker>
 `;
 
 export class EGanttChartController extends HTMLElement {

@@ -1,7 +1,7 @@
-import { EGanttChartController } from "./EGanttChartController";
-import { EGanttChartEditorPanel } from "./EGanttChartEditorPanel";
-import { EGanttChartNotificationPanel } from "./EGanttChartNotificationPanel";
-import { EGanttChartTable } from "./EGanttChartTable";
+import { EGanttChartController } from "./EGanttChartController.js";
+import { EGanttChartEditorPanel } from "./EGanttChartEditorPanel.js";
+import { EGanttChartNotificationPanel } from "./EGanttChartNotificationPanel.js";
+import { EGanttChartTable } from "./EGanttChartTable.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
