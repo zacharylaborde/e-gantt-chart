@@ -1,4 +1,4 @@
-import { egc_loadGanttTitleFromMemoryCommand, egc_titlePresenter, egc_updateTitleCommand } from "../instance.js";
+import { egc_loadTitleFromMemoryCommand, egc_titlePresenter, egc_updateTitleCommand } from "../instance.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -13,7 +13,7 @@ export class EGC_TitleController extends HTMLElement {
         this.titleController = this.root.querySelector('#title-controller');
         egc_titlePresenter.subscribe(this);
         this.titleController.onchange = () => egc_updateTitleCommand.execute(this.titleController.value);
-        egc_loadGanttTitleFromMemoryCommand.execute();
+        egc_loadTitleFromMemoryCommand.execute();
     }
 
     titleDidUpdate(newTitle) {

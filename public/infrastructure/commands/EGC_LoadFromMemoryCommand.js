@@ -1,11 +1,15 @@
-export class EGC_LoadDateFromMemoryCommand {
+export class EGC_LoadFromMemoryCommand {
+    constructor(key) {
+        this.key = key;
+    }
+
     async execute() {
         try {
-            await this.callback(this.repo.state.date);
-            this.presenter.present(this.repo.state.date);
+            await this.callback(this.repo.state[this.key]);
+            this.presenter.present(this.repo.state[this.key]);
         } catch (err) {
             this.errorPresenter.present(err);
-            this.presenter.present(this.repo.state.date);
+            this.presenter.present(this.repo.state[this.key]);
             console.error(err.message);
         } 
     }
