@@ -16,7 +16,7 @@ export class EGC_TitleController extends HTMLElement {
         egc_loadTitleFromMemoryCommand.execute();
     }
 
-    titleDidUpdate(newTitle) {
+    dataDidUpdate(newTitle) {
         this.titleController.value = newTitle;
     }
 }

@@ -9,7 +9,7 @@ export class EGC_UpdateCommand {
             this.presenter.present(value);
             this.repo.update(this.key, value);
         } catch (err) {
-            this.errorPresenter.present(value, err);
+            this.errorPresenter.present({value, err});
             this.presenter.present(this.repo.state[this.key]);
             console.error(err.message);
         } 
