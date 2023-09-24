@@ -1,4 +1,4 @@
-export class EGC_DatePresenter {
+export class EGC_Presenter {
     constructor() {
         this.subscribers = [];
     }
@@ -11,7 +11,7 @@ export class EGC_DatePresenter {
         this.subscribers.pop(subscriber);
     }
 
-    present(newDate) {
-        this.subscribers.map(s => s.dateDidUpdate(newDate));
+    present(newData) {
+        this.subscribers.map(s => s.dataDidUpdate(newData))
     }
 }

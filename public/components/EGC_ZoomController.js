@@ -21,7 +21,7 @@ export class EGC_ZoomController extends HTMLElement {
         egc_loadZoomFromMemoryCommand.execute();
     }
 
-    zoomDidUpdate(newZoom) {
+    dataDidUpdate(newZoom) {
         this.zoomController.value = newZoom;
     }
 }

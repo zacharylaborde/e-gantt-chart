@@ -16,7 +16,7 @@ export class EGC_DateController extends HTMLElement {
         egc_loadDateFromMemoryCommand.execute();
     }
 
-    dateDidUpdate(newDate) {
+    dataDidUpdate(newDate) {
         this.dateController.value = newDate;
     }
 }

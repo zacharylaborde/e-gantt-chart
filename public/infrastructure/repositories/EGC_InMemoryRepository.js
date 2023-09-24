@@ -9,15 +9,7 @@ export class EGC_InMemoryRepository {
         this.state = state;
     }
 
-    updateTitle(newTitle) {
-        this.state.title = newTitle;
-    }
-
-    updateDate(newDate) {
-        this.state.date = newDate;
-    }
-
-    updateZoom(newZoom) {
-        this.state.zoom = newZoom;
+    update(key, value) {
+        this.state[key] = value;
     }
 }

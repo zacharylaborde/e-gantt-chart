@@ -1,12 +1,16 @@
-export class EGC_UpdateGanttTitleCommand {
-    async execute(newTitle) {
+export class EGC_UpdateCommand {
+    constructor(key) {
+        this.key = key;
+    }
+
+    async execute(value) {
         try {
-            await this.callback(newTitle);
-            this.presenter.present(newTitle);
-            this.repo.updateTitle(newTitle);
+            await this.callback(value);
+            this.presenter.present(value);
+            this.repo.update(this.key, value);
         } catch (err) {
-            this.errorPresenter.present(newTitle, err);
-            this.presenter.present(this.repo.state.title);
+            this.errorPresenter.present({value, err});
+            this.presenter.present(this.repo.state[this.key]);
             console.error(err.message);
         } 
     }
