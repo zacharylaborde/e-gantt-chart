@@ -1,5 +1,6 @@
 const inMemoryGanttChart = {
-    title: "No Title"
+    title: "No Title",
+    date: "2023-09-26"
 }
 
 export class EGC_InMemoryRepository {
@@ -9,5 +10,9 @@ export class EGC_InMemoryRepository {
 
     updateTitle(newTitle) {
         this.state.title = newTitle;
+    }
+
+    updateDate(newDate) {
+        this.state.date = newDate;
     }
 }
