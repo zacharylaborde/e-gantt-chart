@@ -1,12 +1,16 @@
-export class EGC_UpdateZoomCommand {
-    async execute(newZoom) {
+export class EGC_UpdateCommand {
+    constructor(key) {
+        this.key = key;
+    }
+
+    async execute(value) {
         try {
-            await this.callback(newZoom);
-            this.presenter.present(newZoom);
-            this.repo.updateZoom(newZoom);
+            await this.callback(value);
+            this.presenter.present(value);
+            this.repo.update(this.key, value);
         } catch (err) {
-            this.errorPresenter.present(newZoom, err);
-            this.presenter.present(this.repo.state.zoom);
+            this.errorPresenter.present(value, err);
+            this.presenter.present(this.repo.state[this.key]);
             console.error(err.message);
         } 
     }
