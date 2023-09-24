@@ -5,9 +5,10 @@ export class EGC_UpdateCommand {
 
     async execute(value) {
         try {
-            await this.callback(value);
+            if (this.before) await this.after(value);
             this.presenter.present(value);
             this.repo.update(this.key, value);
+            if (this.after) await this.after(value);
         } catch (err) {
             this.errorPresenter.present({value, err});
             this.presenter.present(this.repo.state[this.key]);
@@ -30,8 +31,13 @@ export class EGC_UpdateCommand {
         return this;
     }
 
-    callback(callback) {
-        this.callback = callback;
+    before(callback) {
+        this.before = callback;
+        return this;
+    }
+
+    after(callback) {
+        this.after = callback;
         return this;
     }
 }

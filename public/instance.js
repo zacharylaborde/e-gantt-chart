@@ -17,33 +17,33 @@ export const egc_loadTitleFromMemoryCommand = new EGC_LoadFromMemoryCommand("tit
     .repo(egc_inMemoryGanttChartRepository)
     .presenter(egc_titlePresenter)
     .errorPresenter(egc_errorPresenter)
-    .callback(async title => {console.log(`Loaded Title: ${title}`)});
+    .before(async title => {console.log(`Loaded Title: ${title}`)});
 export const egc_updateTitleCommand = new EGC_UpdateCommand("title")
     .repo(egc_inMemoryGanttChartRepository)
     .presenter(egc_titlePresenter)
     .errorPresenter(egc_errorPresenter)
-    .callback(async newTitle => {console.log(`New Title: ${newTitle}`)});
+    .before(async newTitle => {console.log(`New Title: ${newTitle}`)});
 
 
 export const egc_loadDateFromMemoryCommand = new EGC_LoadFromMemoryCommand("date")
     .repo(egc_inMemoryGanttChartRepository)
     .presenter(egc_datePresenter)
     .errorPresenter(egc_errorPresenter)
-    .callback(async date => {console.log(`Loaded Date: ${date}`)});
+    .before(async date => {console.log(`Loaded Date: ${date}`)});
 export const egc_updateDateCommand = new EGC_UpdateCommand("date")
     .repo(egc_inMemoryGanttChartRepository)
     .presenter(egc_datePresenter)
     .errorPresenter(egc_errorPresenter)
-    .callback(async newDate => {console.log(`New Date: ${newDate}`)});
+    .before(async newDate => {console.log(`New Date: ${newDate}`)});
 
 
 export const egc_loadZoomFromMemoryCommand = new EGC_LoadFromMemoryCommand("zoom")
     .repo(egc_inMemoryGanttChartRepository)
     .presenter(egc_zoomPresenter)
     .errorPresenter(egc_errorPresenter)
-    .callback(async zoom => {console.log(`Zoom: ${zoom}`)});
+    .before(async zoom => {console.log(`Loaded Zoom: ${zoom}`)});
 export const egc_updateZoomCommand = new EGC_UpdateCommand("zoom")
     .repo(egc_inMemoryGanttChartRepository)
     .presenter(egc_zoomPresenter)
     .errorPresenter(egc_errorPresenter)
-    .callback(async newZoom => {console.log(`New Zoom: ${newZoom}`)});
+    .before(async newZoom => {console.log(`New Zoom: ${newZoom}`)});
