@@ -2,7 +2,12 @@ import { egc_updateZoomCommand, egc_loadZoomFromMemoryCommand, egc_zoomPresenter
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <select id="zoom-controller" class="egc-zoom"></select>
+    <select id="zoom-controller" class="egc-zoom">
+        <option value="month">Month</option>
+        <option value="day">Day</option>
+        <option value="shift">Shift</option>
+        <option value="hour">Hour</option>
+    </select>
 `;
 
 export class EGC_ZoomController extends HTMLElement {
