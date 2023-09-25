@@ -5,9 +5,9 @@ export class EGC_LoadFromMemoryCommand {
 
     async execute() {
         try {
-            if (this.before) await this.before(this.repo.state[this.key]);
+            if (this.beforeCallback) await this.beforeCallback(this.repo.state[this.key]);
             this.presenter.present(this.repo.state[this.key]);
-            if (this.after) await this.after(this.repo.state[this.key]);
+            if (this.afterCallback) await this.afterCallback(this.repo.state[this.key]);
         } catch (err) {
             this.errorPresenter.present(err);
             this.presenter.present(this.repo.state[this.key]);
@@ -31,11 +31,12 @@ export class EGC_LoadFromMemoryCommand {
     }
 
     before(callback) {
-        this.before = callback;
+        this.beforeCallback = callback;
         return this;
     }
 
     after(callback) {
-        this.after = callback;
+        this.beforeCallback = callback;
+        return this;
     }
 }

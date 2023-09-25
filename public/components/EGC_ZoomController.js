@@ -17,7 +17,10 @@ export class EGC_ZoomController extends HTMLElement {
         this.root.appendChild(template.content.cloneNode(true));
         this.zoomController = this.root.querySelector('#zoom-controller');
         egc_zoomPresenter.subscribe(this);
-        this.zoomController.onchange = () => egc_updateZoomCommand.execute(this.zoomController.value);
+        this.zoomController.onchange = () => {
+            console.log(egc_updateZoomCommand);
+            egc_updateZoomCommand.execute(this.zoomController.value);
+        }
         egc_loadZoomFromMemoryCommand.execute();
     }
 
