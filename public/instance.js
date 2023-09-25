@@ -58,7 +58,7 @@ function mockUpdate(key, value) {
     });
 }
 
-function mockLoad(key, valud) {
+function mockLoad(key, value) {
     return new Promise(resolve => {
         console.log(`Loading ${key}: ${value}`);
         setTimeout(() => {
