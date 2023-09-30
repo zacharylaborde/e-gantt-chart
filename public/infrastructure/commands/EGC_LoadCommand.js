@@ -1,16 +1,18 @@
-export class EGC_LoadFromMemoryCommand {
+export class EGC_LoadCommand {
     constructor(key) {
         this.key = key;
     }
 
     async execute() {
         try {
-            if (this.beforeCallback) await this.beforeCallback(this.repo.state[this.key]);
-            this.presenter.present(this.repo.state[this.key]);
-            if (this.afterCallback) await this.afterCallback(this.repo.state[this.key]);
+            const data = this.repo.state[this.key];
+            if (this.beforeCallback) await this.beforeCallback(data);
+            if (this.presenter) this.presenter.present(data);
+            if (this.afterCallback) await this.afterCallback(data);
         } catch (err) {
-            this.errorPresenter.present(err);
-            this.presenter.present(this.repo.state[this.key]);
+            const data = this.repo.state[this.key];
+            if (this.errorPresenter) this.errorPresenter.present(err);
+            if (this.presenter) this.presenter.present(data);
             console.error(err.message);
         } 
     }
