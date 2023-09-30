@@ -1,4 +1,4 @@
-import { egc_updateZoomCommand, egc_loadZoomFromMemoryCommand, egc_zoomObserver } from "../instance.js";
+import { egc_inMemoryGanttChart, egc_updateZoomCommand, egc_zoomObserver } from "../instance.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -19,8 +19,8 @@ export class EGC_ZoomController extends HTMLElement {
         this.zoomController.onchange = () => egc_updateZoomCommand.execute(this.zoomController.value);
     }
 
-    dataDidUpdate(newZoom) {
-        this.zoomController.value = newZoom;
+    dataDidUpdate() {
+        this.zoomController.value = egc_inMemoryGanttChart.getState("zoom");
     }
 }
 

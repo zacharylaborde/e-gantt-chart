@@ -1,4 +1,4 @@
-import { egc_dateObserver, egc_updateDateCommand } from "../instance.js";
+import { egc_dateObserver, egc_inMemoryGanttChart, egc_updateDateCommand } from "../instance.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -14,8 +14,8 @@ export class EGC_DateController extends HTMLElement {
         this.dateController.onchange = () => egc_updateDateCommand.execute(this.dateController.value);
     }
 
-    dataDidUpdate(newDate) {
-        this.dateController.value = newDate;
+    dataDidUpdate() {
+        this.dateController.value = egc_inMemoryGanttChart.getState("date");
     }
 }
 
