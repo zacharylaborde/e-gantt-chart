@@ -1,5 +1,6 @@
 import { EGC_ControlPanel } from "./EGC_ControlPanel.js";
 import { EGC_Table } from "./EGC_Table.js";
+import { egc_loadDateFromMemoryCommand, egc_loadTitleFromMemoryCommand, egc_loadZoomFromMemoryCommand } from "../instance.js";
 
 export class EGanttChart extends HTMLElement {
     constructor() {
