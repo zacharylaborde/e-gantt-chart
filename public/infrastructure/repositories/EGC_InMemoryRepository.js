@@ -6,4 +6,8 @@ export class EGC_InMemoryRepository {
     update(key, value) {
         this.state[key] = value;
     }
+
+    getState(key) {
+        return this.state[key];
+    }
 }

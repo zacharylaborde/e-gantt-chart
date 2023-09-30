@@ -11,7 +11,7 @@ export class EGC_UpdateCommand {
             if (this.afterCallback) await this.afterCallback(value);
         } catch (err) {
             this.errorPresenter.present({value, err});
-            this.presenter.present(this.repo.state[this.key]);
+            this.presenter.present(this.repo.getState(this.key));
             console.error(err.message);
         } 
     }

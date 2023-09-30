@@ -5,12 +5,12 @@ export class EGC_LoadCommand {
 
     async execute() {
         try {
-            const data = this.repo.state[this.key];
+            const data = this.repo.getState(this.key);
             if (this.beforeCallback) await this.beforeCallback(data);
             if (this.presenter) this.presenter.present(data);
             if (this.afterCallback) await this.afterCallback(data);
         } catch (err) {
-            const data = this.repo.state[this.key];
+            const data = this.repo.getState(this.key);
             if (this.errorPresenter) this.errorPresenter.present(err);
             if (this.presenter) this.presenter.present(data);
             console.error(err.message);
