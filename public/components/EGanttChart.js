@@ -8,6 +8,12 @@ export class EGanttChart extends HTMLElement {
         this.root.appendChild(new EGC_ControlPanel());
         this.root.appendChild(new EGC_Table());
     }
+
+    connectedCallback() {
+        egc_loadDateFromMemoryCommand.execute();
+        egc_loadTitleFromMemoryCommand.execute();
+        egc_loadZoomFromMemoryCommand.execute();
+    }
 }
 
 window.customElements.define('e-gantt-chart', EGanttChart);

@@ -12,7 +12,6 @@ export class EGC_TitleController extends HTMLElement {
         this.titleController = this.querySelector('#title-controller');
         egc_titleObserver.subscribe(this);
         this.titleController.onchange = () => egc_updateTitleCommand.execute(this.titleController.value);
-        egc_loadTitleFromMemoryCommand.execute();
     }
 
     dataDidUpdate(newTitle) {
