@@ -13,9 +13,8 @@ template.innerHTML = `
 export class EGC_ZoomController extends HTMLElement {
     constructor() {
         super();
-        this.root = this.attachShadow({mode: 'closed'});
-        this.root.appendChild(template.content.cloneNode(true));
-        this.zoomController = this.root.querySelector('#zoom-controller');
+        this.appendChild(template.content.cloneNode(true));
+        this.zoomController = this.querySelector('#zoom-controller');
         egc_zoomObserver.subscribe(this);
         this.zoomController.onchange = () => egc_updateZoomCommand.execute(this.zoomController.value);
         egc_loadZoomFromMemoryCommand.execute();

@@ -8,9 +8,8 @@ template.innerHTML = `
 export class EGC_TitleController extends HTMLElement {
     constructor() {
         super();
-        this.root = this.attachShadow({mode: 'closed'});
-        this.root.appendChild(template.content.cloneNode(true));
-        this.titleController = this.root.querySelector('#title-controller');
+        this.appendChild(template.content.cloneNode(true));
+        this.titleController = this.querySelector('#title-controller');
         egc_titleObserver.subscribe(this);
         this.titleController.onchange = () => egc_updateTitleCommand.execute(this.titleController.value);
         egc_loadTitleFromMemoryCommand.execute();
