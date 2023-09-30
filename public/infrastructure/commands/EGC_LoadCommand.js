@@ -7,12 +7,12 @@ export class EGC_LoadCommand {
         try {
             const data = this.repo.getState(this.key);
             if (this.beforeCallback) await this.beforeCallback(data);
-            if (this.presenter) this.presenter.present(data);
+            if (this.observer) this.observer.update(data);
             if (this.afterCallback) await this.afterCallback(data);
         } catch (err) {
             const data = this.repo.getState(this.key);
-            if (this.errorPresenter) this.errorPresenter.present(err);
-            if (this.presenter) this.presenter.present(data);
+            if (this.errorObserver) this.errorObserver.update(err);
+            if (this.observer) this.observer.update(data);
             console.error(err.message);
         } 
     }
@@ -22,13 +22,13 @@ export class EGC_LoadCommand {
         return this;
     }
 
-    errorPresenter(errorPresenter) {
-        this.errorPresenter = errorPresenter;
+    errorObserver(errorObserver) {
+        this.errorObserver = errorObserver;
         return this;
     }
 
-    presenter(presenter) {
-        this.presenter = presenter;
+    observer(observer) {
+        this.observer = observer;
         return this;
     }
 

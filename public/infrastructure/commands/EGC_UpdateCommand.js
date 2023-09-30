@@ -6,12 +6,12 @@ export class EGC_UpdateCommand {
     async execute(value) {
         try {
             if (this.beforeCallback) await this.beforeCallback(value);
-            if (this.presenter) this.presenter.present(value);
+            if (this.observer) this.observer.update(value);
             this.repo.update(this.key, value);
             if (this.afterCallback) await this.afterCallback(value);
         } catch (err) {
-            this.errorPresenter.present({value, err});
-            this.presenter.present(this.repo.getState(this.key));
+            this.errorObserver.update({value, err});
+            this.observer.present(this.repo.getState(this.key));
             console.error(err.message);
         } 
     }
@@ -21,13 +21,13 @@ export class EGC_UpdateCommand {
         return this;
     }
 
-    errorPresenter(errorPresenter) {
-        this.errorPresenter = errorPresenter;
+    errorObserver(errorObserver) {
+        this.errorObserver = errorObserver;
         return this;
     }
 
-    presenter(presenter) {
-        this.presenter = presenter;
+    observer(observer) {
+        this.observer = observer;
         return this;
     }
 

@@ -1,4 +1,4 @@
-import { egc_datePresenter, egc_loadDateFromMemoryCommand, egc_updateDateCommand } from "../instance.js";
+import { egc_dateObserver, egc_loadDateFromMemoryCommand, egc_updateDateCommand } from "../instance.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -11,7 +11,7 @@ export class EGC_DateController extends HTMLElement {
         this.root = this.attachShadow({mode: 'closed'});
         this.root.appendChild(template.content.cloneNode(true));
         this.dateController = this.root.querySelector('#date-controller');
-        egc_datePresenter.subscribe(this);
+        egc_dateObserver.subscribe(this);
         this.dateController.onchange = () => egc_updateDateCommand.execute(this.dateController.value);
         egc_loadDateFromMemoryCommand.execute();
     }
