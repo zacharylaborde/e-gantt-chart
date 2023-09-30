@@ -6,7 +6,7 @@ export class EGC_UpdateCommand {
     async execute(value) {
         try {
             if (this.beforeCallback) await this.beforeCallback(value);
-            this.presenter.present(value);
+            if (this.presenter) this.presenter.present(value);
             this.repo.update(this.key, value);
             if (this.afterCallback) await this.afterCallback(value);
         } catch (err) {
