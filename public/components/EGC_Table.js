@@ -1,4 +1,4 @@
-import { EGC_Timeline } from "./EGC_Timeline";
+import { EGC_Timeline } from "./EGC_Timeline.js";
 
 export class EGC_Table extends HTMLElement {
     constructor() {
