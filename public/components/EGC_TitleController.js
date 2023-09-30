@@ -1,4 +1,4 @@
-import { egc_titleObserver, egc_updateTitleCommand } from "../instance.js";
+import { egc_titleObserver,egc_inMemoryGanttChart, egc_updateTitleCommand } from "../instance.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -15,7 +15,7 @@ export class EGC_TitleController extends HTMLElement {
     }
 
     dataDidUpdate() {
-        this.titleController.value = egc_inMemoryGanttChart.getState("zoom");
+        this.titleController.value = egc_inMemoryGanttChart.getState("title");
     }
 }
 
