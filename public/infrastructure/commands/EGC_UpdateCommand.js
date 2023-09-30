@@ -11,9 +11,9 @@ export class EGC_UpdateCommand {
             if (this.afterCallback) await this.afterCallback(value);
         } catch (err) {
             this.errorObserver.update({value, err});
-            this.observer.present(this.repo.getState(this.key));
+            this.observer.update(this.repo.getState(this.key));
             console.error(err.message);
-        } 
+        }
     }
 
     repo(repo) {
