@@ -5,6 +5,9 @@ export class EGC_Table extends HTMLElement {
         super();
         this.setAttribute('part', 'table');
         this.appendChild(new EGC_Timeline());
+        this.style.display = 'grid';
+        this.style.overflowX = 'auto';
+        this.style.gridTemplateColumns = '1fr';
     }
 }
 
