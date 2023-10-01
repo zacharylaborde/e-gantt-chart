@@ -3,10 +3,6 @@ import { egc_inMemoryGanttChart, egc_timeRanges, egc_updateZoomCommand, egc_zoom
 const template = document.createElement('template');
 template.innerHTML = `
     <select id="zoom-controller" class="egc-zoom">
-        <option value="month">Month</option>
-        <option value="day">Day</option>
-        <option value="shift">Shift</option>
-        <option value="hour">Hour</option>
     </select>
 `;
 
