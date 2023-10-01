@@ -3,7 +3,7 @@ import {
     egc_inMemoryGanttChart, 
     egc_zoomObserver, 
     egc_numColumsToLoadObserver,
-    egc_timeRanges
+    egc_timeRangeGeneratorServices
 } from "../instance.js";
 
 const template = document.createElement('template');
@@ -28,14 +28,13 @@ export class EGC_Timeline extends HTMLElement {
         const zoom = egc_inMemoryGanttChart.getState("zoom");
         this.upperTimeline.innerHTML = '';
         this.lowerTimeline.innerHTML = '';
-        egc_timeRanges[zoom].upperTimeGenerationStrategy(date).forEach(e => {
+        egc_timeRangeGeneratorServices[zoom].generateUpperTimeline(date).forEach(e => {
             const elem = document.createElement("span");
             elem.innerText = e.text;
-            console.log(e);
             // elem.columnSpan = e.columnCount;     // *** FIX THIS ***    How to change the style so that the column span is wider? Learn grids in css.
             this.upperTimeline.appendChild(elem);
         });
-        egc_timeRanges[zoom].lowerTimeGenerationStrategy(date).forEach(e => {
+        egc_timeRangeGeneratorServices[zoom].generateLowerTimeline(date).forEach(e => {
             const elem = document.createElement("span");
             elem.innerText = e;
             this.lowerTimeline.appendChild(elem);

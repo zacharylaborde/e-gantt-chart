@@ -1,4 +1,4 @@
-import { egc_inMemoryGanttChart, egc_timeRanges, egc_updateZoomCommand, egc_zoomObserver } from "../instance.js";
+import { egc_inMemoryGanttChart, egc_timeRangeGeneratorServices, egc_updateZoomCommand, egc_zoomObserver } from "../instance.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -17,9 +17,10 @@ export class EGC_ZoomController extends HTMLElement {
 
     dataDidUpdate() {
         this.zoomController.innerHTML = '';
-        Object.keys(egc_timeRanges).forEach(key => {
+        Object.keys(egc_timeRangeGeneratorServices).forEach(key => {
             const e = document.createElement('option');
-            e.innerText = egc_timeRanges[key].name;
+            e.innerText = egc_timeRangeGeneratorServices[key].name;
+            console.log(egc_timeRangeGeneratorServices[key]);
             e.value = key;
             this.zoomController.appendChild(e);
         })

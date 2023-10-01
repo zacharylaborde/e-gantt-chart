@@ -2,6 +2,7 @@ import { EGC_InMemoryRepository } from "./infrastructure/repositories/EGC_InMemo
 import { EGC_Observer } from "./infrastructure/observers/EGC_Observer.js";
 import { EGC_UpdateCommand } from "./infrastructure/commands/EGC_UpdateCommand.js";
 import { EGC_LoadCommand } from "./infrastructure/commands/EGC_LoadCommand.js";
+import { EGC_TimeRangeGeneratorService } from "./infrastructure/services/EGC_TimeRangeGeneratorService.js";
 
 // initial data.
 const ganttChartData = {
@@ -16,7 +17,7 @@ const ganttChartSettingsData = {
 
 // repositories.
 export const egc_inMemoryGanttChart = new EGC_InMemoryRepository(ganttChartData);
-export const egc_inMemoryGanttChartSettings = new EGC_InMemoryRepository(ganttChartSettingsData)
+export const egc_inMemoryGanttChartSettings = new EGC_InMemoryRepository(ganttChartSettingsData);
 
 // observers.
 export const egc_titleObserver = new EGC_Observer();
@@ -74,11 +75,10 @@ export const egc_updateNumColumnsToLoadCommand = new EGC_UpdateCommand("numColum
     .before(value => mockUpdate("numColumnsToLoad", value))
 
 
-// strategies.
-export const egc_timeRanges = {
-    month: {
-        name: "Month",
-        upperTimeGenerationStrategy: (date) => {
+// services.
+export const egc_timeRangeGeneratorServices = {
+    month: new EGC_TimeRangeGeneratorService("Month")
+        .upperTimelineStrategy((date) => {
             const result = [];
             let currentDate = new Date(date);
             let remainingDays = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
@@ -97,19 +97,18 @@ export const egc_timeRanges = {
                 currentDate = new Date(currentYear, currentMonth + 1, 1);
             }
             return result;
-        },
-        lowerTimeGenerationStrategy: (date) => {
+        })
+        .lowerTimelineStrategy((date) => {
             const startDate = new Date(date);
             return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
                 const newDate = new Date(startDate);
                 newDate.setDate(startDate.getDate() + index);
                 return newDate.toLocaleDateString([], {day: '2-digit'})
             });
-        }
-    },
-    day: {
-        name: "Day",
-        upperTimeGenerationStrategy: (date) => {
+        }),
+
+    day: new EGC_TimeRangeGeneratorService("Day")
+        .upperTimelineStrategy((date) => {
             const result = [];
             let currentDate = new Date(date);
             let remainingDays = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
@@ -129,19 +128,18 @@ export const egc_timeRanges = {
                 currentDate = new Date(currentYear, currentMonth + 1, 1);
             }
             return result;
-        },
-        lowerTimeGenerationStrategy: (date) => {
+        })
+        .lowerTimelineStrategy((date) => {
             const startDate = new Date(date);
             return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
                 const newDate = new Date(startDate);
                 newDate.setDate(startDate.getDate() + index);
                 return newDate.toLocaleDateString([], {day: '2-digit'})
             });
-        }
-    },
-    shift: {
-        name: "Shift",
-        upperTimeGenerationStrategy: (date) => {
+        }),
+
+    shift: new EGC_TimeRangeGeneratorService("Shift")
+        .upperTimelineStrategy((date) => {
             const startDate = new Date(date);
             return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad") / 3}, (_, index) => {
                 const newDate = new Date(startDate);
@@ -151,19 +149,18 @@ export const egc_timeRanges = {
                     columnCount: 3
                 }
             });
-        },
-        lowerTimeGenerationStrategy: (date) => {
+        })
+        .lowerTimelineStrategy((date) => {
             const startDate = new Date(date);
             return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
                 const newDate = new Date(startDate);
                 newDate.setHours(startDate.getHours() + (index * 8));
                 return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             });
-        },
-    },
-    hour: {
-        name: "Hour",
-        upperTimeGenerationStrategy: (date) => {
+        }),
+        
+    hour: new EGC_TimeRangeGeneratorService("Hour")
+        .upperTimelineStrategy((date) => {
             const startDate = new Date(date);
             return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad") / 24}, (_, index) => {
                 const newDate = new Date(startDate);
@@ -173,16 +170,15 @@ export const egc_timeRanges = {
                     columnCount: 24
                 }
             });
-        },
-        lowerTimeGenerationStrategy: (date) => {
+        })
+        .lowerTimelineStrategy((date) => {
             const startDate = new Date(date);
             return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
                 const newDate = new Date(startDate);
                 newDate.setHours(startDate.getHours() + index);
                 return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             });
-        }
-    },
+        })
 }
 
 // ** DELETE** //
