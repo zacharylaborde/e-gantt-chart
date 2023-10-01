@@ -7,11 +7,11 @@ import { EGC_LoadCommand } from "./infrastructure/commands/EGC_LoadCommand.js";
 const ganttChartData = {
     title: "No Title",
     date: "2023-09-26",
-    zoom: "day"
+    zoom: "month"
 }
 
 const ganttChartSettingsData = {
-    numColumnsToLoad: 1,
+    numColumnsToLoad: 92,
 }
 
 // repositories.
@@ -75,78 +75,117 @@ export const egc_updateNumColumnsToLoadCommand = new EGC_UpdateCommand("numColum
 
 
 // strategies.
-export const egc_upperDateGenerationStrategies = {
-    month: (date) => {
-        const startDate = new Date(date);
-        return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
-            const newDate = new Date(startDate);
-            newDate.setDate(startDate.getDate() + index);
-            return newDate.toLocaleDateString([], {day: '2-digit'})
-        });
+export const egc_timeRanges = {
+    month: {
+        name: "Month",
+        upperTimeGenerationStrategy: (date) => {
+            const result = [];
+            let currentDate = new Date(date);
+            let remainingDays = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
+            while (remainingDays > 0) {
+                const currentMonth = currentDate.getMonth();
+                const currentYear = currentDate.getFullYear();
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                const daysLeftInMonth = daysInMonth - currentDate.getDate() + 1;
+                const daysToAdd = Math.min(daysLeftInMonth, remainingDays);
+                const text = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+                result.push({
+                    text: text,
+                    columnCount: daysToAdd
+                });
+                remainingDays -= daysToAdd;
+                currentDate = new Date(currentYear, currentMonth + 1, 1);
+            }
+            return result;
+        },
+        lowerTimeGenerationStrategy: (date) => {
+            const startDate = new Date(date);
+            return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
+                const newDate = new Date(startDate);
+                newDate.setDate(startDate.getDate() + index);
+                return newDate.toLocaleDateString([], {day: '2-digit'})
+            });
+        }
     },
-    day: (date) => {
-        const startDate = new Date(date);
-        return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
-            const newDate = new Date(startDate);
-            newDate.setDate(startDate.getDate() + index);
-            return newDate.toLocaleDateString();
-        });
+    day: {
+        name: "Day",
+        upperTimeGenerationStrategy: (date) => {
+            const result = [];
+            let currentDate = new Date(date);
+            let remainingDays = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
+            while (remainingDays > 0) {
+                const currentMonth = currentDate.getMonth();
+                const currentYear = currentDate.getFullYear();
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                const daysLeftInMonth = daysInMonth - currentDate.getDate() + 1;
+                const daysToAdd = Math.min(daysLeftInMonth, remainingDays);
+                const text = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+                result.push({
+                    text: text,
+                    columnCount: daysToAdd
+                });
+                
+                remainingDays -= daysToAdd;
+                currentDate = new Date(currentYear, currentMonth + 1, 1);
+            }
+            return result;
+        },
+        lowerTimeGenerationStrategy: (date) => {
+            const startDate = new Date(date);
+            return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
+                const newDate = new Date(startDate);
+                newDate.setDate(startDate.getDate() + index);
+                return newDate.toLocaleDateString([], {day: '2-digit'})
+            });
+        }
     },
-    shift: (date) => {
-        const startDate = new Date(date);
-        return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
-            const newDate = new Date(startDate);
-            newDate.setHours(startDate.getHours() + (index * 8));
-            return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        });
+    shift: {
+        name: "Shift",
+        upperTimeGenerationStrategy: (date) => {
+            const startDate = new Date(date);
+            return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad") / 3}, (_, index) => {
+                const newDate = new Date(startDate);
+                newDate.setDate(startDate.getDate() + index);
+                return {
+                    text: newDate.toLocaleString('default', { weekday: 'long' }),
+                    columnCount: 3
+                }
+            });
+        },
+        lowerTimeGenerationStrategy: (date) => {
+            const startDate = new Date(date);
+            return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
+                const newDate = new Date(startDate);
+                newDate.setHours(startDate.getHours() + (index * 8));
+                return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            });
+        },
     },
-    hour: (date) => {
-        const startDate = new Date(date);
-        return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsLoaded")}, (_, index) => {
-            const newDate = new Date(startDate);
-            newDate.setHours(startDate.getHours() + index);
-            return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        });
-    }
+    hour: {
+        name: "Hour",
+        upperTimeGenerationStrategy: (date) => {
+            const startDate = new Date(date);
+            return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad") / 24}, (_, index) => {
+                const newDate = new Date(startDate);
+                newDate.setDate(startDate.getDate() + index);
+                return {
+                    text: newDate.toLocaleString('default', { weekday: 'long' }),
+                    columnCount: 24
+                }
+            });
+        },
+        lowerTimeGenerationStrategy: (date) => {
+            const startDate = new Date(date);
+            return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
+                const newDate = new Date(startDate);
+                newDate.setHours(startDate.getHours() + index);
+                return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            });
+        }
+    },
 }
 
-
-export const egc_lowerDateGenerationStrategies = {
-    month: (date) => {
-        const startDate = new Date(date);
-        return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
-            const newDate = new Date(startDate);
-            newDate.setDate(startDate.getDate() + index);
-            return newDate.toLocaleDateString([], {day: '2-digit'})
-        });
-    },
-    day: (date) => {
-        const startDate = new Date(date);
-        return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
-            const newDate = new Date(startDate);
-            newDate.setDate(startDate.getDate() + index);
-            return newDate.toLocaleDateString();
-        });
-    },
-    shift: (date) => {
-        const startDate = new Date(date);
-        return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
-            const newDate = new Date(startDate);
-            newDate.setHours(startDate.getHours() + (index * 8));
-            return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        });
-    },
-    hour: (date) => {
-        const startDate = new Date(date);
-        return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsLoaded")}, (_, index) => {
-            const newDate = new Date(startDate);
-            newDate.setHours(startDate.getHours() + index);
-            return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        });
-    }
-}
-
-
+// ** DELETE** //
 function mockUpdate(key, value) {
     return new Promise(resolve => {
         console.log(`Updating ${key}: ${value}`);
@@ -156,6 +195,7 @@ function mockUpdate(key, value) {
     });
 }
 
+// ** DELETE** //
 function mockLoad(key, value) {
     return new Promise(resolve => {
         console.log(`Loaded ${key}: ${value}`);
