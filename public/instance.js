@@ -2,20 +2,28 @@ import { EGC_InMemoryRepository } from "./infrastructure/repositories/EGC_InMemo
 import { EGC_Observer } from "./infrastructure/observers/EGC_Observer.js";
 import { EGC_UpdateCommand } from "./infrastructure/commands/EGC_UpdateCommand.js";
 import { EGC_LoadCommand } from "./infrastructure/commands/EGC_LoadCommand.js";
+import { EGC_TimeRangeGeneratorService } from "./infrastructure/services/EGC_TimeRangeGeneratorService.js";
 
+// initial data.
 const ganttChartData = {
     title: "No Title",
     date: "2023-09-26",
-    zoom: "day"
+    zoom: "month"
 }
 
-// repositories
+const ganttChartSettingsData = {
+    numColumnsToLoad: 92,
+}
+
+// repositories.
 export const egc_inMemoryGanttChart = new EGC_InMemoryRepository(ganttChartData);
+export const egc_inMemoryGanttChartSettings = new EGC_InMemoryRepository(ganttChartSettingsData);
 
 // observers.
 export const egc_titleObserver = new EGC_Observer();
 export const egc_dateObserver = new EGC_Observer();
 export const egc_zoomObserver = new EGC_Observer();
+export const egc_numColumsToLoadObserver = new EGC_Observer();
 export const egc_errorObserver = new EGC_Observer();
 
 // commands.
@@ -55,6 +63,125 @@ export const egc_updateZoomCommand = new EGC_UpdateCommand("zoom")
     .before(value => mockUpdate("zoom", value));
 
 
+export const egc_loadNumColumnsToLoadCommand = new EGC_LoadCommand("numColumnsToLoad")
+    .repo(egc_inMemoryGanttChartSettings)
+    .observer(egc_numColumsToLoadObserver)
+    .errorObserver(egc_errorObserver)
+    .before(value => mockLoad("numColumnsToLoad", value))
+export const egc_updateNumColumnsToLoadCommand = new EGC_UpdateCommand("numColumnsToLoad")
+    .repo(egc_inMemoryGanttChartSettings)
+    .observer(egc_numColumsToLoadObserver)
+    .errorObserver(egc_errorObserver)
+    .before(value => mockUpdate("numColumnsToLoad", value))
+
+
+// services.
+export const egc_timeRangeGeneratorServices = {
+    month: new EGC_TimeRangeGeneratorService("Month")
+        .upperTimelineStrategy((date) => {
+            const result = [];
+            let currentDate = new Date(date);
+            let remainingDays = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
+            while (remainingDays > 0) {
+                const currentMonth = currentDate.getMonth();
+                const currentYear = currentDate.getFullYear();
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                const daysLeftInMonth = daysInMonth - currentDate.getDate() + 1;
+                const daysToAdd = Math.min(daysLeftInMonth, remainingDays);
+                const text = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+                result.push({
+                    text: text,
+                    columnCount: daysToAdd
+                });
+                remainingDays -= daysToAdd;
+                currentDate = new Date(currentYear, currentMonth + 1, 1);
+            }
+            return result;
+        })
+        .lowerTimelineStrategy((date) => {
+            const startDate = new Date(date);
+            return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
+                const newDate = new Date(startDate);
+                newDate.setDate(startDate.getDate() + index);
+                return newDate.toLocaleDateString([], {day: '2-digit'})
+            });
+        }),
+
+    day: new EGC_TimeRangeGeneratorService("Day")
+        .upperTimelineStrategy((date) => {
+            const result = [];
+            let currentDate = new Date(date);
+            let remainingDays = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
+            while (remainingDays > 0) {
+                const currentMonth = currentDate.getMonth();
+                const currentYear = currentDate.getFullYear();
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                const daysLeftInMonth = daysInMonth - currentDate.getDate() + 1;
+                const daysToAdd = Math.min(daysLeftInMonth, remainingDays);
+                const text = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+                result.push({
+                    text: text,
+                    columnCount: daysToAdd
+                });
+                
+                remainingDays -= daysToAdd;
+                currentDate = new Date(currentYear, currentMonth + 1, 1);
+            }
+            return result;
+        })
+        .lowerTimelineStrategy((date) => {
+            const startDate = new Date(date);
+            return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
+                const newDate = new Date(startDate);
+                newDate.setDate(startDate.getDate() + index);
+                return newDate.toLocaleDateString([], {day: '2-digit'})
+            });
+        }),
+
+    shift: new EGC_TimeRangeGeneratorService("Shift")
+        .upperTimelineStrategy((date) => {
+            const startDate = new Date(date);
+            return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad") / 3}, (_, index) => {
+                const newDate = new Date(startDate);
+                newDate.setDate(startDate.getDate() + index);
+                return {
+                    text: newDate.toLocaleString('default', { weekday: 'long' }),
+                    columnCount: 3
+                }
+            });
+        })
+        .lowerTimelineStrategy((date) => {
+            const startDate = new Date(date);
+            return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
+                const newDate = new Date(startDate);
+                newDate.setHours(startDate.getHours() + (index * 8));
+                return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            });
+        }),
+        
+    hour: new EGC_TimeRangeGeneratorService("Hour")
+        .upperTimelineStrategy((date) => {
+            const startDate = new Date(date);
+            return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad") / 24}, (_, index) => {
+                const newDate = new Date(startDate);
+                newDate.setDate(startDate.getDate() + index);
+                return {
+                    text: newDate.toLocaleString('default', { weekday: 'long' }),
+                    columnCount: 24
+                }
+            });
+        })
+        .lowerTimelineStrategy((date) => {
+            const startDate = new Date(date);
+            return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, (_, index) => {
+                const newDate = new Date(startDate);
+                newDate.setHours(startDate.getHours() + index);
+                return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            });
+        })
+}
+
+// ** DELETE** //
 function mockUpdate(key, value) {
     return new Promise(resolve => {
         console.log(`Updating ${key}: ${value}`);
@@ -64,6 +191,7 @@ function mockUpdate(key, value) {
     });
 }
 
+// ** DELETE** //
 function mockLoad(key, value) {
     return new Promise(resolve => {
         console.log(`Loaded ${key}: ${value}`);

@@ -11,7 +11,7 @@ export class EGC_Observer {
         this.subscribers.pop(subscriber);
     }
 
-    update(newData) {
-        this.subscribers.map(s => s.dataDidUpdate(newData))
+    update() {
+        this.subscribers.map(s => s.dataDidUpdate())
     }
 }
