@@ -67,12 +67,12 @@ export const egc_loadNumColumnsToLoadCommand = new EGC_LoadCommand("numColumnsTo
     .repo(egc_inMemoryGanttChartSettings)
     .observer(egc_numColumsToLoadObserver)
     .errorObserver(egc_errorObserver)
-    .before(value => mockLoad("numColumnsToLoad", value))
+    .before(value => mockLoad("numColumnsToLoad", value));
 export const egc_updateNumColumnsToLoadCommand = new EGC_UpdateCommand("numColumnsToLoad")
     .repo(egc_inMemoryGanttChartSettings)
     .observer(egc_numColumsToLoadObserver)
     .errorObserver(egc_errorObserver)
-    .before(value => mockUpdate("numColumnsToLoad", value))
+    .before(value => mockUpdate("numColumnsToLoad", value));
 
 
 // services.
