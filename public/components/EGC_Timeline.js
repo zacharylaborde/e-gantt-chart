@@ -16,18 +16,10 @@ template.innerHTML = `
 export class EGC_Timeline extends HTMLElement {
     constructor() {
         super();
-        this.setAttribute('part', 'timeline');
-        this.style.display = 'grid';
-        this.style.gridTemplateColumns = '1fr';
         this.appendChild(template.content.cloneNode(true));
         this.upperTimeline = this.querySelector("#upper-timeline");
         this.lowerTimeline = this.querySelector("#lower-timeline");
-        this.upperTimeline.setAttribute('part', 'upper-timeline');
-        this.lowerTimeline.setAttribute('part', 'lower-timeline');
-        this.upperTimeline.style.gridTemplateColumns = `repeat(${egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, 1fr)`;
-        this.lowerTimeline.style.gridTemplateColumns = `repeat(${egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, 1fr)`;
-        this.upperTimeline.style.display = 'grid';
-        this.lowerTimeline.style.display = 'grid';
+        this.#applyStyle();
         egc_dateObserver.subscribe(this);
         egc_zoomObserver.subscribe(this);
         egc_numColumsToLoadObserver.subscribe(this);
@@ -52,6 +44,19 @@ export class EGC_Timeline extends HTMLElement {
             elem.innerText = e;
             this.lowerTimeline.appendChild(elem);
         });
+    }
+
+    #applyStyle() {
+        this.setAttribute('part', 'timeline');
+        this.style.display = 'grid';
+        this.style.gridTemplateColumns = '1fr';
+        this.upperTimeline.setAttribute('part', 'upper-timeline');
+        this.upperTimeline.style.gridTemplateColumns = `repeat(${egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, 1fr)`;
+        this.upperTimeline.style.display = 'grid';
+        this.lowerTimeline.setAttribute('part', 'lower-timeline');
+        this.lowerTimeline.style.gridTemplateColumns = `repeat(${egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")}, 1fr)`;
+        this.lowerTimeline.style.display = 'grid';
+
     }
 }
 
