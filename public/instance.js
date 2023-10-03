@@ -8,7 +8,17 @@ import { EGC_TimeRangeGeneratorService } from "./infrastructure/services/EGC_Tim
 const ganttChartData = {
     title: "No Title",
     date: "2023-09-26",
-    zoom: "month"
+    zoom: "month",
+    rows: [
+        {
+            id: 1,
+            name: "Row One (The best row)"
+        },
+        {
+            id: 2,
+            name: "Row Two (The second best row)"
+        }
+    ]
 }
 
 const ganttChartSettingsData = {
@@ -24,6 +34,7 @@ export const egc_titleObserver = new EGC_Observer();
 export const egc_dateObserver = new EGC_Observer();
 export const egc_zoomObserver = new EGC_Observer();
 export const egc_numColumsToLoadObserver = new EGC_Observer();
+export const egc_rowLoadingObserver = new EGC_Observer();
 export const egc_errorObserver = new EGC_Observer();
 
 // commands.
@@ -73,6 +84,13 @@ export const egc_updateNumColumnsToLoadCommand = new EGC_UpdateCommand("numColum
     .observer(egc_numColumsToLoadObserver)
     .errorObserver(egc_errorObserver)
     .before(value => mockUpdate("numColumnsToLoad", value));
+
+
+export const egc_loadRowsFromMemoryCommand = new EGC_LoadCommand("rows")
+    .repo(egc_inMemoryGanttChart)
+    .observer(egc_rowLoadingObserver)
+    .errorObserver(egc_errorObserver)
+    .before(value => mockLoad("rows", value));
 
 
 // services.
