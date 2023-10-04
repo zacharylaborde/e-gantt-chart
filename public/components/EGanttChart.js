@@ -16,7 +16,6 @@ export class EGanttChart extends HTMLElement {
         egc_loadZoomFromMemoryCommand.execute();
         egc_loadNumColumnsToLoadCommand.execute();
         egc_loadAllRowsFromMemoryCommand.execute();
-        egc_loadColumnWidthCommand.execute();
     }
 }
 

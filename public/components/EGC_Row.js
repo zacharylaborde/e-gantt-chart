@@ -14,7 +14,7 @@ export class EGC_Row extends HTMLElement {
     dataDidUpdate() {
         const state = egc_inMemoryGanttChart.getState("rows").filter(x => x.id == this.rowId)[0];
         this.innerHTML = '';
-        this.style.gridTemplateColumns = `repeat(${parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")) + 1}, ${egc_inMemoryGanttChartSettings.getState('columnWidth')}px)`;
+        this.style.gridTemplateColumns = `${egc_inMemoryGanttChartSettings.getState("leftHeaderWidth")}px repeat(${parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad"))}, ${egc_inMemoryGanttChartSettings.getState('columnWidth')}px)`;
         const header = document.createElement('span');
         header.style.display = "grid";
         header.style.position = "sticky";

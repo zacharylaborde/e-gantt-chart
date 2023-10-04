@@ -23,7 +23,8 @@ const ganttChartData = {
 
 const ganttChartSettingsData = {
     numColumnsToLoad: 92,
-    columnWidth: 75
+    columnWidth: 75,
+    leftHeaderWidth: 75
 }
 
 // repositories.
@@ -68,12 +69,30 @@ export const egc_loadZoomFromMemoryCommand = new EGC_LoadCommand("zoom")
     .repo(egc_inMemoryGanttChart)
     .observer(egc_zoomObserver)
     .errorObserver(egc_errorObserver)
-    .before(value => mockLoad("zoom", value));
+    .before(value => mockLoad("zoom", value))
+    .after(value => {
+        let widthMap = {
+            month: 20,
+            day: 50,
+            shift: 75,
+            hour: 50,
+        }
+        egc_updateColumnWidthCommand.execute(widthMap[value]);
+    })
 export const egc_updateZoomCommand = new EGC_UpdateCommand("zoom")
     .repo(egc_inMemoryGanttChart)
     .observer(egc_zoomObserver)
     .errorObserver(egc_errorObserver)
-    .before(value => mockUpdate("zoom", value));
+    .before(value => mockUpdate("zoom", value))
+    .after(value => {
+        let widthMap = {
+            month: 20,
+            day: 50,
+            shift: 75,
+            hour: 50,
+        }
+        egc_updateColumnWidthCommand.execute(widthMap[value]);
+    })
 
 
 export const egc_loadNumColumnsToLoadCommand = new EGC_LoadCommand("numColumnsToLoad")

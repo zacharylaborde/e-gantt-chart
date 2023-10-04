@@ -32,18 +32,14 @@ export class EGC_Timeline extends HTMLElement {
         const zoom = egc_inMemoryGanttChart.getState("zoom");
         this.upperTimeline.innerHTML = '';
         this.lowerTimeline.innerHTML = '';
-
-        this.upperTimeline.style.gridTemplateColumns = `repeat(${parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")) + 1}, ${egc_inMemoryGanttChartSettings.getState('columnWidth')}px)`;
-        this.lowerTimeline.style.gridTemplateColumns = `repeat(${parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")) + 1}, ${egc_inMemoryGanttChartSettings.getState('columnWidth')}px)`;
-
+        this.upperTimeline.style.gridTemplateColumns = `${egc_inMemoryGanttChartSettings.getState("leftHeaderWidth")}px repeat(${parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad"))}, ${egc_inMemoryGanttChartSettings.getState('columnWidth')}px)`;
+        this.lowerTimeline.style.gridTemplateColumns = `${egc_inMemoryGanttChartSettings.getState("leftHeaderWidth")}px repeat(${parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad"))}, ${egc_inMemoryGanttChartSettings.getState('columnWidth')}px)`;
         const upperTimelineEmptySpace = document.createElement("span");
         upperTimelineEmptySpace.setAttribute('part', 'upper-timeline');
         this.upperTimeline.appendChild(upperTimelineEmptySpace);
-
         const lowerTimelineEmptySpace = document.createElement("span");
         lowerTimelineEmptySpace.setAttribute('part', 'lower-timeline');
         this.lowerTimeline.appendChild(lowerTimelineEmptySpace);
-
         egc_timeRangeGeneratorServices[zoom].generateUpperTimeline(date).forEach(e => {
             const elem = document.createElement("span");
             elem.setAttribute('part', 'upper-timeline-dt');
