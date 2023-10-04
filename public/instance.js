@@ -23,6 +23,7 @@ const ganttChartData = {
 
 const ganttChartSettingsData = {
     numColumnsToLoad: 92,
+    columnWidth: 75
 }
 
 // repositories.
@@ -34,7 +35,8 @@ export const egc_titleObserver = new EGC_Observer();
 export const egc_dateObserver = new EGC_Observer();
 export const egc_zoomObserver = new EGC_Observer();
 export const egc_numColumsToLoadObserver = new EGC_Observer();
-export const egc_tableBodyLoadObserver = new EGC_Observer();
+export const egc_tableBodyObserver = new EGC_Observer();
+export const egc_columnWidthObserver = new EGC_Observer();
 export const egc_errorObserver = new EGC_Observer();
 
 // commands.
@@ -86,9 +88,21 @@ export const egc_updateNumColumnsToLoadCommand = new EGC_UpdateCommand("numColum
     .before(value => mockUpdate("numColumnsToLoad", value));
 
 
+export const egc_loadColumnWidthCommand = new EGC_LoadCommand("columnWidth")
+    .repo(egc_inMemoryGanttChartSettings)
+    .observer(egc_columnWidthObserver)
+    .errorObserver(egc_errorObserver)
+    .before(value => mockLoad("columnWidth", value))
+export const egc_updateColumnWidthCommand = new EGC_UpdateCommand("columnWidth")
+    .repo(egc_inMemoryGanttChartSettings)
+    .observer(egc_columnWidthObserver)
+    .errorObserver(egc_errorObserver)
+    .before(value => mockUpdate("columnWidth", value))
+
+
 export const egc_loadAllRowsFromMemoryCommand = new EGC_LoadCommand("rows")
     .repo(egc_inMemoryGanttChart)
-    .observer(egc_tableBodyLoadObserver)
+    .observer(egc_tableBodyObserver)
     .errorObserver(egc_errorObserver)
     .before(value => mockLoad("rows", value));
 
