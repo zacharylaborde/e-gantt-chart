@@ -1,18 +1,18 @@
-import { egc_inMemoryGanttChart, egc_tableBodyLoadObserver } from "../instance.js";
+import { egc_inMemoryGanttChart, egc_tableBodyObserver } from "../instance.js";
+import { EGC_Row } from "./EGC_Row.js";
 
 export class EGC_Body extends HTMLElement {
     constructor() {
         super();
         this.#applyStyle();
-        egc_tableBodyLoadObserver.subscribe(this);
+        egc_tableBodyObserver.subscribe(this);
     }
 
     dataDidUpdate() {
         egc_inMemoryGanttChart.getState("rows").forEach(row => {
-            const e = document.createElement("div");
-            e.innerText = row.name;
-            e.id = `row ${row.id}`;
+            const e = new EGC_Row(row.id)
             this.appendChild(e);
+            e.dataDidUpdate();
         })
     }
 

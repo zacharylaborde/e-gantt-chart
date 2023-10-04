@@ -20,7 +20,6 @@ export class EGC_ZoomController extends HTMLElement {
         Object.keys(egc_timeRangeGeneratorServices).forEach(key => {
             const e = document.createElement('option');
             e.innerText = egc_timeRangeGeneratorServices[key].name;
-            console.log(egc_timeRangeGeneratorServices[key]);
             e.value = key;
             this.zoomController.appendChild(e);
         })

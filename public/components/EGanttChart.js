@@ -1,6 +1,6 @@
 import { EGC_ControlPanel } from "./EGC_ControlPanel.js";
 import { EGC_Table } from "./EGC_Table.js";
-import { egc_loadAllRowsFromMemoryCommand, egc_loadDateFromMemoryCommand, egc_loadNumColumnsToLoadCommand, egc_loadTitleFromMemoryCommand, egc_loadZoomFromMemoryCommand } from "../instance.js";
+import { egc_loadAllRowsFromMemoryCommand, egc_loadColumnWidthCommand, egc_loadDateFromMemoryCommand, egc_loadNumColumnsToLoadCommand, egc_loadTitleFromMemoryCommand, egc_loadZoomFromMemoryCommand } from "../instance.js";
 
 export class EGanttChart extends HTMLElement {
     constructor() {
@@ -16,6 +16,7 @@ export class EGanttChart extends HTMLElement {
         egc_loadZoomFromMemoryCommand.execute();
         egc_loadNumColumnsToLoadCommand.execute();
         egc_loadAllRowsFromMemoryCommand.execute();
+        egc_loadColumnWidthCommand.execute();
     }
 }
 
