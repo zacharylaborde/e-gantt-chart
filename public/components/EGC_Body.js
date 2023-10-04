@@ -1,10 +1,10 @@
-import { egc_inMemoryGanttChart, egc_rowLoadingObserver } from "../instance.js";
+import { egc_inMemoryGanttChart, egc_tableBodyLoadObserver } from "../instance.js";
 
 export class EGC_Body extends HTMLElement {
     constructor() {
         super();
         this.#applyStyle();
-        egc_rowLoadingObserver.subscribe(this);
+        egc_tableBodyLoadObserver.subscribe(this);
     }
 
     dataDidUpdate() {
