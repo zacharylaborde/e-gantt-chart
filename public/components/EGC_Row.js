@@ -1,4 +1,4 @@
-import { egc_columnWidthObserver, egc_dateObserver, egc_inMemoryGanttChart, egc_inMemoryGanttChartSettings, egc_loadColumnWidthCommand, egc_numColumnsToLoadObserver, egc_zoomObserver } from "../instance.js";
+import { egc_columnWidthObserver, egc_dateObserver, egc_inMemoryGanttChart, egc_inMemoryGanttChartSettings, egc_numColumnsToLoadObserver, egc_zoomObserver } from "../instance.js";
 
 export class EGC_Row extends HTMLElement {
     constructor(rowId) {
@@ -12,7 +12,7 @@ export class EGC_Row extends HTMLElement {
     }
 
     dataDidUpdate() {
-        const state = egc_inMemoryGanttChart.getState("rows").filter(x => x.id == this.rowId)[0];
+        const state = egc_inMemoryGanttChart.getState("rows").filter(x => x.id === this.rowId)[0];
         this.innerHTML = '';
         this.style.gridTemplateColumns = `${egc_inMemoryGanttChartSettings.getState("leftHeaderWidth")}px repeat(${parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad"))}, ${egc_inMemoryGanttChartSettings.getState('columnWidth')}px)`;
         const header = document.createElement('span');
