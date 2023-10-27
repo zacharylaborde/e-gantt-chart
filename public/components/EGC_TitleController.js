@@ -2,7 +2,7 @@ import { egc_titleObserver,egc_inMemoryGanttChart, egc_updateTitleCommand } from
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <input id="title-controller" class="egc-title"></input>
+    <input id="title-controller" class="egc-title"/>
 `;
 
 export class EGC_TitleController extends HTMLElement {

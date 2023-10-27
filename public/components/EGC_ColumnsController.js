@@ -2,7 +2,7 @@ import { egc_inMemoryGanttChartSettings, egc_numColumsToLoadObserver, egc_update
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <input type="number" id="columns-controller"></input>
+    <input type="number" id="columns-controller"/>
 `;
 
 export class EGC_ColumnsController extends HTMLElement {

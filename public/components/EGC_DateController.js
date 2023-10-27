@@ -2,7 +2,7 @@ import { egc_dateObserver, egc_inMemoryGanttChart, egc_updateDateCommand } from 
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <input type="date" id="date-controller" class="egc-date"></input>
+    <input type="date" id="date-controller" class="egc-date"/>
 `;
 
 export class EGC_DateController extends HTMLElement {
