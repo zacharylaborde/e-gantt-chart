@@ -114,6 +114,11 @@ export const egc_loadAllRowsFromMemoryCommand = new EGC_LoadCommand("rows")
     .observer(egc_tableBodyObserver)
     .errorObserver(egc_errorObserver)
     .before(value => mockLoad("rows", value));
+export const egc_UpdateRowsCommand = new EGC_UpdateCommand("rows")
+    .repo(egc_inMemoryGanttChart)
+    .observer(egc_tableBodyObserver)
+    .errorObserver(egc_errorObserver)
+    .before(value => mockUpdate("rows", value));
 
 
 // services.
@@ -164,7 +169,6 @@ export const egc_timeRangeGeneratorServices = {
                     text: text,
                     columnCount: daysToAdd
                 });
-                
                 remainingDays -= daysToAdd;
                 currentDate = new Date(currentYear, currentMonth + 1, 1);
             }
