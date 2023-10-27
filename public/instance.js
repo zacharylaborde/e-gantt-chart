@@ -35,7 +35,7 @@ export const egc_inMemoryGanttChartSettings = new EGC_InMemoryRepository(ganttCh
 export const egc_titleObserver = new EGC_Observer();
 export const egc_dateObserver = new EGC_Observer();
 export const egc_zoomObserver = new EGC_Observer();
-export const egc_numColumsToLoadObserver = new EGC_Observer();
+export const egc_numColumnsToLoadObserver = new EGC_Observer();
 export const egc_tableBodyObserver = new EGC_Observer();
 export const egc_columnWidthObserver = new EGC_Observer();
 export const egc_errorObserver = new EGC_Observer();
@@ -97,12 +97,12 @@ export const egc_updateZoomCommand = new EGC_UpdateCommand("zoom")
 
 export const egc_loadNumColumnsToLoadCommand = new EGC_LoadCommand("numColumnsToLoad")
     .repo(egc_inMemoryGanttChartSettings)
-    .observer(egc_numColumsToLoadObserver)
+    .observer(egc_numColumnsToLoadObserver)
     .errorObserver(egc_errorObserver)
     .before(value => mockLoad("numColumnsToLoad", value));
 export const egc_updateNumColumnsToLoadCommand = new EGC_UpdateCommand("numColumnsToLoad")
     .repo(egc_inMemoryGanttChartSettings)
-    .observer(egc_numColumsToLoadObserver)
+    .observer(egc_numColumnsToLoadObserver)
     .errorObserver(egc_errorObserver)
     .before(value => mockUpdate("numColumnsToLoad", value));
 
