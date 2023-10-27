@@ -1,4 +1,4 @@
-import { egc_columnWidthObserver, egc_dateObserver, egc_inMemoryGanttChart, egc_inMemoryGanttChartSettings, egc_loadColumnWidthCommand, egc_numColumsToLoadObserver, egc_zoomObserver } from "../instance.js";
+import { egc_columnWidthObserver, egc_dateObserver, egc_inMemoryGanttChart, egc_inMemoryGanttChartSettings, egc_loadColumnWidthCommand, egc_numColumnsToLoadObserver, egc_zoomObserver } from "../instance.js";
 
 export class EGC_Row extends HTMLElement {
     constructor(rowId) {
@@ -7,7 +7,7 @@ export class EGC_Row extends HTMLElement {
         this.#applyStyle();
         egc_dateObserver.subscribe(this);
         egc_zoomObserver.subscribe(this);
-        egc_numColumsToLoadObserver.subscribe(this);
+        egc_numColumnsToLoadObserver.subscribe(this);
         egc_columnWidthObserver.subscribe(this);
     }
 

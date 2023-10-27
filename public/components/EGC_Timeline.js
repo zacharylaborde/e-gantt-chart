@@ -2,7 +2,7 @@ import {
     egc_dateObserver, 
     egc_inMemoryGanttChart, 
     egc_zoomObserver, 
-    egc_numColumsToLoadObserver,
+    egc_numColumnsToLoadObserver,
     egc_timeRangeGeneratorServices,
     egc_inMemoryGanttChartSettings,
     egc_columnWidthObserver
@@ -23,7 +23,7 @@ export class EGC_Timeline extends HTMLElement {
         this.#applyStyle();
         egc_dateObserver.subscribe(this);
         egc_zoomObserver.subscribe(this);
-        egc_numColumsToLoadObserver.subscribe(this);
+        egc_numColumnsToLoadObserver.subscribe(this);
         egc_columnWidthObserver.subscribe(this);
     }
 

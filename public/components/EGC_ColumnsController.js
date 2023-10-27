@@ -1,4 +1,4 @@
-import { egc_inMemoryGanttChartSettings, egc_numColumsToLoadObserver, egc_updateNumColumnsToLoadCommand } from "../instance.js";
+import { egc_inMemoryGanttChartSettings, egc_numColumnsToLoadObserver, egc_updateNumColumnsToLoadCommand } from "../instance.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -11,7 +11,7 @@ export class EGC_ColumnsController extends HTMLElement {
         this.appendChild(template.content.cloneNode(true));
         this.columnsController = this.querySelector('#columns-controller');
         this.columnsController.onchange = () => egc_updateNumColumnsToLoadCommand.execute(this.columnsController.value);
-        egc_numColumsToLoadObserver.subscribe(this);
+        egc_numColumnsToLoadObserver.subscribe(this);
     }
 
     dataDidUpdate() {
