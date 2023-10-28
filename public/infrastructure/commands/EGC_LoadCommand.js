@@ -38,7 +38,7 @@ export class EGC_LoadCommand {
     }
 
     after(callback) {
-        this.beforeCallback = callback;
+        this.afterCallback = callback;
         return this;
     }
 }

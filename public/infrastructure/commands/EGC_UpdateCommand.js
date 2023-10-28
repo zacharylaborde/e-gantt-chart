@@ -37,7 +37,7 @@ export class EGC_UpdateCommand {
     }
 
     after(callback) {
-        this.beforeCallback = callback;
+        this.afterCallback = callback;
         return this;
     }
 }
