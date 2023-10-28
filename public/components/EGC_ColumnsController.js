@@ -2,7 +2,7 @@ import { egc_inMemoryGanttChartSettings, egc_numColumnsToLoadObserver, egc_updat
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <input type="number" id="columns-controller"/>
+    <input min="2" max="1000" type="number" id="columns-controller"/>
 `;
 
 export class EGC_ColumnsController extends HTMLElement {
@@ -10,7 +10,11 @@ export class EGC_ColumnsController extends HTMLElement {
         super();
         this.appendChild(template.content.cloneNode(true));
         this.columnsController = this.querySelector('#columns-controller');
-        this.columnsController.onchange = () => egc_updateNumColumnsToLoadCommand.execute(this.columnsController.value);
+        this.columnsController.onchange = () => {
+            if (this.columnsController.value < 2) this.columnsController.value = 2;
+            if (this.columnsController.value > 1000) this.columnsController.value = 1000;
+            egc_updateNumColumnsToLoadCommand.execute(this.columnsController.value);
+        }
         egc_numColumnsToLoadObserver.subscribe(this);
     }
 
