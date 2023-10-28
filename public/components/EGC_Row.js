@@ -17,7 +17,6 @@ export class EGC_Row extends HTMLElement {
 
     dataDidUpdate() {
         this.style.gridTemplateColumns = `${egc_inMemoryGanttChartSettings.getState("leftHeaderWidth")}px repeat(${parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad"))}, ${egc_inMemoryGanttChartSettings.getState('columnWidth')}px)`;
-        console.log(this.children.length, parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")));
         if (this.children.length > parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")))
             while (this.children.length - 1 > parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")))
                 this.removeChild(this.lastChild);

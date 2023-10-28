@@ -4,7 +4,6 @@ export class EGC_InMemoryRepository {
     }
 
     update(keys, value) {
-        console.log(keys, value);
         if (!Array.isArray(keys) || keys.length === 0)
             throw new Error("Keys should be an array with at least one key");
         const isPositiveInteger = key => Number.isInteger(+key) && +key >= 0;
