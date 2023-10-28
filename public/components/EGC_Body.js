@@ -13,7 +13,6 @@ export class EGC_Body extends HTMLElement {
             if (Array.from(this.children).some(elem => elem.rowId === row.id)) return
             const e = new EGC_Row(row.id)
             this.appendChild(e);
-            e.dataDidUpdate();
         })
     }
 

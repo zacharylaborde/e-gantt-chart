@@ -45,6 +45,13 @@ export const egc_numColumnsToLoadObserver = new EGC_Observer();
 export const egc_tableBodyObserver = new EGC_Observer();
 export const egc_columnWidthObserver = new EGC_Observer();
 export const egc_errorObserver = new EGC_Observer();
+export const egc_rowNameObservers = []
+for (let i = 0; i < egc_inMemoryGanttChart.getState('rows').length; i++) {
+    egc_rowNameObservers.push({
+        id: egc_inMemoryGanttChart.getState('rows')[i].id,
+        observer: new EGC_Observer()
+    });
+}
 
 // commands.
 export const egc_loadTitleFromMemoryCommand = new EGC_LoadCommand("title")
@@ -109,16 +116,39 @@ export const egc_updateColumnWidthCommand = new EGC_UpdateCommand("columnWidth")
     .before(value => mockUpdate("columnWidth", value))
 
 
-export const egc_loadAllRowsFromMemoryCommand = new EGC_LoadCommand("rows")
+export const egc_loadTableBodyFromMemoryCommand = new EGC_LoadCommand("rows")
     .repo(egc_inMemoryGanttChart)
     .observer(egc_tableBodyObserver)
     .errorObserver(egc_errorObserver)
     .before(value => mockLoad("rows", value));
-export const egc_UpdateRowsCommand = new EGC_UpdateCommand("rows")
+export const egc_updateTableBodyFromMemoryCommand = new EGC_UpdateCommand("rows")
     .repo(egc_inMemoryGanttChart)
     .observer(egc_tableBodyObserver)
     .errorObserver(egc_errorObserver)
-    .before(value => mockUpdate("rows", value));
+    .before(value => mockLoad("rows", value));
+
+export const egc_loadRowNameFromMemoryCommands = []
+for (let i = 0; i < egc_inMemoryGanttChart.getState('rows').length; i++) {
+    egc_loadRowNameFromMemoryCommands.push({
+        id: egc_inMemoryGanttChart.getState('rows')[i].id,
+        command: new EGC_LoadCommand("rows", i, "name")
+            .repo(egc_inMemoryGanttChart)
+            .observer(egc_rowNameObservers.filter(o => o.id === egc_inMemoryGanttChart.getState('rows')[i].id)[0].observer)
+            .errorObserver(egc_errorObserver)
+            .before(value => mockLoad(`row ${egc_inMemoryGanttChart.getState('rows')[i].id} name`, value))
+    });
+}
+export const egc_updateRowNameCommands = []
+for (let i = 0; i < egc_inMemoryGanttChart.getState('rows').length; i++) {
+    egc_updateRowNameCommands.push({
+        id: egc_inMemoryGanttChart.getState('rows')[i].id,
+        command: new EGC_UpdateCommand("rows", i, "name")
+            .repo(egc_inMemoryGanttChart)
+            .observer(egc_rowNameObservers.filter(o => o.id === egc_inMemoryGanttChart.getState('rows')[i].id)[0].observer)
+            .errorObserver(egc_errorObserver)
+            .before(value => mockUpdate(`row ${egc_inMemoryGanttChart.getState('rows')[i].id} name`, value))
+    });
+}
 
 
 // services.

@@ -1,31 +1,35 @@
-import { egc_columnWidthObserver, egc_dateObserver, egc_inMemoryGanttChart, egc_inMemoryGanttChartSettings, egc_numColumnsToLoadObserver, egc_zoomObserver } from "../instance.js";
+import {
+    egc_columnWidthObserver,
+    egc_inMemoryGanttChartSettings,
+    egc_numColumnsToLoadObserver,
+} from "../instance.js";
+import { EGC_RowHeader } from "./EGC_RowHeader.js";
 
 export class EGC_Row extends HTMLElement {
     constructor(rowId) {
         super();
         this.rowId = rowId;
         this.#applyStyle();
-        egc_dateObserver.subscribe(this);
-        egc_zoomObserver.subscribe(this);
+        this.appendChild(new EGC_RowHeader(this.rowId));
         egc_numColumnsToLoadObserver.subscribe(this);
         egc_columnWidthObserver.subscribe(this);
     }
 
     dataDidUpdate() {
-        const state = egc_inMemoryGanttChart.getState("rows").filter(x => x.id === this.rowId)[0];
-        this.innerHTML = '';
         this.style.gridTemplateColumns = `${egc_inMemoryGanttChartSettings.getState("leftHeaderWidth")}px repeat(${parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad"))}, ${egc_inMemoryGanttChartSettings.getState('columnWidth')}px)`;
-        const header = document.createElement('span');
-        header.style.display = "grid";
-        header.style.position = "sticky";
-        header.style.left = "0";
-        header.innerText = state.name;
-        this.appendChild(header);
-        for (let i = 0; i < egc_inMemoryGanttChartSettings.getState("numColumnsToLoad"); i++) {
-            const e = document.createElement('span');
-            e.style.display = "grid";
-            this.appendChild(e)
-        }
+        console.log(this.children.length, parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")));
+        if (this.children.length > parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")))
+            while (this.children.length - 1 > parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")))
+                this.removeChild(this.lastChild);
+        else
+            while (this.children.length <= parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad")))
+                this.#addGridElement();
+    }
+
+    #addGridElement() {
+        const e = document.createElement('span');
+        e.style.display = "grid";
+        this.appendChild(e);
     }
 
     #applyStyle() {
