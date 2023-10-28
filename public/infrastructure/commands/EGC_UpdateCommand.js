@@ -1,12 +1,12 @@
 export class EGC_UpdateCommand {
-    constructor(key) {
-        this.key = key;
+    constructor(...keys) {
+        this.keys = keys
     }
 
     async execute(value) {
         try {
             if (this.beforeCallback) await this.beforeCallback(value);
-            this.repo.update(this.key, value);
+            this.repo.update([...this.keys], value);
             if (this.observer) this.observer.update(value);
             if (this.afterCallback) await this.afterCallback(value);
         } catch (err) {
