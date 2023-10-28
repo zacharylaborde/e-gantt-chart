@@ -4,6 +4,7 @@ import {
     egc_numColumnsToLoadObserver,
 } from "../instance.js";
 import { EGC_RowHeader } from "./EGC_RowHeader.js";
+import {EGC_EventManager} from "./EGC_EventManager.js";
 
 export class EGC_Row extends HTMLElement {
     constructor(rowId) {
@@ -11,6 +12,7 @@ export class EGC_Row extends HTMLElement {
         this.rowId = rowId;
         this.#applyStyle();
         this.appendChild(new EGC_RowHeader(this.rowId));
+        this.eventManager = new EGC_EventManager(this);
         egc_numColumnsToLoadObserver.subscribe(this);
         egc_columnWidthObserver.subscribe(this);
     }

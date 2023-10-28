@@ -18,6 +18,13 @@ const ganttChartData = {
             id: 2,
             name: "Row Two (The second best row)"
         }
+    ],
+    events: [
+        {
+            id: 1,
+            parentRowId: 1,
+            name: "Alpha"
+        }
     ]
 }
 
@@ -51,6 +58,13 @@ for (let i = 0; i < egc_inMemoryGanttChart.getState('rows').length; i++) {
         id: egc_inMemoryGanttChart.getState('rows')[i].id,
         observer: new EGC_Observer()
     });
+}
+export const egc_eventNameObservers = []
+for (let i = 0; i < egc_inMemoryGanttChart.getState('events').length; i++) {
+    egc_eventNameObservers.push({
+        id: egc_inMemoryGanttChart.getState('events')[i].id,
+        observer: new EGC_Observer()
+    })
 }
 
 // commands.
@@ -148,6 +162,18 @@ for (let i = 0; i < egc_inMemoryGanttChart.getState('rows').length; i++) {
             .errorObserver(egc_errorObserver)
             .before(value => mockUpdate(`row ${egc_inMemoryGanttChart.getState('rows')[i].id} name`, value))
     });
+}
+
+export const egc_loadEventNameCommands = []
+for (let i = 0; i < egc_inMemoryGanttChart.getState('events').length; i++) {
+    egc_loadEventNameCommands.push({
+        id: egc_inMemoryGanttChart.getState('events')[i].id,
+        command: new EGC_LoadCommand('events', i, 'name')
+            .repo(egc_inMemoryGanttChart)
+            .observer(egc_eventNameObservers.filter(o => o.id === egc_inMemoryGanttChart.getState('events')[i].id)[0].observer)
+            .errorObserver(egc_errorObserver)
+            .before(value => mockUpdate(`event ${egc_inMemoryGanttChart.getState('events')[i].id} name`, value))
+    })
 }
 
 
