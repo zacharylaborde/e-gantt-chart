@@ -7,7 +7,7 @@ import { EGC_TimeRangeGeneratorService } from "./infrastructure/services/EGC_Tim
 // initial data.
 const ganttChartData = {
     title: "No Title",
-    date: "2023-09-26",
+    date: new Date(new Date(new Date().setHours(0, 0, 0, 0)).getTime() - new Date().getTimezoneOffset() * 60000),
     zoom: "month",
     rows: [
         {
@@ -23,7 +23,14 @@ const ganttChartData = {
 
 const ganttChartSettingsData = {
     numColumnsToLoad: 92,
-    columnWidth: 75
+    columnWidth: 75,
+    leftHeaderWidth: 75,
+    zoomWidthMap: {
+        month: 20,
+        day: 50,
+        shift: 75,
+        hour: 50,
+    }
 }
 
 // repositories.
@@ -34,10 +41,17 @@ export const egc_inMemoryGanttChartSettings = new EGC_InMemoryRepository(ganttCh
 export const egc_titleObserver = new EGC_Observer();
 export const egc_dateObserver = new EGC_Observer();
 export const egc_zoomObserver = new EGC_Observer();
-export const egc_numColumsToLoadObserver = new EGC_Observer();
+export const egc_numColumnsToLoadObserver = new EGC_Observer();
 export const egc_tableBodyObserver = new EGC_Observer();
 export const egc_columnWidthObserver = new EGC_Observer();
 export const egc_errorObserver = new EGC_Observer();
+export const egc_rowNameObservers = []
+for (let i = 0; i < egc_inMemoryGanttChart.getState('rows').length; i++) {
+    egc_rowNameObservers.push({
+        id: egc_inMemoryGanttChart.getState('rows')[i].id,
+        observer: new EGC_Observer()
+    });
+}
 
 // commands.
 export const egc_loadTitleFromMemoryCommand = new EGC_LoadCommand("title")
@@ -68,22 +82,24 @@ export const egc_loadZoomFromMemoryCommand = new EGC_LoadCommand("zoom")
     .repo(egc_inMemoryGanttChart)
     .observer(egc_zoomObserver)
     .errorObserver(egc_errorObserver)
-    .before(value => mockLoad("zoom", value));
+    .before(value => mockLoad("zoom", value))
+    .after(value => egc_updateColumnWidthCommand.execute(ganttChartSettingsData.zoomWidthMap[value]))
 export const egc_updateZoomCommand = new EGC_UpdateCommand("zoom")
     .repo(egc_inMemoryGanttChart)
     .observer(egc_zoomObserver)
     .errorObserver(egc_errorObserver)
-    .before(value => mockUpdate("zoom", value));
+    .before(value => mockUpdate("zoom", value))
+    .after(value => egc_updateColumnWidthCommand.execute(ganttChartSettingsData.zoomWidthMap[value]))
 
 
 export const egc_loadNumColumnsToLoadCommand = new EGC_LoadCommand("numColumnsToLoad")
     .repo(egc_inMemoryGanttChartSettings)
-    .observer(egc_numColumsToLoadObserver)
+    .observer(egc_numColumnsToLoadObserver)
     .errorObserver(egc_errorObserver)
     .before(value => mockLoad("numColumnsToLoad", value));
 export const egc_updateNumColumnsToLoadCommand = new EGC_UpdateCommand("numColumnsToLoad")
     .repo(egc_inMemoryGanttChartSettings)
-    .observer(egc_numColumsToLoadObserver)
+    .observer(egc_numColumnsToLoadObserver)
     .errorObserver(egc_errorObserver)
     .before(value => mockUpdate("numColumnsToLoad", value));
 
@@ -100,11 +116,39 @@ export const egc_updateColumnWidthCommand = new EGC_UpdateCommand("columnWidth")
     .before(value => mockUpdate("columnWidth", value))
 
 
-export const egc_loadAllRowsFromMemoryCommand = new EGC_LoadCommand("rows")
+export const egc_loadTableBodyFromMemoryCommand = new EGC_LoadCommand("rows")
     .repo(egc_inMemoryGanttChart)
     .observer(egc_tableBodyObserver)
     .errorObserver(egc_errorObserver)
     .before(value => mockLoad("rows", value));
+export const egc_updateTableBodyFromMemoryCommand = new EGC_UpdateCommand("rows")
+    .repo(egc_inMemoryGanttChart)
+    .observer(egc_tableBodyObserver)
+    .errorObserver(egc_errorObserver)
+    .before(value => mockLoad("rows", value));
+
+export const egc_loadRowNameFromMemoryCommands = []
+for (let i = 0; i < egc_inMemoryGanttChart.getState('rows').length; i++) {
+    egc_loadRowNameFromMemoryCommands.push({
+        id: egc_inMemoryGanttChart.getState('rows')[i].id,
+        command: new EGC_LoadCommand("rows", i, "name")
+            .repo(egc_inMemoryGanttChart)
+            .observer(egc_rowNameObservers.filter(o => o.id === egc_inMemoryGanttChart.getState('rows')[i].id)[0].observer)
+            .errorObserver(egc_errorObserver)
+            .before(value => mockLoad(`row ${egc_inMemoryGanttChart.getState('rows')[i].id} name`, value))
+    });
+}
+export const egc_updateRowNameCommands = []
+for (let i = 0; i < egc_inMemoryGanttChart.getState('rows').length; i++) {
+    egc_updateRowNameCommands.push({
+        id: egc_inMemoryGanttChart.getState('rows')[i].id,
+        command: new EGC_UpdateCommand("rows", i, "name")
+            .repo(egc_inMemoryGanttChart)
+            .observer(egc_rowNameObservers.filter(o => o.id === egc_inMemoryGanttChart.getState('rows')[i].id)[0].observer)
+            .errorObserver(egc_errorObserver)
+            .before(value => mockUpdate(`row ${egc_inMemoryGanttChart.getState('rows')[i].id} name`, value))
+    });
+}
 
 
 // services.
@@ -155,7 +199,6 @@ export const egc_timeRangeGeneratorServices = {
                     text: text,
                     columnCount: daysToAdd
                 });
-                
                 remainingDays -= daysToAdd;
                 currentDate = new Date(currentYear, currentMonth + 1, 1);
             }

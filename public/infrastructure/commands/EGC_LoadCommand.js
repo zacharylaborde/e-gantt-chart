@@ -1,16 +1,16 @@
 export class EGC_LoadCommand {
-    constructor(key) {
-        this.key = key;
+    constructor(...keys) {
+        this.keys = keys
     }
 
     async execute() {
         try {
-            const data = this.repo.getState(this.key);
+            const data = this.repo.getState(...this.keys);
             if (this.beforeCallback) await this.beforeCallback(data);
             if (this.observer) this.observer.update(data);
             if (this.afterCallback) await this.afterCallback(data);
         } catch (err) {
-            const data = this.repo.getState(this.key);
+            const data = this.repo.getState(this.keys);
             if (this.errorObserver) this.errorObserver.update(err);
             if (this.observer) this.observer.update(data);
             console.error(err.message);
@@ -38,7 +38,7 @@ export class EGC_LoadCommand {
     }
 
     after(callback) {
-        this.beforeCallback = callback;
+        this.afterCallback = callback;
         return this;
     }
 }
