@@ -11,6 +11,7 @@ export class EGC_Body extends HTMLElement {
     dataDidUpdate() {
         const currentRows = Array.from(this.children);
         const rowsData = egc_inMemoryGanttChart.getState("rows");
+        this.#removeDeletedRows(rowsData);
         rowsData.forEach((rowData, index) => {
             const existingRow = currentRows.find(row => row.rowId === rowData.id);
             if (existingRow) {
@@ -22,6 +23,9 @@ export class EGC_Body extends HTMLElement {
                 else this.appendChild(newRow);
             }
         });
+    }
+
+    #removeDeletedRows(rowsData) {
         Array.from(this.children).forEach(row => {
             const existsInNewData = rowsData.some(data => data.id === row.rowId);
             if (!existsInNewData) this.removeChild(row);
