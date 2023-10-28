@@ -28,7 +28,8 @@ export class EGC_Timeline extends HTMLElement {
     }
 
     dataDidUpdate() {
-        const date = egc_inMemoryGanttChart.getState("date");
+        const date = new Date(egc_inMemoryGanttChart.getState("date"));
+        const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000)
         const zoom = egc_inMemoryGanttChart.getState("zoom");
         this.upperTimeline.innerHTML = '';
         this.lowerTimeline.innerHTML = '';
@@ -40,14 +41,14 @@ export class EGC_Timeline extends HTMLElement {
         const lowerTimelineEmptySpace = document.createElement("span");
         lowerTimelineEmptySpace.setAttribute('part', 'lower-timeline');
         this.lowerTimeline.appendChild(lowerTimelineEmptySpace);
-        egc_timeRangeGeneratorServices[zoom].generateUpperTimeline(date).forEach(e => {
+        egc_timeRangeGeneratorServices[zoom].generateUpperTimeline(localDate).forEach(e => {
             const elem = document.createElement("span");
             elem.setAttribute('part', 'upper-timeline-dt');
             elem.innerText = e.text;
             elem.style.gridColumn = `span ${e.columnCount}`
             this.upperTimeline.appendChild(elem);
         });
-        egc_timeRangeGeneratorServices[zoom].generateLowerTimeline(date).forEach(e => {
+        egc_timeRangeGeneratorServices[zoom].generateLowerTimeline(localDate).forEach(e => {
             const elem = document.createElement("span");
             elem.setAttribute('part', 'lower-timeline-dt');
             elem.innerText = e;

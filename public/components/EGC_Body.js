@@ -23,10 +23,8 @@ export class EGC_Body extends HTMLElement {
             }
         });
         Array.from(this.children).forEach(row => {
-            const existsInNewData = rowsData.some(data => data.id === row.id);
-            if (!existsInNewData) {
-                this.removeChild(row);
-            }
+            const existsInNewData = rowsData.some(data => data.id === row.rowId);
+            if (!existsInNewData) this.removeChild(row);
         });
     }
 

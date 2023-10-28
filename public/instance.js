@@ -7,7 +7,7 @@ import { EGC_TimeRangeGeneratorService } from "./infrastructure/services/EGC_Tim
 // initial data.
 const ganttChartData = {
     title: "No Title",
-    date: "2023-09-26",
+    date: new Date(new Date(new Date().setHours(0, 0, 0, 0)).getTime() - new Date().getTimezoneOffset() * 60000),
     zoom: "month",
     rows: [
         {
