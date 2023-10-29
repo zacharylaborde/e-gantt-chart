@@ -6,6 +6,7 @@ export class EGC_Body extends HTMLElement {
         super();
         this.#applyStyle();
         egc_tableBodyObserver.subscribe(this);
+        egc_inMemoryGanttChart.getState("rows").forEach(row => this.appendChild(new EGC_Row(row.id)))
     }
 
     dataDidUpdate() {

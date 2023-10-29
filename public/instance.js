@@ -2,7 +2,7 @@ import { EGC_InMemoryRepository } from "./infrastructure/repositories/EGC_InMemo
 import { EGC_Observer } from "./infrastructure/observers/EGC_Observer.js";
 import { EGC_UpdateCommand } from "./infrastructure/commands/EGC_UpdateCommand.js";
 import { EGC_LoadCommand } from "./infrastructure/commands/EGC_LoadCommand.js";
-import { EGC_TimeRangeGeneratorService } from "./infrastructure/services/EGC_TimeRangeGeneratorService.js";
+import { EGC_ZoomService } from "./infrastructure/services/EGC_ZoomService.js";
 
 // initial data.
 const ganttChartData = {
@@ -178,8 +178,8 @@ for (let i = 0; i < egc_inMemoryGanttChart.getState('events').length; i++) {
 
 
 // services.
-export const egc_timeRangeGeneratorServices = {
-    month: new EGC_TimeRangeGeneratorService("Month")
+export const egc_zoomService = {
+    month: new EGC_ZoomService("Month")
         .upperTimelineStrategy((date) => {
             const result = [];
             let currentDate = new Date(date);
@@ -207,9 +207,12 @@ export const egc_timeRangeGeneratorServices = {
                 newDate.setDate(startDate.getDate() + index);
                 return newDate.toLocaleDateString([], {day: '2-digit'})
             });
+        })
+        .getEndTimeStrategy((startDate, numColumnsToLoad, columnWidth) => {
+            //throw Error("There is no implementation ofr getEndTime for the Month service.")
         }),
 
-    day: new EGC_TimeRangeGeneratorService("Day")
+    day: new EGC_ZoomService("Day")
         .upperTimelineStrategy((date) => {
             const result = [];
             let currentDate = new Date(date);
@@ -237,9 +240,12 @@ export const egc_timeRangeGeneratorServices = {
                 newDate.setDate(startDate.getDate() + index);
                 return newDate.toLocaleDateString([], {day: '2-digit'})
             });
+        })
+        .getEndTimeStrategy((startDate, numColumnsToLoad, columnWidth) => {
+            throw Error("There is no implementation ofr getEndTime for the Day service.")
         }),
 
-    shift: new EGC_TimeRangeGeneratorService("Shift")
+    shift: new EGC_ZoomService("Shift")
         .upperTimelineStrategy((date) => {
             const startDate = new Date(date);
             return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad") / 3}, (_, index) => {
@@ -258,9 +264,12 @@ export const egc_timeRangeGeneratorServices = {
                 newDate.setHours(startDate.getHours() + (index * 8));
                 return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             });
+        })
+        .getEndTimeStrategy((startDate, numColumnsToLoad, columnWidth) => {
+            throw Error("There is no implementation ofr getEndTime for the Shift service.")
         }),
         
-    hour: new EGC_TimeRangeGeneratorService("Hour")
+    hour: new EGC_ZoomService("Hour")
         .upperTimelineStrategy((date) => {
             const startDate = new Date(date);
             return Array.from({length: egc_inMemoryGanttChartSettings.getState("numColumnsToLoad") / 24}, (_, index) => {
@@ -279,6 +288,12 @@ export const egc_timeRangeGeneratorServices = {
                 newDate.setHours(startDate.getHours() + index);
                 return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             });
+        })
+        .getEndTimeStrategy(_ => {
+            let startDate = egc_inMemoryGanttChart.getState('date');
+            let numColumnsToLoad = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
+            let columnWidth = egc_inMemoryGanttChartSettings.getState("columnWidth");
+            throw Error("There is no implementation ofr getEndTime for the Hour service.")
         })
 }
 

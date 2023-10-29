@@ -3,7 +3,7 @@ import {
     egc_inMemoryGanttChart, 
     egc_zoomObserver, 
     egc_numColumnsToLoadObserver,
-    egc_timeRangeGeneratorServices,
+    egc_zoomService,
     egc_inMemoryGanttChartSettings,
     egc_columnWidthObserver
 } from "../instance.js";
@@ -41,14 +41,14 @@ export class EGC_Timeline extends HTMLElement {
         const lowerTimelineEmptySpace = document.createElement("span");
         lowerTimelineEmptySpace.setAttribute('part', 'lower-timeline');
         this.lowerTimeline.appendChild(lowerTimelineEmptySpace);
-        egc_timeRangeGeneratorServices[zoom].generateUpperTimeline(localDate).forEach(e => {
+        egc_zoomService[zoom].generateUpperTimeline(localDate).forEach(e => {
             const elem = document.createElement("span");
             elem.setAttribute('part', 'upper-timeline-dt');
             elem.innerText = e.text;
             elem.style.gridColumn = `span ${e.columnCount}`
             this.upperTimeline.appendChild(elem);
         });
-        egc_timeRangeGeneratorServices[zoom].generateLowerTimeline(localDate).forEach(e => {
+        egc_zoomService[zoom].generateLowerTimeline(localDate).forEach(e => {
             const elem = document.createElement("span");
             elem.setAttribute('part', 'lower-timeline-dt');
             elem.innerText = e;

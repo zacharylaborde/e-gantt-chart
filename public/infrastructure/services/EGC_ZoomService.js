@@ -1,4 +1,4 @@
-export class EGC_TimeRangeGeneratorService {
+export class EGC_ZoomService {
     constructor(name) {
         this.name = name;
     }
@@ -10,6 +10,11 @@ export class EGC_TimeRangeGeneratorService {
 
     upperTimelineStrategy(callback) {
         this.generateUpperTimeline = callback;
+        return this;
+    }
+
+    getEndTimeStrategy(callback) {
+        this.getEndTime = callback;
         return this;
     }
 }

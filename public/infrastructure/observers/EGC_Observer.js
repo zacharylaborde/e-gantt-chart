@@ -8,7 +8,7 @@ export class EGC_Observer {
     }
 
     unsubscribe(subscriber) {
-        this.subscribers.pop(subscriber);
+        this.subscribers.remove(subscriber);
     }
 
     update() {
