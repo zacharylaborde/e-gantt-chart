@@ -208,8 +208,11 @@ export const egc_zoomService = {
                 return newDate.toLocaleDateString([], {day: '2-digit'})
             });
         })
-        .getEndTimeStrategy((startDate, numColumnsToLoad, columnWidth) => {
-            //throw Error("There is no implementation ofr getEndTime for the Month service.")
+        .getEndTimeStrategy(_ => {
+            let startDate = egc_inMemoryGanttChart.getState('date');
+            let numColumnsToLoad = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
+            let columnWidth = egc_inMemoryGanttChartSettings.getState("columnWidth");
+            throw Error("There is no implementation ofr getEndTime for the Hour service.")
         }),
 
     day: new EGC_ZoomService("Day")
@@ -241,8 +244,11 @@ export const egc_zoomService = {
                 return newDate.toLocaleDateString([], {day: '2-digit'})
             });
         })
-        .getEndTimeStrategy((startDate, numColumnsToLoad, columnWidth) => {
-            throw Error("There is no implementation ofr getEndTime for the Day service.")
+        .getEndTimeStrategy(_ => {
+            let startDate = egc_inMemoryGanttChart.getState('date');
+            let numColumnsToLoad = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
+            let columnWidth = egc_inMemoryGanttChartSettings.getState("columnWidth");
+            throw Error("There is no implementation ofr getEndTime for the Hour service.")
         }),
 
     shift: new EGC_ZoomService("Shift")
@@ -265,8 +271,11 @@ export const egc_zoomService = {
                 return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             });
         })
-        .getEndTimeStrategy((startDate, numColumnsToLoad, columnWidth) => {
-            throw Error("There is no implementation ofr getEndTime for the Shift service.")
+        .getEndTimeStrategy(_ => {
+            let startDate = egc_inMemoryGanttChart.getState('date');
+            let numColumnsToLoad = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
+            let columnWidth = egc_inMemoryGanttChartSettings.getState("columnWidth");
+            throw Error("There is no implementation ofr getEndTime for the Hour service.")
         }),
         
     hour: new EGC_ZoomService("Hour")
