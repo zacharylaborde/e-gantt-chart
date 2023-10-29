@@ -13,7 +13,7 @@ export class EGC_ColumnsController extends HTMLElement {
         this.columnsController.onchange = () => {
             if (this.columnsController.value < 1) this.columnsController.value = 2;
             if (this.columnsController.value > 1000) this.columnsController.value = 1000;
-            egc_updateNumColumnsToLoadCommand.execute(this.columnsController.value);
+            egc_updateNumColumnsToLoadCommand.execute(parseInt(this.columnsController.value));
         }
         egc_numColumnsToLoadObserver.subscribe(this);
     }

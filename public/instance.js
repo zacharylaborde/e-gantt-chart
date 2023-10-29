@@ -23,6 +23,8 @@ const ganttChartData = {
         {
             id: 1,
             parentRowId: 1,
+            startTime: new Date('10-24-2022'),
+            endTime: new Date('10-29-2023'),
             name: "Alpha"
         }
     ]
@@ -135,7 +137,7 @@ export const egc_loadTableBodyFromMemoryCommand = new EGC_LoadCommand("rows")
     .observer(egc_tableBodyObserver)
     .errorObserver(egc_errorObserver)
     .before(value => mockLoad("rows", value));
-export const egc_updateTableBodyFromMemoryCommand = new EGC_UpdateCommand("rows")
+export const egc_updateTableBodyCommand = new EGC_UpdateCommand("rows")
     .repo(egc_inMemoryGanttChart)
     .observer(egc_tableBodyObserver)
     .errorObserver(egc_errorObserver)
@@ -211,8 +213,9 @@ export const egc_zoomService = {
         .getEndTimeStrategy(_ => {
             let startDate = egc_inMemoryGanttChart.getState('date');
             let numColumnsToLoad = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
-            let columnWidth = egc_inMemoryGanttChartSettings.getState("columnWidth");
-            throw Error("There is no implementation ofr getEndTime for the Hour service.")
+            let endDate = new Date(startDate);
+            endDate.setUTCDate(startDate.getUTCDate() + numColumnsToLoad);
+            return endDate;
         }),
 
     day: new EGC_ZoomService("Day")
@@ -247,8 +250,9 @@ export const egc_zoomService = {
         .getEndTimeStrategy(_ => {
             let startDate = egc_inMemoryGanttChart.getState('date');
             let numColumnsToLoad = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
-            let columnWidth = egc_inMemoryGanttChartSettings.getState("columnWidth");
-            throw Error("There is no implementation ofr getEndTime for the Hour service.")
+            let endDate = new Date(startDate);
+            endDate.setUTCDate(startDate.getUTCDate() + numColumnsToLoad);
+            return endDate;
         }),
 
     shift: new EGC_ZoomService("Shift")
@@ -274,8 +278,9 @@ export const egc_zoomService = {
         .getEndTimeStrategy(_ => {
             let startDate = egc_inMemoryGanttChart.getState('date');
             let numColumnsToLoad = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
-            let columnWidth = egc_inMemoryGanttChartSettings.getState("columnWidth");
-            throw Error("There is no implementation ofr getEndTime for the Hour service.")
+            let endDate = new Date(startDate);
+            endDate.setUTCHours(startDate.getUTCHours() + numColumnsToLoad * 8);
+            return endDate;
         }),
         
     hour: new EGC_ZoomService("Hour")
@@ -301,8 +306,9 @@ export const egc_zoomService = {
         .getEndTimeStrategy(_ => {
             let startDate = egc_inMemoryGanttChart.getState('date');
             let numColumnsToLoad = egc_inMemoryGanttChartSettings.getState("numColumnsToLoad");
-            let columnWidth = egc_inMemoryGanttChartSettings.getState("columnWidth");
-            throw Error("There is no implementation ofr getEndTime for the Hour service.")
+            let endDate = new Date(startDate);
+            endDate.setUTCHours(startDate.getUTCHours() + numColumnsToLoad);
+            return endDate;
         })
 }
 
