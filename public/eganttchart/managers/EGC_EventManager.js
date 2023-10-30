@@ -1,17 +1,13 @@
-import {
-    egc_dateObserver,
-    egc_inMemoryGanttChart, egc_numColumnsToLoadObserver,
-    egc_zoomObserver,
-    egc_zoomService
-} from "../../instance.js";
-
 export class EGC_EventManager {
     constructor(row) {
         this.row = row;
+    }
+
+    connectedCallback() {
+        this.row.getRootNode().egc.dateObserver.subscribe(this);
+        this.row.getRootNode().egc.zoomObserver.subscribe(this);
+        this.row.getRootNode().egc.numColumnsToLoadObserver.subscribe(this);
         this.#placeEvents();
-        egc_dateObserver.subscribe(this);
-        egc_zoomObserver.subscribe(this);
-        egc_numColumnsToLoadObserver.subscribe(this);
     }
 
     dataDidUpdate() {
@@ -19,9 +15,9 @@ export class EGC_EventManager {
     }
 
     #placeEvents() {
-        let startTime = egc_inMemoryGanttChart.getState('date');
-        let endTime = egc_zoomService[egc_inMemoryGanttChart.getState('zoom')].getEndTime();
-        this.events = egc_inMemoryGanttChart.getState('events')
+        let startTime = this.row.getRootNode().egc.inMemoryGanttChart.getState('date');
+        let endTime = this.row.getRootNode().egc.zoomService[this.row.getRootNode().egc.inMemoryGanttChart.getState('zoom')].getEndTime();
+        this.events = this.row.getRootNode().egc.inMemoryGanttChart.getState('events')
             .filter(event => (
                 event.parentRowId === this.row.rowId
                 && !(event.startTime >= endTime)

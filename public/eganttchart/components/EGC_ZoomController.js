@@ -1,4 +1,4 @@
-import { egc_inMemoryGanttChart, egc_zoomService, egc_updateZoomCommand, egc_zoomObserver } from "../instance.js";
+import {EGC_Component} from "./EGC_Component.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -6,24 +6,27 @@ template.innerHTML = `
     </select>
 `;
 
-export class EGC_ZoomController extends HTMLElement {
+export class EGC_ZoomController extends EGC_Component {
     constructor() {
         super();
         this.appendChild(template.content.cloneNode(true));
         this.zoomController = this.querySelector('#zoom-controller');
-        egc_zoomObserver.subscribe(this);
-        this.zoomController.onchange = () => egc_updateZoomCommand.execute(this.zoomController.value);
+    }
+
+    connectedCallback() {
+        this.$().zoomObserver.subscribe(this);
+        this.zoomController.onchange = () => this.$().updateZoomCommand.execute(this.zoomController.value);
     }
 
     dataDidUpdate() {
         this.zoomController.innerHTML = '';
-        Object.keys(egc_zoomService).forEach(key => {
+        Object.keys(this.$().zoomService).forEach(key => {
             const e = document.createElement('option');
-            e.innerText = egc_zoomService[key].name;
+            e.innerText = this.$().zoomService[key].name;
             e.value = key;
             this.zoomController.appendChild(e);
         })
-        this.zoomController.value = egc_inMemoryGanttChart.getState("zoom");
+        this.zoomController.value = this.$().inMemoryGanttChart.getState("zoom");
     }
 }
 

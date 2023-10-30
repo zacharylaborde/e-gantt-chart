@@ -1,17 +1,20 @@
-import { egc_inMemoryGanttChart, egc_tableBodyObserver } from "../instance.js";
-import { EGC_Row } from "./EGC_Row.js";
+import {EGC_Row} from "./EGC_Row.js";
+import {EGC_Component} from "./EGC_Component.js";
 
-export class EGC_Body extends HTMLElement {
+export class EGC_Body extends EGC_Component {
     constructor() {
         super();
         this.#applyStyle();
-        egc_tableBodyObserver.subscribe(this);
-        egc_inMemoryGanttChart.getState("rows").forEach(row => this.appendChild(new EGC_Row(row.id)))
+    }
+
+    connectedCallback() {
+        this.$().tableBodyObserver.subscribe(this);
+        this.$().inMemoryGanttChart.getState("rows").forEach(row => this.appendChild(new EGC_Row(row.id)));
     }
 
     dataDidUpdate() {
         const currentRows = Array.from(this.children);
-        const rowsData = egc_inMemoryGanttChart.getState("rows");
+        const rowsData = this.$().inMemoryGanttChart.getState("rows");
         this.#removeDeletedRows(rowsData);
         rowsData.forEach((rowData, index) => {
             const existingRow = currentRows.find(row => row.rowId === rowData.id);

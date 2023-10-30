@@ -1,21 +1,24 @@
-import { egc_titleObserver,egc_inMemoryGanttChart, egc_updateTitleCommand } from "../instance.js";
+import {EGC_Component} from "./EGC_Component.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
     <input id="title-controller" class="egc-title"/>
 `;
 
-export class EGC_TitleController extends HTMLElement {
+export class EGC_TitleController extends EGC_Component {
     constructor() {
         super();
         this.appendChild(template.content.cloneNode(true));
         this.titleController = this.querySelector('#title-controller');
-        egc_titleObserver.subscribe(this);
-        this.titleController.onchange = () => egc_updateTitleCommand.execute(this.titleController.value);
+    }
+
+    connectedCallback() {
+        this.$().titleObserver.subscribe(this);
+        this.titleController.onchange = () => this.$().updateTitleCommand.execute(this.titleController.value);
     }
 
     dataDidUpdate() {
-        this.titleController.value = egc_inMemoryGanttChart.getState("title");
+        this.titleController.value = this.$().inMemoryGanttChart.getState("title");
     }
 }
 
