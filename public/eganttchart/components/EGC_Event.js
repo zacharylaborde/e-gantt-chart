@@ -19,10 +19,14 @@ export class EGC_Event extends EGC_Component {
         let eventState = this.$.inMemoryGanttChart.getState('events').filter(e => e.id === this.eventId)[0];
         let startOfEvent = eventState.startTime >= startTime ? eventState.startTime : startTime;
         let endOfEvent = eventState.endTime <= endTime ? eventState.endTime : endTime;
-        if (startOfEvent > endOfEvent) throw Error(`Event ${this.eventId}'s ends before it starts.`);
         let startIndex = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getStartIndex(startOfEvent);
         let endIndex = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getEndIndex(endOfEvent);
-        this.style.gridColumn = `${startIndex} / ${endIndex}`;
+        if (startIndex && endIndex) {
+            console.log(`${startIndex} / ${endIndex}`)
+            this.style.display = "grid";
+            this.style.gridColumn = `${startIndex} / ${endIndex}`;
+        }
+        else this.style.display = "none";
     }
 
     #applyStyle() {
