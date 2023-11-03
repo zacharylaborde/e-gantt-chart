@@ -21,7 +21,7 @@ export class EGC_Row extends EGC_Component {
         this.$.inMemoryGanttChart.getState('events')
             .filter(event => (
                 Array.from(this.children).slice(1).every(e => e.eventId !== event.id)
-                && event.parentRowId === this.rowId
+                && event.parentRowIds.includes(this.rowId)
                 && !(event.startTime >= endTime)
                 && !(event.endTime <= startTime)
             ))

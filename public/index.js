@@ -6,20 +6,28 @@ document.querySelector('body').appendChild(
             title: "No Title",
             date: new Date('2023-11-02T20:00:00'),
             zoom: "day",
+            groups: [
+                {
+                    id: 1,
+                    name: "Group 1"
+                }
+            ],
             rows: [
                 {
                     id: 1,
+                    parentGroupIds: [1],
                     name: "Row One (The best row)"
                 },
                 {
                     id: 2,
+                    parentGroupIds: [1],
                     name: "Row Two (The second best row)"
                 }
             ],
             events: [
                 {
                     id: 1,
-                    parentRowId: 1,
+                    parentRowIds: [1],
                     startTime: new Date('2023-11-05T13:00:00'),
                     endTime: new Date('2023-11-07T15:00:00'),
                     name: "Alpha"
@@ -29,7 +37,7 @@ document.querySelector('body').appendChild(
         {
             numColumnsToLoad: 92,
             columnWidth: 20,
-            leftHeaderWidth: 75,
+            leftHeaderWidth: 125,
             zoomWidthMap: {
                 month: 20,
                 day: 50,
