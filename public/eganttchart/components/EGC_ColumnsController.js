@@ -6,23 +6,20 @@ template.innerHTML = `
 `;
 
 export class EGC_ColumnsController extends EGC_Component {
-    constructor() {
-        super();
+    constructor($) {
+        super($);
         this.appendChild(template.content.cloneNode(true));
         this.columnsController = this.querySelector('#columns-controller');
-    }
-
-    connectedCallback() {
-        this.$().numColumnsToLoadObserver.subscribe(this);
+        this.$.numColumnsToLoadObserver.subscribe(this);
         this.columnsController.onchange = () => {
             if (this.columnsController.value < 1) this.columnsController.value = 2;
             if (this.columnsController.value > 1000) this.columnsController.value = 1000;
-            this.$().updateNumColumnsToLoadCommand.execute(parseInt(this.columnsController.value));
+            this.$.updateNumColumnsToLoadCommand.execute(parseInt(this.columnsController.value));
         }
     }
 
     dataDidUpdate() {
-        this.columnsController.value = this.$().inMemoryGanttChartSettings.getState('numColumnsToLoad');
+        this.columnsController.value = this.$.inMemoryGanttChartSettings.getState('numColumnsToLoad');
     }
 }
 

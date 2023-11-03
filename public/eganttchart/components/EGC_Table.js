@@ -3,10 +3,10 @@ import {EGC_Timeline} from "./EGC_Timeline.js";
 import {EGC_Component} from "./EGC_Component.js";
 
 export class EGC_Table extends EGC_Component {
-    constructor() {
-        super();
-        this.appendChild(new EGC_Timeline());
-        this.appendChild(new EGC_Body());
+    constructor($) {
+        super($);
+        this.appendChild(new EGC_Timeline(this.$));
+        this.appendChild(new EGC_Body(this.$));
         this.#applyStyle();
     }
 

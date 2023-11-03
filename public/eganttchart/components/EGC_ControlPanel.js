@@ -5,12 +5,12 @@ import {EGC_ZoomController} from "./EGC_ZoomController.js";
 import {EGC_Component} from "./EGC_Component.js";
 
 export class EGC_ControlPanel extends EGC_Component {
-    constructor() {
-        super();
-        this.appendChild(new EGC_TitleController());
-        this.appendChild(new EGC_DateController());
-        this.appendChild(new EGC_ZoomController());
-        this.appendChild(new EGC_ColumnsController());
+    constructor($) {
+        super($);
+        this.appendChild(new EGC_TitleController(this.$));
+        this.appendChild(new EGC_DateController(this.$));
+        this.appendChild(new EGC_ZoomController(this.$));
+        this.appendChild(new EGC_ColumnsController(this.$));
     }
 }
 

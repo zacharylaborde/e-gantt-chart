@@ -6,19 +6,16 @@ template.innerHTML = `
 `;
 
 export class EGC_TitleController extends EGC_Component {
-    constructor() {
-        super();
+    constructor($) {
+        super($);
         this.appendChild(template.content.cloneNode(true));
         this.titleController = this.querySelector('#title-controller');
-    }
-
-    connectedCallback() {
-        this.$().titleObserver.subscribe(this);
-        this.titleController.onchange = () => this.$().updateTitleCommand.execute(this.titleController.value);
+        this.$.titleObserver.subscribe(this);
+        this.titleController.onchange = () => this.$.updateTitleCommand.execute(this.titleController.value);
     }
 
     dataDidUpdate() {
-        this.titleController.value = this.$().inMemoryGanttChart.getState("title");
+        this.titleController.value = this.$.inMemoryGanttChart.getState("title");
     }
 }
 

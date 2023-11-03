@@ -1,12 +1,13 @@
 export class EGC_EventManager {
-    constructor(row) {
+    constructor($, row) {
+        this.$ = $;
         this.row = row;
     }
 
     connectedCallback() {
-        this.row.getRootNode().egc.dateObserver.subscribe(this);
-        this.row.getRootNode().egc.zoomObserver.subscribe(this);
-        this.row.getRootNode().egc.numColumnsToLoadObserver.subscribe(this);
+        this.$.dateObserver.subscribe(this);
+        this.$.zoomObserver.subscribe(this);
+        this.$.numColumnsToLoadObserver.subscribe(this);
         this.#placeEvents();
     }
 

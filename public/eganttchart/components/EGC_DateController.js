@@ -6,19 +6,16 @@ template.innerHTML = `
 `;
 
 export class EGC_DateController extends EGC_Component {
-    constructor() {
-        super();
+    constructor($) {
+        super($);
         this.appendChild(template.content.cloneNode(true));
         this.dateController = this.querySelector('#date-controller');
-    }
-
-    connectedCallback() {
-        this.$().dateObserver.subscribe(this);
-        this.dateController.onchange = () => this.$().updateDateCommand.execute(new Date(this.dateController.value));
+        this.$.dateObserver.subscribe(this);
+        this.dateController.onchange = () => this.$.updateDateCommand.execute(new Date(this.dateController.value));
     }
 
     dataDidUpdate() {
-        this.dateController.value = this.$().inMemoryGanttChart.getState("date").toISOString().split('T')[0];
+        this.dateController.value = this.$.inMemoryGanttChart.getState("date").toISOString().split('T')[0];
     }
 }
 

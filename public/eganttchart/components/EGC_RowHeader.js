@@ -1,18 +1,16 @@
 import {EGC_Component} from "./EGC_Component.js";
 
 export class EGC_RowHeader extends EGC_Component {
-    constructor(rowId) {
-        super();
+    constructor($, rowId) {
+        super($);
         this.#applyStyle();
         this.rowId = rowId;
-    }
-
-    connectedCallback() {
-        this.$().rowNameObservers.filter(o => o.id === this.rowId)[0].observer.subscribe(this);
+        console.log(this.$);
+        this.$.rowNameObservers.filter(o => o.id === this.rowId)[0].observer.subscribe(this);
     }
 
     dataDidUpdate() {
-        this.innerText = this.$().inMemoryGanttChart.getState("rows").filter(row => row.id === this.rowId)[0].name;
+        this.innerText = this.$.inMemoryGanttChart.getState("rows").filter(row => row.id === this.rowId)[0].name;
     }
 
     #applyStyle() {

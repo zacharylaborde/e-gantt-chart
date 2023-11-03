@@ -7,26 +7,23 @@ template.innerHTML = `
 `;
 
 export class EGC_ZoomController extends EGC_Component {
-    constructor() {
-        super();
+    constructor($) {
+        super($);
         this.appendChild(template.content.cloneNode(true));
         this.zoomController = this.querySelector('#zoom-controller');
-    }
-
-    connectedCallback() {
-        this.$().zoomObserver.subscribe(this);
-        this.zoomController.onchange = () => this.$().updateZoomCommand.execute(this.zoomController.value);
+        this.$.zoomObserver.subscribe(this);
+        this.zoomController.onchange = () => this.$.updateZoomCommand.execute(this.zoomController.value);
     }
 
     dataDidUpdate() {
         this.zoomController.innerHTML = '';
-        Object.keys(this.$().zoomService).forEach(key => {
+        Object.keys(this.$.zoomService).forEach(key => {
             const e = document.createElement('option');
-            e.innerText = this.$().zoomService[key].name;
+            e.innerText = this.$.zoomService[key].name;
             e.value = key;
             this.zoomController.appendChild(e);
         })
-        this.zoomController.value = this.$().inMemoryGanttChart.getState("zoom");
+        this.zoomController.value = this.$.inMemoryGanttChart.getState("zoom");
     }
 }
 
