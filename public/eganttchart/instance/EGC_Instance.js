@@ -282,10 +282,10 @@ export class EGC_Instance {
     }
 
     #mockLoad(key, value) {
-
+        console.log(`Loaded ${key}: ${value}`);
     }
 
     #mockUpdate(key, value) {
-
+        console.log(`Updated ${key}: ${value}`);
     }
 }
