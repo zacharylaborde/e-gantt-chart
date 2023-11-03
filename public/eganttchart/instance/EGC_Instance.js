@@ -184,6 +184,24 @@ export class EGC_Instance {
                     let endDate = new Date(startDate);
                     endDate.setUTCDate(startDate.getUTCDate() + numColumnsToLoad);
                     return endDate;
+                })
+                .getStartIndexStrategy(startTime => {
+                    let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
+                        newDate.setDate(newDate.getDate() + 1);
+                        if (newDate.getDate() === startTime.getDate())
+                            return i + 2;
+                    }
+                    return null;
+                })
+                .getEndIndexStrategy(endTime => {
+                    let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
+                        newDate.setDate(newDate.getDate() + 1);
+                        if (newDate.getDate() === endTime.getDate())
+                            return i + 3;
+                    }
+                    return null;
                 }),
 
             day: new EGC_ZoomService("Day")
@@ -221,6 +239,12 @@ export class EGC_Instance {
                     let endDate = new Date(startDate);
                     endDate.setUTCDate(startDate.getUTCDate() + numColumnsToLoad);
                     return endDate;
+                })
+                .getStartIndexStrategy(startTime => {
+                    throw Error("There is no start-indexing strategy for the day zoom service.");
+                })
+                .getEndIndexStrategy(endTime => {
+                    throw Error("There is no end-indexing strategy for the day zoom service.");
                 }),
 
             shift: new EGC_ZoomService("Shift")
@@ -249,6 +273,12 @@ export class EGC_Instance {
                     let endDate = new Date(startDate);
                     endDate.setUTCHours(startDate.getUTCHours() + numColumnsToLoad * 8);
                     return endDate;
+                })
+                .getStartIndexStrategy(startTime => {
+                    throw Error("There is no start-indexing strategy for the shift zoom service.");
+                })
+                .getEndIndexStrategy(endTime => {
+                    throw Error("There is no end-indexing strategy for the shift zoom service.");
                 }),
 
             hour: new EGC_ZoomService("Hour")
@@ -277,6 +307,12 @@ export class EGC_Instance {
                     let endDate = new Date(startDate);
                     endDate.setUTCHours(startDate.getUTCHours() + numColumnsToLoad);
                     return endDate;
+                })
+                .getStartIndexStrategy(startTime => {
+                    throw Error("There is no start-indexing strategy for the hour zoom service.");
+                })
+                .getEndIndexStrategy(endTime => {
+                    throw Error("There is no end-indexing strategy for the hour zoom service.");
                 })
         }
     }

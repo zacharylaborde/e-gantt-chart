@@ -4,7 +4,7 @@ document.querySelector('body').appendChild(
     new EGanttChart(
         {
             title: "No Title",
-            date: new Date(new Date(new Date().setHours(0, 0, 0, 0)).getTime() - new Date().getTimezoneOffset() * 60000),
+            date: new Date('2023-11-02T20:00:00'),
             zoom: "month",
             rows: [
                 {
@@ -20,15 +20,15 @@ document.querySelector('body').appendChild(
                 {
                     id: 1,
                     parentRowId: 1,
-                    startTime: new Date('10-24-2022'),
-                    endTime: new Date('10-29-2023'),
+                    startTime: new Date('2023-11-05T13:00:00'),
+                    endTime: new Date('2023-11-07T15:00:00'),
                     name: "Alpha"
                 }
             ]
         },
         {
             numColumnsToLoad: 92,
-            columnWidth: 75,
+            columnWidth: 20,
             leftHeaderWidth: 75,
             zoomWidthMap: {
                 month: 20,

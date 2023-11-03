@@ -10,15 +10,14 @@ export class EGC_RowHeader extends EGC_Component {
     }
 
     dataDidUpdate() {
-        console.log(this.$.inMemoryGanttChart.getState("rows"))
         this.innerText = this.$.inMemoryGanttChart.getState("rows").filter(row => row.id === this.rowId)[0].name;
     }
 
     #applyStyle() {
         this.style.display = "grid";
         this.style.position = "sticky";
-        this.style.left = 0;
-        this.contentEditable = true;
+        this.style.left = "0";
+        this.contentEditable = "true";
     }
 }
 

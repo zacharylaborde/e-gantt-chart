@@ -20,6 +20,7 @@ export class EGanttChart extends HTMLElement {
         this.$.loadTableBodyFromMemoryCommand.execute();
         this.$.loadColumnWidthCommand.execute();
         this.$.loadRowNameFromMemoryCommands.forEach(x => x.command.execute());
+        this.$.loadEventNameCommands.forEach(x => x.command.execute());
     }
 }
 
