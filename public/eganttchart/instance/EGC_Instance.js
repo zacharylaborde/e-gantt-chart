@@ -241,10 +241,22 @@ export class EGC_Instance {
                     return endDate;
                 })
                 .getStartIndexStrategy(startTime => {
-                    throw Error("There is no start-indexing strategy for the day zoom service.");
+                    let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
+                        newDate.setDate(newDate.getDate() + 1);
+                        if (newDate.getDate() === startTime.getDate())
+                            return i + 2;
+                    }
+                    return null;
                 })
                 .getEndIndexStrategy(endTime => {
-                    throw Error("There is no end-indexing strategy for the day zoom service.");
+                    let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
+                        newDate.setDate(newDate.getDate() + 1);
+                        if (newDate.getDate() === endTime.getDate())
+                            return i + 3;
+                    }
+                    return null;
                 }),
 
             shift: new EGC_ZoomService("Shift")
@@ -275,10 +287,27 @@ export class EGC_Instance {
                     return endDate;
                 })
                 .getStartIndexStrategy(startTime => {
-                    throw Error("There is no start-indexing strategy for the shift zoom service.");
+                    let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
+                        newDate.setHours(newDate.getHours() + 8);
+                        if (startTime.getHours() >= newDate.getHours()
+                            && startTime.getHours() < new Date(newDate).setHours(newDate.getHours() + 8)
+                            && startTime.getDate() === newDate.getDate())
+                            return i + 2;
+                    }
+                    return null;
                 })
                 .getEndIndexStrategy(endTime => {
-                    throw Error("There is no end-indexing strategy for the shift zoom service.");
+                    let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
+                        newDate.setHours(newDate.getHours() + 8);
+                        console.log(newDate, endTime);
+                        if (endTime.getHours() > newDate.getHours()
+                            && endTime.getHours() <= new Date(newDate).setHours(newDate.getHours() + 8)
+                            && endTime.getDate() === newDate.getDate())
+                            return i + 3;
+                    }
+                    return null;
                 }),
 
             hour: new EGC_ZoomService("Hour")
@@ -305,14 +334,26 @@ export class EGC_Instance {
                     let startDate = this.inMemoryGanttChart.getState('date');
                     let numColumnsToLoad = this.inMemoryGanttChartSettings.getState("numColumnsToLoad");
                     let endDate = new Date(startDate);
-                    endDate.setUTCHours(startDate.getUTCHours() + numColumnsToLoad);
+                    endDate.setUTCHours(startDate.getUTCHours() + numColumnsToLoad + 1);
                     return endDate;
                 })
                 .getStartIndexStrategy(startTime => {
-                    throw Error("There is no start-indexing strategy for the hour zoom service.");
+                    let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
+                        newDate.setHours(newDate.getHours() + 1);
+                        if (newDate.getHours() === startTime.getHours() && newDate.getDate() === startTime.getDate())
+                            return i + 2;
+                    }
+                    return null;
                 })
                 .getEndIndexStrategy(endTime => {
-                    throw Error("There is no end-indexing strategy for the hour zoom service.");
+                    let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
+                        newDate.setHours(newDate.getHours() + 1);
+                        if (newDate.getHours() === endTime.getHours() && newDate.getDate() === endTime.getDate())
+                            return i + 3;
+                    }
+                    return null;
                 })
         }
     }

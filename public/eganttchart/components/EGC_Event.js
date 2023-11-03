@@ -9,6 +9,7 @@ export class EGC_Event extends EGC_Component {
         this.appendChild(new EGC_EventNameDisplay(this.$, this.eventId));
         this.$.numColumnsToLoadObserver.subscribe(this);
         this.$.columnWidthObserver.subscribe(this);
+        this.$.dateObserver.subscribe(this);
     }
 
     dataDidUpdate() {
