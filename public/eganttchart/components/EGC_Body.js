@@ -4,6 +4,7 @@ import {EGC_Component} from "./EGC_Component.js";
 export class EGC_Body extends EGC_Component {
     constructor($) {
         super($);
+        this.setAttribute('part', 'body');
         this.#applyStyle();
         this.$.tableBodyObserver.subscribe(this);
         this.$.inMemoryGanttChart.getState("rows").forEach(row => this.appendChild(new EGC_Row(this.$, row.id)));
@@ -34,7 +35,6 @@ export class EGC_Body extends EGC_Component {
     }
 
     #applyStyle() {
-        this.setAttribute('part', 'body');
         this.style.display = 'grid';
         this.style.gridTemplateColumns = '1fr';
     }

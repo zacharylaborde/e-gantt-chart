@@ -7,6 +7,7 @@ import {EGC_Component} from "./EGC_Component.js";
 export class EGC_ControlPanel extends EGC_Component {
     constructor($) {
         super($);
+        this.setAttribute('part', 'control-panel');
         this.appendChild(new EGC_TitleController(this.$));
         this.appendChild(new EGC_DateController(this.$));
         this.appendChild(new EGC_ZoomController(this.$));

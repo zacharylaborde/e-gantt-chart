@@ -5,6 +5,7 @@ import {EGC_Event} from "./EGC_Event.js";
 export class EGC_Row extends EGC_Component {
     constructor($, rowId) {
         super($);
+        this.setAttribute('part', 'row');
         this.rowId = rowId;
         this.#applyStyle();
         this.appendChild(new EGC_RowHeader(this.$, this.rowId));
@@ -30,7 +31,6 @@ export class EGC_Row extends EGC_Component {
     }
 
     #applyStyle() {
-        this.setAttribute('part', 'egc-row');
         this.style.display = 'grid';
     }
 }

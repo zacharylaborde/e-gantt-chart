@@ -9,6 +9,7 @@ template.innerHTML = `
 export class EGC_Timeline extends EGC_Component {
     constructor($) {
         super($);
+        this.setAttribute('part', 'timeline');
         this.appendChild(template.content.cloneNode(true));
         this.upperTimeline = this.querySelector("#upper-timeline");
         this.lowerTimeline = this.querySelector("#lower-timeline");
@@ -49,7 +50,6 @@ export class EGC_Timeline extends EGC_Component {
     }
 
     #applyStyle() {
-        this.setAttribute('part', 'timeline');
         this.style.display = 'grid';
         this.style.gridTemplateColumns = '1fr';
         this.upperTimeline.setAttribute('part', 'upper-timeline');

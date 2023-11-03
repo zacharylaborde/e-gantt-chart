@@ -4,6 +4,7 @@ import {EGC_EventNameDisplay} from "./EGC_EventNameDisplay.js";
 export class EGC_Event extends EGC_Component {
     constructor($, eventId) {
         super($);
+        this.setAttribute('part', 'event');
         this.#applyStyle();
         this.eventId = eventId;
         this.appendChild(new EGC_EventNameDisplay(this.$, this.eventId));

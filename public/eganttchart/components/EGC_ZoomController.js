@@ -9,6 +9,7 @@ template.innerHTML = `
 export class EGC_ZoomController extends EGC_Component {
     constructor($) {
         super($);
+        this.setAttribute('part', 'zoom-controller')
         this.appendChild(template.content.cloneNode(true));
         this.zoomController = this.querySelector('#zoom-controller');
         this.$.zoomObserver.subscribe(this);

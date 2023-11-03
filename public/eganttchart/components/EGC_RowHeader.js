@@ -3,6 +3,7 @@ import {EGC_Component} from "./EGC_Component.js";
 export class EGC_RowHeader extends EGC_Component {
     constructor($, rowId) {
         super($);
+        this.setAttribute('part', 'row-header');
         this.#applyStyle();
         this.rowId = rowId;
         this.onblur = () => this.$.updateRowNameCommands.filter(c => c.id === this.rowId)[0].command.execute(this.innerText);
