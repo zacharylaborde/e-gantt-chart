@@ -30,8 +30,8 @@ export class EGC_Event extends EGC_Component {
 
     #applyStyle() {
         this.style.display = "grid";
-        this.style.backgroundColor = "green";
-        this.style.width = this.$.inMemoryGanttChartSettings.getState('columnWidth')
+        this.style.border = "1px solid black";
+        this.style.backgroundColor = "lightGrey";
     }
 }
 
