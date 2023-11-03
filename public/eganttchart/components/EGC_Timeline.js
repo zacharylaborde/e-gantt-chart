@@ -1,12 +1,4 @@
-import { 
-    egc_dateObserver, 
-    egc_inMemoryGanttChart, 
-    egc_zoomObserver, 
-    egc_numColumnsToLoadObserver,
-    egc_timeRangeGeneratorServices,
-    egc_inMemoryGanttChartSettings,
-    egc_columnWidthObserver
-} from "../instance.js";
+import {EGC_Component} from "./EGC_Component.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -14,41 +6,41 @@ template.innerHTML = `
     <div id="lower-timeline"></div>
 `;
 
-export class EGC_Timeline extends HTMLElement {
-    constructor() {
-        super();
+export class EGC_Timeline extends EGC_Component {
+    constructor($) {
+        super($);
         this.appendChild(template.content.cloneNode(true));
         this.upperTimeline = this.querySelector("#upper-timeline");
         this.lowerTimeline = this.querySelector("#lower-timeline");
         this.#applyStyle();
-        egc_dateObserver.subscribe(this);
-        egc_zoomObserver.subscribe(this);
-        egc_numColumnsToLoadObserver.subscribe(this);
-        egc_columnWidthObserver.subscribe(this);
+        this.$.dateObserver.subscribe(this);
+        this.$.zoomObserver.subscribe(this);
+        this.$.numColumnsToLoadObserver.subscribe(this);
+        this.$.columnWidthObserver.subscribe(this);
     }
 
     dataDidUpdate() {
-        const date = new Date(egc_inMemoryGanttChart.getState("date"));
+        const date = new Date(this.$.inMemoryGanttChart.getState("date"));
         const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000)
-        const zoom = egc_inMemoryGanttChart.getState("zoom");
+        const zoom = this.$.inMemoryGanttChart.getState("zoom");
         this.upperTimeline.innerHTML = '';
         this.lowerTimeline.innerHTML = '';
-        this.upperTimeline.style.gridTemplateColumns = `${egc_inMemoryGanttChartSettings.getState("leftHeaderWidth")}px repeat(${parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad"))}, ${egc_inMemoryGanttChartSettings.getState('columnWidth')}px)`;
-        this.lowerTimeline.style.gridTemplateColumns = `${egc_inMemoryGanttChartSettings.getState("leftHeaderWidth")}px repeat(${parseInt(egc_inMemoryGanttChartSettings.getState("numColumnsToLoad"))}, ${egc_inMemoryGanttChartSettings.getState('columnWidth')}px)`;
+        this.upperTimeline.style.gridTemplateColumns = `${this.$.inMemoryGanttChartSettings.getState("leftHeaderWidth")}px repeat(${parseInt(this.$.inMemoryGanttChartSettings.getState("numColumnsToLoad"))}, ${this.$.inMemoryGanttChartSettings.getState('columnWidth')}px)`;
+        this.lowerTimeline.style.gridTemplateColumns = `${this.$.inMemoryGanttChartSettings.getState("leftHeaderWidth")}px repeat(${parseInt(this.$.inMemoryGanttChartSettings.getState("numColumnsToLoad"))}, ${this.$.inMemoryGanttChartSettings.getState('columnWidth')}px)`;
         const upperTimelineEmptySpace = document.createElement("span");
         upperTimelineEmptySpace.setAttribute('part', 'upper-timeline');
         this.upperTimeline.appendChild(upperTimelineEmptySpace);
         const lowerTimelineEmptySpace = document.createElement("span");
         lowerTimelineEmptySpace.setAttribute('part', 'lower-timeline');
         this.lowerTimeline.appendChild(lowerTimelineEmptySpace);
-        egc_timeRangeGeneratorServices[zoom].generateUpperTimeline(localDate).forEach(e => {
+        this.$.zoomService[zoom].generateUpperTimeline(localDate).forEach(e => {
             const elem = document.createElement("span");
             elem.setAttribute('part', 'upper-timeline-dt');
             elem.innerText = e.text;
             elem.style.gridColumn = `span ${e.columnCount}`
             this.upperTimeline.appendChild(elem);
         });
-        egc_timeRangeGeneratorServices[zoom].generateLowerTimeline(localDate).forEach(e => {
+        this.$.zoomService[zoom].generateLowerTimeline(localDate).forEach(e => {
             const elem = document.createElement("span");
             elem.setAttribute('part', 'lower-timeline-dt');
             elem.innerText = e;
