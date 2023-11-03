@@ -290,7 +290,9 @@ export class EGC_Instance {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
                         newDate.setHours(newDate.getHours() + 8);
-                        if (newDate.getHours() === startTime.getHours())
+                        if (startTime.getHours() >= newDate.getHours()
+                            && startTime.getHours() < new Date(newDate).setHours(newDate.getHours() + 8)
+                            && startTime.getDate() === newDate.getDate())
                             return i + 2;
                     }
                     return null;
@@ -299,7 +301,10 @@ export class EGC_Instance {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
                         newDate.setHours(newDate.getHours() + 8);
-                        if (newDate.getHours() === endTime.getHours())
+                        console.log(newDate, endTime);
+                        if (endTime.getHours() > newDate.getHours()
+                            && endTime.getHours() <= new Date(newDate).setHours(newDate.getHours() + 8)
+                            && endTime.getDate() === newDate.getDate())
                             return i + 3;
                     }
                     return null;
