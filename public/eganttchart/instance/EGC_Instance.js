@@ -188,9 +188,11 @@ export class EGC_Instance {
                 .getStartIndexStrategy(startTime => {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
-                        newDate.setDate(newDate.getDate() + 1);
-                        if (newDate.getDate() === startTime.getDate())
+                        if (newDate.getDate() === startTime.getDate()
+                            && newDate.getMonth() === startTime.getMonth()
+                            && newDate.getFullYear() === startTime.getFullYear())
                             return i + 2;
+                        newDate.setDate(newDate.getDate() + 1);
                     }
                     return null;
                 })
@@ -198,7 +200,9 @@ export class EGC_Instance {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
                         newDate.setDate(newDate.getDate() + 1);
-                        if (newDate.getDate() === endTime.getDate())
+                        if (newDate.getDate() === endTime.getDate()
+                            && newDate.getMonth() === endTime.getMonth()
+                            && newDate.getFullYear() === endTime.getFullYear())
                             return i + 3;
                     }
                     return null;
@@ -243,9 +247,11 @@ export class EGC_Instance {
                 .getStartIndexStrategy(startTime => {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
-                        newDate.setDate(newDate.getDate() + 1);
-                        if (newDate.getDate() === startTime.getDate())
+                        if (newDate.getDate() === startTime.getDate()
+                            && newDate.getMonth() === startTime.getMonth()
+                            && newDate.getFullYear() === startTime.getFullYear())
                             return i + 2;
+                        newDate.setDate(newDate.getDate() + 1);
                     }
                     return null;
                 })
@@ -253,7 +259,9 @@ export class EGC_Instance {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
                         newDate.setDate(newDate.getDate() + 1);
-                        if (newDate.getDate() === endTime.getDate())
+                        if (newDate.getDate() === endTime.getDate()
+                            && newDate.getMonth() === endTime.getMonth()
+                            && newDate.getFullYear() === endTime.getFullYear())
                             return i + 3;
                     }
                     return null;
@@ -292,7 +300,9 @@ export class EGC_Instance {
                         newDate.setHours(newDate.getHours() + 8);
                         if (startTime.getHours() >= newDate.getHours()
                             && startTime.getHours() < new Date(newDate).setHours(newDate.getHours() + 8)
-                            && startTime.getDate() === newDate.getDate())
+                            && startTime.getDate() === newDate.getDate()
+                            && newDate.getMonth() === startTime.getMonth()
+                            && newDate.getFullYear() === startTime.getFullYear())
                             return i + 2;
                     }
                     return null;
@@ -301,10 +311,11 @@ export class EGC_Instance {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
                         newDate.setHours(newDate.getHours() + 8);
-                        console.log(newDate, endTime);
                         if (endTime.getHours() > newDate.getHours()
                             && endTime.getHours() <= new Date(newDate).setHours(newDate.getHours() + 8)
-                            && endTime.getDate() === newDate.getDate())
+                            && endTime.getDate() === newDate.getDate()
+                            && newDate.getMonth() === endTime.getMonth()
+                            && newDate.getFullYear() === endTime.getFullYear())
                             return i + 3;
                     }
                     return null;
@@ -341,7 +352,10 @@ export class EGC_Instance {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
                         newDate.setHours(newDate.getHours() + 1);
-                        if (newDate.getHours() === startTime.getHours() && newDate.getDate() === startTime.getDate())
+                        if (newDate.getHours() === startTime.getHours()
+                            && newDate.getDate() === startTime.getDate()
+                            && newDate.getMonth() === startTime.getMonth()
+                            && newDate.getFullYear() === startTime.getFullYear())
                             return i + 2;
                     }
                     return null;
@@ -350,7 +364,10 @@ export class EGC_Instance {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
                         newDate.setHours(newDate.getHours() + 1);
-                        if (newDate.getHours() === endTime.getHours() && newDate.getDate() === endTime.getDate())
+                        if (newDate.getHours() === endTime.getHours()
+                            && newDate.getDate() === endTime.getDate()
+                            && newDate.getMonth() === endTime.getMonth()
+                            && newDate.getFullYear() === endTime.getFullYear())
                             return i + 3;
                     }
                     return null;
