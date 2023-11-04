@@ -7,7 +7,9 @@ export class EGC_Table extends EGC_Component {
         super($);
         this.setAttribute('part', 'table');
         this.appendChild(new EGC_Timeline(this.$));
-        this.appendChild(new EGC_Body(this.$));
+        this.$.inMemoryGanttChart.getState('groups').forEach(group => {
+            this.appendChild(new EGC_Body(this.$, group.id));
+        })
         this.#applyStyle();
     }
 

@@ -10,12 +10,16 @@ document.querySelector('body').appendChild(
                 {
                     id: 1,
                     name: "Group 1"
+                },
+                {
+                    id: 2,
+                    name: "Group 2"
                 }
             ],
             rows: [
                 {
                     id: 1,
-                    parentGroupIds: [1],
+                    parentGroupIds: [1, 2],
                     name: "Row One (The best row)"
                 },
                 {
@@ -38,6 +42,7 @@ document.querySelector('body').appendChild(
             numColumnsToLoad: 92,
             columnWidth: 20,
             leftHeaderWidth: 125,
+            groupHeaderHeight: 25,
             zoomWidthMap: {
                 month: 20,
                 day: 50,

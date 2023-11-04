@@ -7,6 +7,7 @@ export class EGanttChart extends HTMLElement {
     constructor(state, settings) {
         super();
         this.root = this.attachShadow({mode: 'closed'});
+        this.#applyStyles()
         this.$ = new EGC_Instance(state, settings);
         this.root.appendChild(new EGC_ControlPanel(this.$));
         this.root.appendChild(new EGC_Table(this.$));
@@ -17,10 +18,14 @@ export class EGanttChart extends HTMLElement {
         this.$.loadTitleFromMemoryCommand.execute();
         this.$.loadZoomFromMemoryCommand.execute();
         this.$.loadNumColumnsToLoadCommand.execute();
-        this.$.loadTableBodyFromMemoryCommand.execute();
         this.$.loadColumnWidthCommand.execute();
+        this.$.loadTableBodyNameCommands.forEach(x => x.command.execute());
         this.$.loadRowNameFromMemoryCommands.forEach(x => x.command.execute());
         this.$.loadEventNameCommands.forEach(x => x.command.execute());
+    }
+
+    #applyStyles() {
+        this.style.position = "relative";
     }
 }
 

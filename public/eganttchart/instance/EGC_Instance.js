@@ -18,9 +18,15 @@ export class EGC_Instance {
         this.dateObserver = new EGC_Observer();
         this.zoomObserver = new EGC_Observer();
         this.numColumnsToLoadObserver = new EGC_Observer();
-        this.tableBodyObserver = new EGC_Observer();
         this.columnWidthObserver = new EGC_Observer();
         this.errorObserver = new EGC_Observer();
+        this.tableBodyObservers = [];
+        for (let i = 0; i < this.inMemoryGanttChart.getState('groups').length; i++) {
+            this.tableBodyObservers.push({
+                id: this.inMemoryGanttChart.getState('groups')[i].id,
+                observer: new EGC_Observer()
+            })
+        }
         this.rowNameObservers = []
         for (let i = 0; i < this.inMemoryGanttChart.getState('rows').length; i++) {
             this.rowNameObservers.push({
@@ -99,17 +105,17 @@ export class EGC_Instance {
             .errorObserver(this.errorObserver)
             .before(value => this.#mockUpdate("columnWidth", value))
 
-
-        this.loadTableBodyFromMemoryCommand = new EGC_LoadCommand("rows")
-            .repo(this.inMemoryGanttChart)
-            .observer(this.tableBodyObserver)
-            .errorObserver(this.errorObserver)
-            .before(value => this.#mockLoad("rows", value));
-        this.updateTableBodyCommand = new EGC_UpdateCommand("rows")
-            .repo(this.inMemoryGanttChart)
-            .observer(this.tableBodyObserver)
-            .errorObserver(this.errorObserver)
-            .before(value => this.#mockLoad("rows", value));
+        this.loadTableBodyNameCommands = []
+        for (let i = 0; i < this.inMemoryGanttChart.getState('groups').length; i++) {
+            this.loadTableBodyNameCommands.push({
+                id: this.inMemoryGanttChart.getState('groups')[i].id,
+                command: new EGC_LoadCommand("groups", i, "name")
+                    .repo(this.inMemoryGanttChart)
+                    .observer(this.tableBodyObservers.filter(o => o.id === this.inMemoryGanttChart.getState('groups')[i].id)[0].observer)
+                    .errorObserver(this.errorObserver)
+                    .before(value => this.#mockLoad(`group ${this.inMemoryGanttChart.getState('rows')[i].id} name`, value))
+            });
+        }
 
         this.loadRowNameFromMemoryCommands = []
         for (let i = 0; i < this.inMemoryGanttChart.getState('rows').length; i++) {
