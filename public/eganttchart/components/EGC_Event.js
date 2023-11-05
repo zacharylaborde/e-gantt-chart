@@ -27,8 +27,9 @@ export class EGC_Event extends EGC_Component {
         let endOfEvent = eventState.endTime <= endTime ? eventState.endTime : endTime;
         let startIndex = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getStartIndex(startOfEvent);
         let endIndex = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getEndIndex(endOfEvent);
-        if (startIndex && endIndex) {
+        if (startIndex && endIndex > 2) {
             this.style.display = "grid";
+            console.log(endIndex);
             this.style.gridColumn = `${startIndex} / ${endIndex}`;
         }
         else this.style.display = "none";
@@ -45,7 +46,7 @@ export class EGC_Event extends EGC_Component {
         this.style.opacity = "20%";
     }
 
-    #ondragend(e) {
+    #ondragend() {
         this.style.opacity = "100%";
     }
 }

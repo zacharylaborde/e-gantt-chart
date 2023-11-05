@@ -5,7 +5,7 @@ document.querySelector('body').appendChild(
         {
             title: "No Title",
             date: new Date('2023-11-02T20:00:00'),
-            zoom: "hour",
+            zoom: "day",
             groups: [
                 {
                     id: 1,
@@ -36,13 +36,13 @@ document.querySelector('body').appendChild(
                     endTime: new Date('2023-11-04T15:00:00'),
                     name: "Alpha"
                 },
-                // {
-                //     id: 2,
-                //     parentRowIds: [1],
-                //     startTime: new Date('2023-11-05T13:00:00'),
-                //     endTime: new Date('2023-11-07T15:00:00'),
-                //     name: "Alpha"
-                // }
+                {
+                    id: 2,
+                    parentRowIds: [1],
+                    startTime: new Date('2023-11-05T13:00:00'),
+                    endTime: new Date('2023-11-07T15:00:00'),
+                    name: "Alpha"
+                }
             ]
         },
         {
