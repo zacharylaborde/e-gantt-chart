@@ -366,46 +366,37 @@ export class EGC_Instance {
                     return endDate;
                 })
                 .getStartIndexStrategy(startTime => {
-                    let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
-                        if (startTime.getHours() >= newDate.getHours()
-                            && startTime.getHours() < new Date(newDate).setHours(newDate.getHours() + 8)
-                            && startTime.getDate() === newDate.getDate()
-                            && newDate.getMonth() === startTime.getMonth()
-                            && newDate.getFullYear() === startTime.getFullYear())
+                        let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                        newDate.setHours(new Date(this.inMemoryGanttChart.getState('date')).getHours() + (i * 8));
+                        let newDate2 = new Date(this.inMemoryGanttChart.getState('date'));
+                        newDate2.setHours(new Date(this.inMemoryGanttChart.getState('date')).getHours() + ((i * 8) + 8));
+                        if (startTime >= newDate && startTime < newDate2)
                             return i + 2;
-                        newDate.setHours(newDate.getHours() + 8);
                     }
                     return null;
                 })
                 .getEndIndexStrategy(endTime => {
-                    let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
-                        newDate.setHours(newDate.getHours() + 8);
-                        if (endTime.getHours() > newDate.getHours()
-                            && endTime.getHours() <= new Date(newDate).setHours(newDate.getHours() + 8)
-                            && endTime.getDate() === newDate.getDate()
-                            && newDate.getMonth() === endTime.getMonth()
-                            && newDate.getFullYear() === endTime.getFullYear())
+                        let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                        newDate.setHours(new Date(this.inMemoryGanttChart.getState('date')).getHours() + (i * 8));
+                        let newDate2 = new Date(this.inMemoryGanttChart.getState('date'));
+                        newDate2.setHours(new Date(this.inMemoryGanttChart.getState('date')).getHours() + (i * 8) + 8);
+                        if (endTime > newDate && endTime <= newDate2)
                             return i + 3;
                     }
                     return null;
                 })
                 .getStartTimeFromIndexStrategy(startIndex => {
+                    console.log(startIndex);
                     const startDate = new Date(this.inMemoryGanttChart.getState('date'));
-                    for (let i = 0; i < startIndex; i++) {
-                        const newDate = new Date(startDate);
-                        startDate.setHours(newDate.getHours() + 8);
-                    }
+                    startDate.setHours(startDate.getHours() + (startIndex - 1) * 8);
                     return startDate;
                 })
                 .getEndTimeFromIndexStrategy(endIndex => {
-                    const currentDate = new Date(this.inMemoryGanttChart.getState('date'));
-                    for (let i = 0; i < endIndex; i++) {
-                        const newDate = new Date(currentDate);
-                        currentDate.setHours(newDate.getHours() + 8);
-                    }
-                    return currentDate;
+                    const startDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    startDate.setHours(startDate.getHours() + (endIndex - 1) * 8);
+                    return startDate;
                 }),
 
             hour: new EGC_ZoomService("Hour")

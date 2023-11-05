@@ -8,7 +8,7 @@ export class EGC_DropZoneIndicator extends EGC_Component {
     }
 
     #applyStyle() {
-        this.style.background = "lightGrey";
+        this.style.background = "whiteSmoke";
         this.style.display = "none";
         this.style.position = 'absolute';
         this.style.top = "0";

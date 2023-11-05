@@ -26,7 +26,7 @@ export class EGC_Event extends EGC_Component {
         let startTime = this.$.inMemoryGanttChart.getState('date');
         let endTime = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getEndTime();
         let eventState = this.$.inMemoryGanttChart.getState('events').filter(e => e.id === this.eventId)[0];
-        console.log(this.$.inMemoryGanttChart.getState('date').toISOString(), eventState.startTime.toISOString(), eventState.endTime.toISOString());
+        console.log(`d:${this.$.inMemoryGanttChart.getState('date').toISOString()}`, `s:${eventState.startTime.toISOString()}`,`e:${ eventState.endTime.toISOString()}`);
         let startOfEvent = eventState.startTime >= startTime ? eventState.startTime : startTime;
         let endOfEvent = eventState.endTime <= endTime ? eventState.endTime : endTime;
         let startIndex = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getStartIndex(startOfEvent);
