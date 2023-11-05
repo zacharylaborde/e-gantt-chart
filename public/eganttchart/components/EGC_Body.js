@@ -44,6 +44,7 @@ export class EGC_Body extends EGC_Component {
     #applyStyle() {
         this.style.display = 'grid';
         this.style.gridTemplateColumns = '1fr';
+        this.style.gridAutoRows = 'minmax(30px, auto)';
     }
 }
 

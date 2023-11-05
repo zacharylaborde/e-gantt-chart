@@ -31,7 +31,7 @@ export class EGC_Row extends EGC_Component {
 
     dataDidUpdate() {
         this.style.gridTemplateColumns = `${this.$.inMemoryGanttChartSettings.getState("leftHeaderWidth")}px repeat(${parseInt(this.$.inMemoryGanttChartSettings.getState("numColumnsToLoad"))}, ${this.$.inMemoryGanttChartSettings.getState('columnWidth')}px)`;
-        if (this.#numberOfVisibleElements() === 1) this.style.display = 'none';
+        if (this.#numberOfVisibleElements() === 1 && this.$.inMemoryGanttChartSettings.getState('filterRowsWithNoVisibleEvents')) this.style.display = 'none';
         else this.style.display = 'grid';
     }
 
@@ -96,7 +96,6 @@ export class EGC_Row extends EGC_Component {
         this.style.display = 'grid';
         this.style.position = 'relative';
         this.style.gridAutoRows = 'minmax(30px, auto)';
-        this.style.height = 'auto';
         this.style.gridAutoFlow = 'dense';
     }
 }

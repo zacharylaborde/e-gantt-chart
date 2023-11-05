@@ -26,6 +26,11 @@ document.querySelector('body').appendChild(
                     id: 2,
                     parentGroupIds: [1],
                     name: "Row Two"
+                },
+                {
+                    id: 3,
+                    parentGroupIds: [2],
+                    name: "Row Three"
                 }
             ],
             events: [
@@ -57,6 +62,7 @@ document.querySelector('body').appendChild(
             columnWidth: 20,
             leftHeaderWidth: 125,
             groupHeaderHeight: 25,
+            filterRowsWithNoVisibleEvents: false,
             zoomWidthMap: {
                 month: 20,
                 day: 50,
