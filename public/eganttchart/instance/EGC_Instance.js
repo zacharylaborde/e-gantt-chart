@@ -388,7 +388,6 @@ export class EGC_Instance {
                     return null;
                 })
                 .getStartTimeFromIndexStrategy(startIndex => {
-                    console.log(startIndex);
                     const startDate = new Date(this.inMemoryGanttChart.getState('date'));
                     startDate.setHours(startDate.getHours() + (startIndex - 1) * 8);
                     return startDate;
@@ -429,12 +428,12 @@ export class EGC_Instance {
                 .getStartIndexStrategy(startTime => {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
-                        newDate.setHours(newDate.getHours() + 1);
                         if (newDate.getHours() === startTime.getHours()
                             && newDate.getDate() === startTime.getDate()
                             && newDate.getMonth() === startTime.getMonth()
                             && newDate.getFullYear() === startTime.getFullYear())
                             return i + 2;
+                        newDate.setHours(newDate.getHours() + 1);
                     }
                     return null;
                 })
@@ -451,10 +450,14 @@ export class EGC_Instance {
                     return null;
                 })
                 .getStartTimeFromIndexStrategy(startIndex => {
-
+                    const startDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    startDate.setHours(startDate.getHours() + (startIndex - 1));
+                    return startDate;
                 })
                 .getEndTimeFromIndexStrategy(endIndex => {
-
+                    const startDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    startDate.setHours(startDate.getHours() + (endIndex - 1));
+                    return startDate;
                 })
         }
     }
