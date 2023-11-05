@@ -39,9 +39,16 @@ document.querySelector('body').appendChild(
                 {
                     id: 2,
                     parentRowIds: [1],
+                    startTime: new Date('2023-11-04T13:00:00'),
+                    endTime: new Date('2023-11-07T15:00:00'),
+                    name: "Bravo"
+                },
+                {
+                    id: 3,
+                    parentRowIds: [2],
                     startTime: new Date('2023-11-05T13:00:00'),
                     endTime: new Date('2023-11-07T15:00:00'),
-                    name: "Alpha"
+                    name: "Charlie"
                 }
             ]
         },

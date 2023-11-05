@@ -39,7 +39,11 @@ export class EGC_Event extends EGC_Component {
     }
 
     #ondragstart(e) {
-        e.dataTransfer.setData('text/plain', JSON.stringify({id: e.target.eventId, mouseX: e.clientX - this.getBoundingClientRect().left}));
+        e.dataTransfer.setData('text/plain', JSON.stringify({
+            id: e.target.eventId,
+        }));
+        this.$.dragStartPosition = e.clientX - this.getBoundingClientRect().left;
+        this.$.draggableWidth = this.getBoundingClientRect().width;
         e.dataTransfer.effectAllowed = "move";
         this.style.opacity = "20%";
     }

@@ -8,13 +8,13 @@ export class EGC_DropZoneIndicator extends EGC_Component {
     }
 
     #applyStyle() {
-        this.style.background = "whiteSmoke";
+        this.style.background = "yellow";
         this.style.display = "none";
         this.style.position = 'absolute';
         this.style.top = "0";
         this.style.bottom = "0";
         this.style.pointerEvents = "none";
-        this.style.zIndex = '2';
+        this.style.opacity = '20%';
     }
 }
 

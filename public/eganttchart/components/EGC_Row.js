@@ -9,11 +9,21 @@ export class EGC_Row extends EGC_Component {
         this.setAttribute('part', 'row');
         this.rowId = rowId;
         this.#applyStyle();
-        this.appendChild(new EGC_RowHeader(this.$, this.rowId));
+        this.rowHeader = new EGC_RowHeader(this.$, this.rowId)
+        this.appendChild(this.rowHeader);
         this.dropZoneIndicator = new EGC_DropZoneIndicator();
         this.appendChild(this.dropZoneIndicator);
+        this.$.inMemoryGanttChart.getState('events')
+            .filter(event => (
+                Array.from(this.children).slice(1).every(e => e.eventId !== event.id)
+                && event.parentRowIds.includes(this.rowId)
+            ))
+            .forEach(async event => {
+                this.appendChild(new EGC_Event(this.$, event.id));
+            })
         this.$.numColumnsToLoadObserver.subscribe(this);
         this.$.columnWidthObserver.subscribe(this);
+        this.$.dateObserver.subscribe(this);
         this.ondragover = this.#ondragover;
         this.ondragleave = this.#ondragleave;
         this.ondrop = this.#ondrop;
@@ -21,25 +31,18 @@ export class EGC_Row extends EGC_Component {
 
     dataDidUpdate() {
         this.style.gridTemplateColumns = `${this.$.inMemoryGanttChartSettings.getState("leftHeaderWidth")}px repeat(${parseInt(this.$.inMemoryGanttChartSettings.getState("numColumnsToLoad"))}, ${this.$.inMemoryGanttChartSettings.getState('columnWidth')}px)`;
-        let startTime = this.$.inMemoryGanttChart.getState('date');
-        let endTime = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getEndTime();
-        this.$.inMemoryGanttChart.getState('events')
-            .filter(event => (
-                Array.from(this.children).slice(1).every(e => e.eventId !== event.id)
-                && event.parentRowIds.includes(this.rowId)
-                && !(event.startTime >= endTime)
-                && !(event.endTime <= startTime)
-            ))
-            .forEach(async event => {
-                this.appendChild(new EGC_Event(this.$, event.id));
-            })
+        if (this.#numberOfVisibleElements() === 1) this.style.display = 'none';
+        else this.style.display = 'grid';
     }
 
-    #applyStyle() {
-        this.style.display = 'grid';
-        this.style.position = 'relative';
-        this.style.gridAutoRows = 'minmax(30px, auto)';
-        this.style.gridAutoFlow = 'row dense';
+    #numberOfVisibleElements() {
+        let count = 0;
+        for (let element of this.children) {
+            const style = window.getComputedStyle(element);
+            if (style.display !== 'none') count++;
+        }
+        console.log(count);
+        return count;
     }
 
     #ondrop(e) {
@@ -47,9 +50,8 @@ export class EGC_Row extends EGC_Component {
         this.dropZoneIndicator.style.display = 'none';
         const data = JSON.parse(e.dataTransfer.getData('text/plain'));
         const id = data.id;
-        const initialX = data.mouseX;
         const gridRect = this.getBoundingClientRect();
-        const relativeX = e.clientX - gridRect.left + this.scrollLeft - (initialX - this.$.inMemoryGanttChartSettings.getState('columnWidth')/2);
+        const relativeX = e.clientX - gridRect.left + this.scrollLeft - (this.$.dragStartPosition - this.$.inMemoryGanttChartSettings.getState('columnWidth')/2);
         let startTime = this.$.inMemoryGanttChart.getState('date');
         let endTime = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getEndTime();
         let eventState = this.$.inMemoryGanttChart.getState('events').filter(e => e.id === parseInt(id))[0];
@@ -66,6 +68,7 @@ export class EGC_Row extends EGC_Component {
         let newEndDate = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getEndTimeFromIndex(droppedColumn + indexDiff)
         this.$.updateEventStartTimeCommands.filter(c => c.id === parseInt(id))[0].command.execute(newStartDate);
         this.$.updateEventEndTimeCommands.filter(c => c.id === parseInt(id))[0].command.execute(new Date(newEndDate));
+        this.rowHeader.style.height = this.getBoundingClientRect().height;
     }
 
     #ondragleave(e) {
@@ -75,9 +78,9 @@ export class EGC_Row extends EGC_Component {
 
     #ondragover(e) {
         e.preventDefault();
-        this.dropZoneIndicator.style.width = `${this.$.inMemoryGanttChartSettings.getState('columnWidth')}px`;
+        this.dropZoneIndicator.style.width = `${this.$.draggableWidth}px`;
         const gridRect = this.getBoundingClientRect();
-        const relativeX = e.clientX - gridRect.left + this.scrollLeft;
+        const relativeX = e.clientX - gridRect.left + this.scrollLeft - (this.$.dragStartPosition - this.$.inMemoryGanttChartSettings.getState('columnWidth')/2);
         if (relativeX > this.$.inMemoryGanttChartSettings.getState('leftHeaderWidth')) {
             const adjustedX = relativeX - this.$.inMemoryGanttChartSettings.getState('leftHeaderWidth');
             let hoveredColumn = Math.floor(adjustedX / this.$.inMemoryGanttChartSettings.getState('columnWidth')) + 1;
@@ -87,6 +90,14 @@ export class EGC_Row extends EGC_Component {
             } else this.dropZoneIndicator.style.display = 'none';
         }
         else this.dropZoneIndicator.style.display = 'none';
+    }
+
+    #applyStyle() {
+        this.style.display = 'grid';
+        this.style.position = 'relative';
+        this.style.gridAutoRows = 'minmax(30px, auto)';
+        this.style.height = 'auto';
+        this.style.gridAutoFlow = 'dense';
     }
 }
 
