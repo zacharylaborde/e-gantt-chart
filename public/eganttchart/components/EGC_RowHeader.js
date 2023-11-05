@@ -17,6 +17,7 @@ export class EGC_RowHeader extends EGC_Component {
         this.style.display = "grid";
         this.style.position = "sticky";
         this.style.left = "0";
+        this.style.alignItems = "center";
     }
 }
 

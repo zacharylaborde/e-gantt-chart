@@ -16,8 +16,10 @@ export class EGC_GroupHeader extends EGC_Component {
     #applyStyle() {
         this.style.display = "block";
         this.style.position = "absolute";
-        this.style.transform = `translateX(-50%) translateY(-${this.$.inMemoryGanttChartSettings.getState('groupHeaderHeight')}px)`;
-        this.style.left = "50%";
+        this.style.width = "100%";
+        this.style.textAlign = "center";
+        this.style.transform = `translateY(-${this.$.inMemoryGanttChartSettings.getState('groupHeaderHeight')}px)`;
+        this.style.left = "0";
         this.style.height = `${this.$.inMemoryGanttChartSettings.getState('groupHeaderHeight')}px`
     }
 }

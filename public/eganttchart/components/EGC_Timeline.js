@@ -36,15 +36,22 @@ export class EGC_Timeline extends EGC_Component {
         this.lowerTimeline.appendChild(lowerTimelineEmptySpace);
         this.$.zoomService[zoom].generateUpperTimeline(localDate).forEach(e => {
             const elem = document.createElement("span");
+            const child = document.createElement("span");
             elem.setAttribute('part', 'upper-timeline-dt');
-            elem.innerText = e.text;
+            child.innerText = e.text;
             elem.style.gridColumn = `span ${e.columnCount}`
+            child.style.position = "sticky";
+            child.style.left = "0";
+            child.style.transform = "translateX(-50%)";
+            elem.appendChild(child);
             this.upperTimeline.appendChild(elem);
         });
         this.$.zoomService[zoom].generateLowerTimeline(localDate).forEach(e => {
             const elem = document.createElement("span");
             elem.setAttribute('part', 'lower-timeline-dt');
             elem.innerText = e;
+            elem.style.display = 'flex';
+            elem.style.justifyContent = 'center';
             this.lowerTimeline.appendChild(elem);
         });
     }

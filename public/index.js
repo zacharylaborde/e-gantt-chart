@@ -20,17 +20,24 @@ document.querySelector('body').appendChild(
                 {
                     id: 1,
                     parentGroupIds: [1, 2],
-                    name: "Row One (The best row)"
+                    name: "Row One"
                 },
                 {
                     id: 2,
                     parentGroupIds: [1],
-                    name: "Row Two (The second best row)"
+                    name: "Row Two"
                 }
             ],
             events: [
                 {
                     id: 1,
+                    parentRowIds: [1],
+                    startTime: new Date('2023-11-05T13:00:00'),
+                    endTime: new Date('2023-11-07T15:00:00'),
+                    name: "Alpha"
+                },
+                {
+                    id: 2,
                     parentRowIds: [1],
                     startTime: new Date('2023-11-05T13:00:00'),
                     endTime: new Date('2023-11-07T15:00:00'),

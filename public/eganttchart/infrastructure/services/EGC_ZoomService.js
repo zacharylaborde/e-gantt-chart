@@ -27,4 +27,14 @@ export class EGC_ZoomService {
         this.getEndIndex = callback;
         return this;
     }
+
+    getStartTimeFromIndexStrategy(callback) {
+        this.getStartTimeFromIndex = callback;
+        return this;
+    }
+
+    getEndTimeFromIndexStrategy(callback) {
+        this.getEndTimeFromIndex = callback;
+        return this;
+    }
 }

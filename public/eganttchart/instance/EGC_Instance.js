@@ -41,6 +41,20 @@ export class EGC_Instance {
                 observer: new EGC_Observer()
             })
         }
+        this.eventStartTimeObservers = []
+        for (let i = 0; i < this.inMemoryGanttChart.getState('events').length; i++) {
+            this.eventStartTimeObservers.push({
+                id: this.inMemoryGanttChart.getState('events')[i].id,
+                observer: new EGC_Observer()
+            })
+        }
+        this.eventEndTimeObservers = []
+        for (let i = 0; i < this.inMemoryGanttChart.getState('events').length; i++) {
+            this.eventEndTimeObservers.push({
+                id: this.inMemoryGanttChart.getState('events')[i].id,
+                observer: new EGC_Observer()
+            })
+        }
     }
 
     #createCommands() {
@@ -151,6 +165,29 @@ export class EGC_Instance {
                     .before(value => this.#mockUpdate(`event ${this.inMemoryGanttChart.getState('events')[i].id} name`, value))
             })
         }
+
+        this.updateEventStartTimeCommands = [];
+        for (let i = 0; i < this.inMemoryGanttChart.getState('events').length; i++) {
+            this.updateEventStartTimeCommands.push({
+                id: this.inMemoryGanttChart.getState('events')[i].id,
+                command: new EGC_UpdateCommand('events', i, 'startTime')
+                    .repo(this.inMemoryGanttChart)
+                    .observer(this.eventStartTimeObservers.filter(o => o.id === this.inMemoryGanttChart.getState('events')[i].id)[0].observer)
+                    .errorObserver(this.errorObserver)
+                    .before(value => this.#mockUpdate(`event ${this.inMemoryGanttChart.getState('events')[i].id} start time`, value))
+            })
+        }
+        this.updateEventEndTimeCommands = [];
+        for (let i = 0; i < this.inMemoryGanttChart.getState('events').length; i++) {
+            this.updateEventEndTimeCommands.push({
+                id: this.inMemoryGanttChart.getState('events')[i].id,
+                command: new EGC_UpdateCommand('events', i, 'endTime')
+                    .repo(this.inMemoryGanttChart)
+                    .observer(this.eventEndTimeObservers.filter(o => o.id === this.inMemoryGanttChart.getState('events')[i].id)[0].observer)
+                    .errorObserver(this.errorObserver)
+                    .before(value => this.#mockUpdate(`event ${this.inMemoryGanttChart.getState('events')[i].id} end time`, value))
+            })
+        }
     }
 
     #createServices() {
@@ -194,9 +231,7 @@ export class EGC_Instance {
                 .getStartIndexStrategy(startTime => {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
-                        if (newDate.getDate() === startTime.getDate()
-                            && newDate.getMonth() === startTime.getMonth()
-                            && newDate.getFullYear() === startTime.getFullYear())
+                        if (newDate.toISOString().split('T')[0] === startTime.toISOString().split('T')[0])
                             return i + 2;
                         newDate.setDate(newDate.getDate() + 1);
                     }
@@ -205,13 +240,29 @@ export class EGC_Instance {
                 .getEndIndexStrategy(endTime => {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
+                        if (newDate.toISOString().split('T')[0] === endTime.toISOString().split('T')[0])
+                            if (endTime.toISOString().split('T')[1] === '00:00:00.000Z') return i + 2;
+                            else return i + 3;
                         newDate.setDate(newDate.getDate() + 1);
-                        if (newDate.getDate() === endTime.getDate()
-                            && newDate.getMonth() === endTime.getMonth()
-                            && newDate.getFullYear() === endTime.getFullYear())
-                            return i + 3;
                     }
                     return null;
+                })
+                .getStartTimeFromIndexStrategy(startIndex => {
+                    let currentDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < startIndex; i++) {
+                        let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                        currentDate.setDate(newDate.getDate() + i);
+                    }
+                    return currentDate;
+                })
+                .getEndTimeFromIndexStrategy(endIndex => {
+                    let currentDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < endIndex; i++){
+                        let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                        currentDate.setDate(newDate.getDate() + i);
+                    }
+                    currentDate.setUTCHours(0, 0, 0, 0);
+                    return currentDate;
                 }),
 
             day: new EGC_ZoomService("Day")
@@ -253,9 +304,7 @@ export class EGC_Instance {
                 .getStartIndexStrategy(startTime => {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
-                        if (newDate.getDate() === startTime.getDate()
-                            && newDate.getMonth() === startTime.getMonth()
-                            && newDate.getFullYear() === startTime.getFullYear())
+                        if (newDate.toISOString().split('T')[0] === startTime.toISOString().split('T')[0])
                             return i + 2;
                         newDate.setDate(newDate.getDate() + 1);
                     }
@@ -264,13 +313,29 @@ export class EGC_Instance {
                 .getEndIndexStrategy(endTime => {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
+                        if (newDate.toISOString().split('T')[0] === endTime.toISOString().split('T')[0])
+                            if (endTime.toISOString().split('T')[1] === '00:00:00.000Z') return i + 2;
+                            else return i + 3;
                         newDate.setDate(newDate.getDate() + 1);
-                        if (newDate.getDate() === endTime.getDate()
-                            && newDate.getMonth() === endTime.getMonth()
-                            && newDate.getFullYear() === endTime.getFullYear())
-                            return i + 3;
                     }
                     return null;
+                })
+                .getStartTimeFromIndexStrategy(startIndex => {
+                    let currentDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < startIndex; i++) {
+                        let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                        currentDate.setDate(newDate.getDate() + i);
+                    }
+                    return currentDate;
+                })
+                .getEndTimeFromIndexStrategy(endIndex => {
+                    let currentDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < endIndex; i++){
+                        let newDate = new Date(this.inMemoryGanttChart.getState('date'));
+                        currentDate.setDate(newDate.getDate() + i);
+                    }
+                    currentDate.setUTCHours(0, 0, 0, 0);
+                    return currentDate;
                 }),
 
             shift: new EGC_ZoomService("Shift")
@@ -303,13 +368,13 @@ export class EGC_Instance {
                 .getStartIndexStrategy(startTime => {
                     let newDate = new Date(this.inMemoryGanttChart.getState('date'));
                     for (let i = 0; i < this.inMemoryGanttChartSettings.getState('numColumnsToLoad'); i++) {
-                        newDate.setHours(newDate.getHours() + 8);
                         if (startTime.getHours() >= newDate.getHours()
                             && startTime.getHours() < new Date(newDate).setHours(newDate.getHours() + 8)
                             && startTime.getDate() === newDate.getDate()
                             && newDate.getMonth() === startTime.getMonth()
                             && newDate.getFullYear() === startTime.getFullYear())
                             return i + 2;
+                        newDate.setHours(newDate.getHours() + 8);
                     }
                     return null;
                 })
@@ -325,6 +390,22 @@ export class EGC_Instance {
                             return i + 3;
                     }
                     return null;
+                })
+                .getStartTimeFromIndexStrategy(startIndex => {
+                    const startDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < startIndex; i++) {
+                        const newDate = new Date(startDate);
+                        startDate.setHours(newDate.getHours() + 8);
+                    }
+                    return startDate;
+                })
+                .getEndTimeFromIndexStrategy(endIndex => {
+                    const currentDate = new Date(this.inMemoryGanttChart.getState('date'));
+                    for (let i = 0; i < endIndex; i++) {
+                        const newDate = new Date(currentDate);
+                        currentDate.setHours(newDate.getHours() + 8);
+                    }
+                    return currentDate;
                 }),
 
             hour: new EGC_ZoomService("Hour")
@@ -377,6 +458,12 @@ export class EGC_Instance {
                             return i + 3;
                     }
                     return null;
+                })
+                .getStartTimeFromIndexStrategy(startIndex => {
+
+                })
+                .getEndTimeFromIndexStrategy(endIndex => {
+
                 })
         }
     }
