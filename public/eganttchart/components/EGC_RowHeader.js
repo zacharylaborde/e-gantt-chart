@@ -17,7 +17,7 @@ export class EGC_RowHeader extends EGC_Component {
         content.style.height = '100%';
         content.style.display = 'flex';
         content.style.alignItems = 'center';
-        content.style.width = this.$.inMemoryGanttChartSettings.getState('leftHeaderWidth');
+        content.style.width = `${this.$.inMemoryGanttChartSettings.getState('leftHeaderWidth')}px`;
         content.setAttribute('part', 'row-header');
         this.replaceChildren(content);
     }

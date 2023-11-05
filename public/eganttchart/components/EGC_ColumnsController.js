@@ -8,9 +8,9 @@ template.innerHTML = `
 export class EGC_ColumnsController extends EGC_Component {
     constructor($) {
         super($);
-        this.setAttribute('part', 'column-controller');
         this.appendChild(template.content.cloneNode(true));
         this.columnsController = this.querySelector('#columns-controller');
+        this.columnsController.setAttribute('part', 'column-controller');
         this.$.numColumnsToLoadObserver.subscribe(this);
         this.columnsController.onchange = () => {
             if (this.columnsController.value < 1) this.columnsController.value = 2;

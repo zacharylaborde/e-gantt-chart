@@ -8,9 +8,9 @@ template.innerHTML = `
 export class EGC_DateController extends EGC_Component {
     constructor($) {
         super($);
-        this.setAttribute('part', 'date-controller');
         this.appendChild(template.content.cloneNode(true));
         this.dateController = this.querySelector('#date-controller');
+        this.dateController.setAttribute('part', 'date-controller');
         this.$.dateObserver.subscribe(this);
         this.dateController.onchange = () => this.$.updateDateCommand.execute(new Date(this.dateController.value));
     }

@@ -8,9 +8,9 @@ template.innerHTML = `
 export class EGC_TitleController extends EGC_Component {
     constructor($) {
         super($);
-        this.setAttribute('part', 'title-controller')
         this.appendChild(template.content.cloneNode(true));
         this.titleController = this.querySelector('#title-controller');
+        this.titleController.setAttribute('part', 'title-controller')
         this.$.titleObserver.subscribe(this);
         this.titleController.onchange = () => this.$.updateTitleCommand.execute(this.titleController.value);
     }
