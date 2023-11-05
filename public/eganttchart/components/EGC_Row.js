@@ -45,9 +45,11 @@ export class EGC_Row extends EGC_Component {
     #ondrop(e) {
         e.preventDefault();
         this.dropZoneIndicator.style.display = 'none';
-        const id = e.dataTransfer.getData('text/plain');
+        const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+        const id = data.id;
+        const initialX = data.mouseX;
         const gridRect = this.getBoundingClientRect();
-        const relativeX = e.clientX - gridRect.left + this.scrollLeft;
+        const relativeX = e.clientX - gridRect.left + this.scrollLeft - initialX;
         let startTime = this.$.inMemoryGanttChart.getState('date');
         let endTime = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getEndTime();
         let eventState = this.$.inMemoryGanttChart.getState('events').filter(e => e.id === parseInt(id))[0];
