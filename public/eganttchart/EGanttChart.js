@@ -1,6 +1,7 @@
 import {EGC_ControlPanel} from "./components/EGC_ControlPanel.js";
 import {EGC_Table} from "./components/EGC_Table.js";
 import {EGC_Instance} from "./instance/EGC_Instance.js";
+import {EGC_MessageBox} from "./components/EGC_MessageBox.js";
 
 
 export class EGanttChart extends HTMLElement {
@@ -11,6 +12,7 @@ export class EGanttChart extends HTMLElement {
         this.$ = new EGC_Instance(state, settings);
         this.root.appendChild(new EGC_ControlPanel(this.$));
         this.root.appendChild(new EGC_Table(this.$));
+        this.root.appendChild(new EGC_MessageBox(this.$));
     }
 
     connectedCallback() {
@@ -26,6 +28,9 @@ export class EGanttChart extends HTMLElement {
 
     #applyStyles() {
         this.style.position = "relative";
+        this.style.display = "flex";
+        this.style.height = "100%";
+        this.style.flexDirection = 'column';
     }
 }
 

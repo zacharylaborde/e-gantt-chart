@@ -58,6 +58,8 @@ export class EGC_Timeline extends EGC_Component {
 
     #applyStyle() {
         this.style.display = 'grid';
+        this.style.position = 'sticky';
+        this.style.top = '0';
         this.style.gridTemplateColumns = '1fr';
         this.upperTimeline.setAttribute('part', 'upper-timeline');
         this.upperTimeline.style.display = 'grid';
