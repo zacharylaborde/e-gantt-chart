@@ -49,7 +49,7 @@ export class EGC_Row extends EGC_Component {
         const id = data.id;
         const initialX = data.mouseX;
         const gridRect = this.getBoundingClientRect();
-        const relativeX = e.clientX - gridRect.left + this.scrollLeft - initialX;
+        const relativeX = e.clientX - gridRect.left + this.scrollLeft - (initialX - this.$.inMemoryGanttChartSettings.getState('columnWidth')/2);
         let startTime = this.$.inMemoryGanttChart.getState('date');
         let endTime = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getEndTime();
         let eventState = this.$.inMemoryGanttChart.getState('events').filter(e => e.id === parseInt(id))[0];
