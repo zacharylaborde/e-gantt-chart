@@ -5,7 +5,6 @@ export class EGC_Event extends EGC_Component {
     constructor($, eventId) {
         super($);
         this.setAttribute('part', 'event');
-        this.setAttribute('draggable', 'true');
         this.#applyStyle();
         this.eventId = eventId;
         this.appendChild(new EGC_EventNameDisplay(this.$, this.eventId));
@@ -22,6 +21,16 @@ export class EGC_Event extends EGC_Component {
         let startTime = this.$.inMemoryGanttChart.getState('date');
         let endTime = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getEndTime();
         let eventState = this.$.inMemoryGanttChart.getState('events').filter(e => e.id === this.eventId)[0];
+        this.setAttribute('draggable', `${!eventState.disabled}`);
+        if (eventState.disabled) {
+            this.style.userSelect = 'none';
+            this.style.pointerEvents = 'none';
+            this.classList.add('disabled');
+        } else {
+            this.style.userSelect = 'auto';
+            this.style.pointerEvents = 'auto';
+            this.classList.remove('disabled');
+        }
         let startOfEvent = eventState.startTime >= startTime ? eventState.startTime : startTime;
         let endOfEvent = eventState.endTime <= endTime ? eventState.endTime : endTime;
         let startIndex = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getStartIndex(startOfEvent);

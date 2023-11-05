@@ -41,7 +41,6 @@ export class EGC_Row extends EGC_Component {
             const style = window.getComputedStyle(element);
             if (style.display !== 'none') count++;
         }
-        console.log(count);
         return count;
     }
 

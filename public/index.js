@@ -53,7 +53,8 @@ document.querySelector('body').appendChild(
                     parentRowIds: [2],
                     startTime: new Date('2023-11-05T13:00:00'),
                     endTime: new Date('2023-11-07T15:00:00'),
-                    name: "Charlie"
+                    name: "Charlie",
+                    disabled: true
                 }
             ]
         },
