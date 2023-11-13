@@ -138,7 +138,7 @@ export class EGC_Instance {
                     .repo(this.inMemoryGanttChart)
                     .observer(this.tableBodyObservers.filter(o => o.id === this.inMemoryGanttChart.getState('groups')[i].id)[0].observer)
                     .errorObserver(this.errorObserver)
-                    .before(value => this.#mockLoad(`group ${this.inMemoryGanttChart.getState('rows')[i].id} name`, value))
+                    .before(value => this.#mockUpdate(`group ${this.inMemoryGanttChart.getState('rows')[i].id} name`, value))
             });
         }
 

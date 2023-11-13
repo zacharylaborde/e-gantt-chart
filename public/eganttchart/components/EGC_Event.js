@@ -23,15 +23,6 @@ export class EGC_Event extends EGC_Component {
         let endTime = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getEndTime();
         let eventState = this.$.inMemoryGanttChart.getState('events').filter(e => e.id === this.eventId)[0];
         this.setAttribute('draggable', `${!eventState.disabled}`);
-        if (eventState.disabled) {
-            this.style.userSelect = 'none';
-            this.style.pointerEvents = 'none';
-            this.classList.add('disabled');
-        } else {
-            this.style.userSelect = 'auto';
-            this.style.pointerEvents = 'auto';
-            this.classList.remove('disabled');
-        }
         let startOfEvent = eventState.startTime >= startTime ? eventState.startTime : startTime;
         let endOfEvent = eventState.endTime <= endTime ? eventState.endTime : endTime;
         let startIndex = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getStartIndex(startOfEvent);
@@ -41,6 +32,7 @@ export class EGC_Event extends EGC_Component {
             this.style.gridColumn = `${startIndex} / ${endIndex}`;
         }
         else this.style.display = "none";
+        this.setAttribute('part', eventState.disabled ? 'event-disabled' : 'event');
     }
 
     #applyStyle() {

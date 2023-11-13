@@ -2,12 +2,19 @@ e-gantt-chart {
     background: black;
     color: white;
     font-family: sans-serif;
+    user-select: none;
 }
 
 e-gantt-chart::part(event) {
     background: #444444;
     transition: letter-spacing 0.3s;
-    cursor: grab;
+    cursor: pointer;
+}
+
+
+e-gantt-chart::part(event-disabled) {
+    background: #555555;
+    transition: letter-spacing 0.3s;
 }
 
 e-gantt-chart::part(event):focus {
@@ -16,6 +23,20 @@ e-gantt-chart::part(event):focus {
 }
 
 e-gantt-chart::part(row-header) {
+    background: black;
+    cursor: pointer;
+}
+
+e-gantt-chart::part(row-header):hover,
+e-gantt-chart::part(group-header):hover {
+    background: black;
+    color: #dddddd;
+    cursor: pointer;
+}
+
+
+e-gantt-chart::part(row-header-disabled),
+e-gantt-chart::part(group-header-disabled) {
     background: black;
 }
 
@@ -32,10 +53,19 @@ e-gantt-chart::part(row) {
 e-gantt-chart::part(title-controller),
 e-gantt-chart::part(zoom-controller),
 e-gantt-chart::part(date-controller),
-e-gantt-chart::part(column-controller) {
+e-gantt-chart::part(column-controller),
+e-gantt-chart::part(group-name-controller),
+e-gantt-chart::part(group-name-controller-disabled),
+e-gantt-chart::part(row-name-controller),
+e-gantt-chart::part(row-name-controller-disabled) {
     background-color: black;
     color: white;
     border: none;
     border-bottom: 1px solid white;
     bottom: 0;
+}
+
+e-gantt-chart::part(group-name-controller),
+e-gantt-chart::part(group-name-controller-disabled) {
+    text-align: center;
 }

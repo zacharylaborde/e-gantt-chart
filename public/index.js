@@ -13,7 +13,8 @@ document.querySelector('body').appendChild(
                 },
                 {
                     id: 2,
-                    name: "Group 2"
+                    name: "Group 2",
+                    disabled: true
                 }
             ],
             rows: [
@@ -25,7 +26,8 @@ document.querySelector('body').appendChild(
                 {
                     id: 2,
                     parentGroupIds: [1],
-                    name: "Row Two"
+                    name: "Row Two",
+                    disabled: true
                 },
                 {
                     id: 3,
