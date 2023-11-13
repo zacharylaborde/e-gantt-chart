@@ -26,6 +26,10 @@ export class EGC_ZoomController extends EGC_Component {
         })
         this.zoomController.value = this.$.inMemoryGanttChart.getState("zoom");
     }
+
+    disconnectedCallback() {
+        this.$.zoomObserver.unsubscribe(this);
+    }
 }
 
 window.customElements.define('egc-zoom-controller', EGC_ZoomController);

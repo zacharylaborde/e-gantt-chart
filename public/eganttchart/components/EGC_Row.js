@@ -97,6 +97,12 @@ export class EGC_Row extends EGC_Component {
         this.style.gridAutoRows = 'minmax(30px, auto)';
         this.style.gridAutoFlow = 'dense';
     }
+
+    disconnectedCallback() {
+        this.$.numColumnsToLoadObserver.unsubscribe(this);
+        this.$.columnWidthObserver.unsubscribe(this);
+        this.$.dateObserver.unsubscribe(this);
+    }
 }
 
 window.customElements.define('egc-row', EGC_Row);

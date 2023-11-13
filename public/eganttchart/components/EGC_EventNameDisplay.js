@@ -5,8 +5,8 @@ export class EGC_EventNameDisplay extends EGC_Component {
         super($);
         this.setAttribute('part', 'event-name-display');
         this.#applyStyle();
-        this.$.eventNameObservers.filter(o => o.id === eventId)[0].observer.subscribe(this);
         this.eventId = eventId;
+        this.$.eventNameObservers.filter(o => o.id === this.eventId)[0].observer.subscribe(this);
     }
 
     dataDidUpdate() {
@@ -19,6 +19,10 @@ export class EGC_EventNameDisplay extends EGC_Component {
         this.style.justifyContent = "center";
         this.style.userSelect = "none";
         this.style.pointerEvents = "none";
+    }
+
+    disconnectedCallback() {
+        this.$.eventNameObservers.filter(o => o.id === this.eventId)[0].observer.unsubscribe(this);
     }
 }
 

@@ -32,6 +32,10 @@ export class EGC_RowHeader extends EGC_Component {
         this.style.userSelect = 'none';
         this.style.pointerEvents = 'none';
     }
+
+    disconnectedCallback() {
+        this.$.rowNameObservers.filter(o => o.id === this.rowId)[0].observer.unsubscribe(this);
+    }
 }
 
 window.customElements.define('egc-row-header', EGC_RowHeader);

@@ -130,6 +130,17 @@ export class EGC_Instance {
                     .before(value => this.#mockLoad(`group ${this.inMemoryGanttChart.getState('rows')[i].id} name`, value))
             });
         }
+        this.updateTableBodyNameCommands = []
+        for (let i = 0; i < this.inMemoryGanttChart.getState('groups').length; i++) {
+            this.updateTableBodyNameCommands.push({
+                id: this.inMemoryGanttChart.getState('groups')[i].id,
+                command: new EGC_UpdateCommand("groups", i, "name")
+                    .repo(this.inMemoryGanttChart)
+                    .observer(this.tableBodyObservers.filter(o => o.id === this.inMemoryGanttChart.getState('groups')[i].id)[0].observer)
+                    .errorObserver(this.errorObserver)
+                    .before(value => this.#mockLoad(`group ${this.inMemoryGanttChart.getState('rows')[i].id} name`, value))
+            });
+        }
 
         this.loadRowNameFromMemoryCommands = []
         for (let i = 0; i < this.inMemoryGanttChart.getState('rows').length; i++) {

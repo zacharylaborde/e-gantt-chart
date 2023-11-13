@@ -18,6 +18,10 @@ export class EGC_TitleController extends EGC_Component {
     dataDidUpdate() {
         this.titleController.value = this.$.inMemoryGanttChart.getState("title");
     }
+
+    disconnectedCallback() {
+        this.$.titleObserver.unsubscribe(this);
+    }
 }
 
 window.customElements.define('egc-title-controller', EGC_TitleController);
