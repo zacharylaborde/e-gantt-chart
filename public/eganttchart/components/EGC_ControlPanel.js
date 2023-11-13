@@ -12,6 +12,7 @@ export class EGC_ControlPanel extends EGC_Component {
         this.appendChild(new EGC_DateController(this.$));
         this.appendChild(new EGC_ZoomController(this.$));
         this.appendChild(new EGC_ColumnsController(this.$));
+        this.style.zIndex = '1';
     }
 }
 

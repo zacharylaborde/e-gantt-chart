@@ -31,7 +31,6 @@ export class EGC_Body extends EGC_Component {
                 else this.appendChild(newRow);
             }
         });
-        this.style.paddingTop = `${this.$.inMemoryGanttChartSettings.getState('groupHeaderHeight')}px`
     }
 
     #removeDeletedRows(rowsData) {

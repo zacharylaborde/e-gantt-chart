@@ -46,7 +46,7 @@ export class EGC_RowHeader extends EGC_Component {
     #onclick() {
         this.content.innerHTML = `<input id="row-name-controller" />`
         const controller = this.querySelector('#row-name-controller');
-        controller.setAttribute("part", "row-name-controller");
+        controller.setAttribute("part", "row-name-controller-disabled");
         controller.value = this.$.inMemoryGanttChart.getState("rows").filter(row => row.id === this.rowId)[0].name;
         controller.style.width = `${this.$.inMemoryGanttChartSettings.getState('leftHeaderWidth')}px`;
         controller.onfocus = _ => this.onmouseenter = null;

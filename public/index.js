@@ -124,8 +124,7 @@ document.querySelector('body').appendChild(
             numColumnsToLoad: 92,
             columnWidth: 20,
             leftHeaderWidth: 100,
-            groupHeaderHeight: 25,
-            filterRowsWithNoVisibleEvents: true,
+            filterRowsWithNoVisibleEvents: false,
             zoomWidthMap: {
                 month: 20,
                 day: 50,

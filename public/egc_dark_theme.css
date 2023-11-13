@@ -27,6 +27,12 @@ e-gantt-chart::part(row-header) {
     cursor: pointer;
 }
 
+e-gantt-chart::part(group-header) {
+    align-items: center;
+    cursor: pointer;
+    left: 50%;
+}
+
 e-gantt-chart::part(row-header):hover,
 e-gantt-chart::part(group-header):hover {
     background: black;
@@ -61,11 +67,29 @@ e-gantt-chart::part(row-name-controller-disabled) {
     background-color: black;
     color: white;
     border: none;
-    border-bottom: 1px solid white;
     bottom: 0;
 }
 
 e-gantt-chart::part(group-name-controller),
 e-gantt-chart::part(group-name-controller-disabled) {
+    font-size: 16px;
     text-align: center;
+}
+
+
+e-gantt-chart::part(row-name-controller),
+e-gantt-chart::part(row-name-controller-disabled) {
+    width: 100%;
+    font-size: 16px;
+}
+
+
+e-gantt-chart::part(row-name-controller-disabled),
+e-gantt-chart::part(group-name-controller-disabled) {
+    color: #dddddd
+}
+
+e-gantt-chart::part(timeline),
+e-gantt-chart::part(control-panel) {
+    background: black;
 }
