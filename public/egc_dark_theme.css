@@ -41,8 +41,7 @@ e-gantt-chart::part(group-header):hover {
 }
 
 
-e-gantt-chart::part(row-header-disabled),
-e-gantt-chart::part(group-header-disabled) {
+e-gantt-chart::part(row-header-disabled) {
     background: black;
 }
 

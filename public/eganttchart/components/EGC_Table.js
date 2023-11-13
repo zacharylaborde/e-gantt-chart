@@ -7,16 +7,18 @@ export class EGC_Table extends EGC_Component {
         super($);
         this.setAttribute('part', 'table');
         this.appendChild(new EGC_Timeline(this.$));
+        this.content = document.createElement('div');
         this.$.inMemoryGanttChart.getState('groups').forEach(group => {
-            this.appendChild(new EGC_Body(this.$, group.id));
-        })
+            this.content.appendChild(new EGC_Body(this.$, group.id));
+        });
+        this.appendChild(this.content);
         this.#applyStyle();
     }
 
     #applyStyle() {
-        this.style.display = 'grid';
+        this.style.display = 'flex';
+        this.style.flexDirection = 'column';
         this.style.overflowX = 'auto';
-        this.style.gridTemplateColumns = '1fr';
     }
 }
 
