@@ -10,8 +10,8 @@ export class EGC_EditIcon extends EGC_Component {
     #applyStyle() {
         this.style.position = "absolute";
         this.style.bottom = "0";
-        this.querySelector('svg').style.width = "75%";
-        this.querySelector('svg').style.height = "75%";
+        this.querySelector('svg').style.width = "50%";
+        this.querySelector('svg').style.height = "50%";
     }
 }
 

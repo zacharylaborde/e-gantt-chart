@@ -29,7 +29,22 @@ export class EGC_GroupHeader extends EGC_Component {
     }
 
     #onclick() {
-
+        this.innerHTML = `<input id="group-name-controller" />`
+        const controller = this.querySelector('#group-name-controller');
+        controller.value = this.$.inMemoryGanttChart.getState("groups").filter(group => group.id === this.groupId)[0].name;
+        controller.onfocus = _ => this.onmouseenter = null;
+        controller.focus();
+        controller.onkeyup = _ => {
+            if (this.$.inMemoryGanttChart.getState("groups").filter(group => group.id === this.groupId)[0].name === controller.value)
+                controller.setAttribute("part", "group-header-input-disabled");
+            else controller.setAttribute("part", "group-header-input");
+        }
+        controller.onblur = _ => {
+            this.onmouseenter = this.#onmouseenter;
+            if (this.$.inMemoryGanttChart.getState("groups").filter(group => group.id === this.groupId)[0].name !== controller.value)
+                this.$.updateTableBodyNameCommands.filter(group => group.id === this.groupId)[0].command.execute(controller.value)
+            this.dataDidUpdate();
+        }
     }
 
     #onmouseenter() {
@@ -37,7 +52,8 @@ export class EGC_GroupHeader extends EGC_Component {
     }
 
     #onmouseleave() {
-        this.removeChild(this.editIcon);
+        if (this.contains(this.editIcon))
+            this.removeChild(this.editIcon);
     }
 
     disconnectedCallback() {
