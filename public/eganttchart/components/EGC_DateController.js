@@ -18,6 +18,10 @@ export class EGC_DateController extends EGC_Component {
     dataDidUpdate() {
         this.dateController.value = this.$.inMemoryGanttChart.getState("date").toISOString().split('T')[0];
     }
+
+    disconnectedCallback() {
+        this.$.dateObserver.unsubscribe(this);
+    }
 }
 
 window.customElements.define('egc-date-controller', EGC_DateController);

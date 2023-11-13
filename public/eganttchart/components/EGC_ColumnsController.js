@@ -22,6 +22,10 @@ export class EGC_ColumnsController extends EGC_Component {
     dataDidUpdate() {
         this.columnsController.value = this.$.inMemoryGanttChartSettings.getState('numColumnsToLoad');
     }
+
+    disconnectedCallback() {
+        this.$.numColumnsToLoadObserver.unsubscribe(this);
+    }
 }
 
 window.customElements.define('egc-columns-controller', EGC_ColumnsController);

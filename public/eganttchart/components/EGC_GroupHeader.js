@@ -22,6 +22,10 @@ export class EGC_GroupHeader extends EGC_Component {
         this.style.left = "0";
         this.style.height = `${this.$.inMemoryGanttChartSettings.getState('groupHeaderHeight')}px`
     }
+
+    disconnectedCallback() {
+        this.$.tableBodyObservers.filter(o => o.id === this.groupId)[0].observer.unsubscribe(this);
+    }
 }
 
 window.customElements.define('egc-group-header', EGC_GroupHeader);

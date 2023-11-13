@@ -66,6 +66,13 @@ export class EGC_Timeline extends EGC_Component {
         this.lowerTimeline.setAttribute('part', 'lower-timeline');
         this.lowerTimeline.style.display = 'grid';
     }
+
+    disconnectedCallback() {
+        this.$.dateObserver.unsubscribe(this);
+        this.$.zoomObserver.unsubscribe(this);
+        this.$.numColumnsToLoadObserver.unsubscribe(this);
+        this.$.columnWidthObserver.unsubscribe(this);
+    }
 }
 
 window.customElements.define('egc-timeline', EGC_Timeline);

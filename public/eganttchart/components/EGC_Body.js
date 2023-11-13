@@ -46,6 +46,10 @@ export class EGC_Body extends EGC_Component {
         this.style.gridTemplateColumns = '1fr';
         this.style.gridAutoRows = 'minmax(30px, auto)';
     }
+
+    disconnectedCallback() {
+        this.$.tableBodyObservers.filter(o => o.id === this.groupId)[0].observer.unsubscribe(this);
+    }
 }
 
 window.customElements.define('egc-body', EGC_Body);

@@ -15,6 +15,7 @@ export class EGC_Event extends EGC_Component {
         this.$.eventEndTimeObservers.filter(o => o.id === this.eventId)[0].observer.subscribe(this);
         this.ondragstart = this.#ondragstart;
         this.ondragend = this.#ondragend;
+        this.tabIndex = 0;
     }
 
     dataDidUpdate() {
@@ -48,6 +49,7 @@ export class EGC_Event extends EGC_Component {
     }
 
     #ondragstart(e) {
+        this.blur();
         e.dataTransfer.setData('text/plain', JSON.stringify({
             id: e.target.eventId,
         }));
@@ -59,6 +61,14 @@ export class EGC_Event extends EGC_Component {
 
     #ondragend() {
         this.style.opacity = "100%";
+    }
+
+    disconnectedCallback() {
+        this.$.numColumnsToLoadObserver.unsubscribe(this);
+        this.$.columnWidthObserver.unsubscribe(this);
+        this.$.dateObserver.unsubscribe(this);
+        this.$.eventStartTimeObservers.filter(o => o.id === this.eventId)[0].observer.unsubscribe(this);
+        this.$.eventEndTimeObservers.filter(o => o.id === this.eventId)[0].observer.unsubscribe(this);
     }
 }
 
