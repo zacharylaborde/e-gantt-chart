@@ -42,7 +42,9 @@ export class EGC_GroupHeader extends EGC_Component {
         const controller = this.querySelector('#group-name-controller');
         controller.setAttribute("part", "group-name-controller-disabled");
         controller.value = this.$.inMemoryGanttChart.getState("groups").filter(group => group.id === this.groupId)[0].name;
-        controller.onfocus = _ => this.onmouseenter = null;
+        controller.onfocus = _ => {
+            this.content.onmouseenter = null;
+        }
         controller.focus();
         controller.onkeyup = _ => {
             if (this.$.inMemoryGanttChart.getState("groups").filter(group => group.id === this.groupId)[0].name === controller.value)
@@ -50,7 +52,7 @@ export class EGC_GroupHeader extends EGC_Component {
             else controller.setAttribute("part", "group-name-controller");
         }
         controller.onblur = _ => {
-            this.onmouseenter = this.#onmouseenter;
+            this.content.onmouseenter = _ => this.#onmouseenter();
             if (this.$.inMemoryGanttChart.getState("groups").filter(group => group.id === this.groupId)[0].name !== controller.value)
                 this.$.updateTableBodyNameCommands.filter(group => group.id === this.groupId)[0].command.execute(controller.value)
             this.dataDidUpdate();
@@ -58,6 +60,7 @@ export class EGC_GroupHeader extends EGC_Component {
     }
 
     #onmouseenter() {
+        console.log(this.editIcon);
         this.content.appendChild(this.editIcon);
     }
 
