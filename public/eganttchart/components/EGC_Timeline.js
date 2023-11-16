@@ -54,6 +54,7 @@ export class EGC_Timeline extends EGC_Component {
             elem.style.justifyContent = 'center';
             this.lowerTimeline.appendChild(elem);
         });
+        this.$.updateTimelineHeightCommand.execute(this.getBoundingClientRect().height);
     }
 
     #applyStyle() {
@@ -65,7 +66,7 @@ export class EGC_Timeline extends EGC_Component {
         this.upperTimeline.style.display = 'grid';
         this.lowerTimeline.setAttribute('part', 'lower-timeline');
         this.lowerTimeline.style.display = 'grid';
-        this.style.zIndex = '1';
+        this.style.zIndex = '2';
     }
 
     disconnectedCallback() {

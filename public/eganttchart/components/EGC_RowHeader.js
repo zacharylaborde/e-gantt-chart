@@ -41,6 +41,7 @@ export class EGC_RowHeader extends EGC_Component {
         this.style.width = '100%';
         this.style.userSelect = 'none';
         this.style.pointerEvents = 'none';
+        this.style.zIndex = '1';
     }
 
     #onclick() {

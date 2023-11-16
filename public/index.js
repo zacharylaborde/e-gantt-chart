@@ -98,6 +98,16 @@ document.querySelector('body').appendChild(
                     id: 16,
                     parentGroupIds: [2],
                     name: "Row Three"
+                },
+                {
+                    id: 17,
+                    parentGroupIds: [2],
+                    name: "Row Three"
+                },
+                {
+                    id: 18,
+                    parentGroupIds: [2],
+                    name: "Row Three"
                 }
             ],
             events: [

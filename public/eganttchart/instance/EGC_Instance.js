@@ -20,6 +20,7 @@ export class EGC_Instance {
         this.numColumnsToLoadObserver = new EGC_Observer();
         this.columnWidthObserver = new EGC_Observer();
         this.errorObserver = new EGC_Observer();
+        this.timelineHeightObserver = new EGC_Observer();
         this.tableBodyObservers = [];
         for (let i = 0; i < this.inMemoryGanttChart.getState('groups').length; i++) {
             this.tableBodyObservers.push({
@@ -80,6 +81,17 @@ export class EGC_Instance {
             .observer(this.dateObserver)
             .errorObserver(this.errorObserver)
             .before(value => this.#mockUpdate("date", value));
+
+        this.loadTimelineHeightCommand = new EGC_LoadCommand("timelineHeight")
+            .repo(this.inMemoryGanttChartSettings)
+            .observer(this.timelineHeightObserver)
+            .errorObserver(this.errorObserver)
+            .before(value => this.#mockLoad("timelineHeight", value))
+        this.updateTimelineHeightCommand = new EGC_UpdateCommand("timelineHeight")
+            .repo(this.inMemoryGanttChartSettings)
+            .observer(this.timelineHeightObserver)
+            .errorObserver(this.errorObserver)
+            .before(value => this.#mockLoad("timelineHeight", value))
 
 
         this.loadZoomFromMemoryCommand = new EGC_LoadCommand("zoom")

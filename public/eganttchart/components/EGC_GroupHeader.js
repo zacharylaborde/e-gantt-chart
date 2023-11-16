@@ -6,6 +6,7 @@ export class EGC_GroupHeader extends EGC_Component {
         super($);
         this.groupId = groupId;
         this.$.tableBodyObservers.filter(o => o.id === this.groupId)[0].observer.subscribe(this);
+        this.$.timelineHeightObserver.subscribe(this);
         this.groupState = this.$.inMemoryGanttChart.getState("groups").filter(group => group.id === this.groupId)[0];
         this.content = document.createElement('span');
         this.content.setAttribute('part', this.groupState.disabled ? 'group-header-disabled' : 'group-header');
@@ -20,11 +21,15 @@ export class EGC_GroupHeader extends EGC_Component {
     dataDidUpdate() {
         this.groupState = this.$.inMemoryGanttChart.getState("groups").filter(group => group.id === this.groupId)[0];
         this.content.innerText = this.groupState.name;
+        this.style.top = `${this.$.inMemoryGanttChartSettings.getState('timelineHeight')}px`;
     }
 
     #applyStyle() {
+        this.style.position = "sticky";
         this.style.display = "flex";
         this.style.width = "100%";
+        this.style.zIndex = "1";
+        this.style.background = "black";
         this.content.style.position = "sticky";
         this.content.style.left = "50%";
         this.content.style.display = "flex";
