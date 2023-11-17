@@ -60,7 +60,6 @@ export class EGC_GroupHeader extends EGC_Component {
     }
 
     #onmouseenter() {
-        console.log(this.editIcon);
         this.content.appendChild(this.editIcon);
     }
 

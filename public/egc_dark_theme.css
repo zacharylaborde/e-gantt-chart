@@ -90,3 +90,8 @@ e-gantt-chart::part(timeline),
 e-gantt-chart::part(control-panel) {
     background: black;
 }
+
+e-gantt-chart::part(event-editor) {
+    transition: 0.3s ease;
+    background-color: pink;
+}

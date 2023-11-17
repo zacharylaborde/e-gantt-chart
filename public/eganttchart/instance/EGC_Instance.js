@@ -21,6 +21,7 @@ export class EGC_Instance {
         this.columnWidthObserver = new EGC_Observer();
         this.errorObserver = new EGC_Observer();
         this.timelineHeightObserver = new EGC_Observer();
+        this.selectedEventObserver = new EGC_Observer();
         this.tableBodyObservers = [];
         for (let i = 0; i < this.inMemoryGanttChart.getState('groups').length; i++) {
             this.tableBodyObservers.push({
@@ -130,6 +131,17 @@ export class EGC_Instance {
             .observer(this.columnWidthObserver)
             .errorObserver(this.errorObserver)
             .before(value => this.#mockUpdate("columnWidth", value))
+
+        this.loadSelectedEventCommand = new EGC_LoadCommand("selectedEvent")
+            .repo(this.inMemoryGanttChart)
+            .observer(this.selectedEventObserver)
+            .errorObserver(this.errorObserver)
+            .before(value => this.#mockLoad("selectedEvent", value))
+        this.updateSelectedEventCommand = new EGC_UpdateCommand("selectedEvent")
+            .repo(this.inMemoryGanttChart)
+            .observer(this.selectedEventObserver)
+            .errorObserver(this.errorObserver)
+            .before(value => this.#mockUpdate("selectedEvent", value))
 
         this.loadTableBodyNameCommands = []
         for (let i = 0; i < this.inMemoryGanttChart.getState('groups').length; i++) {

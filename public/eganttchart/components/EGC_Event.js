@@ -15,6 +15,8 @@ export class EGC_Event extends EGC_Component {
         this.$.eventEndTimeObservers.filter(o => o.id === this.eventId)[0].observer.subscribe(this);
         this.ondragstart = this.#ondragstart;
         this.ondragend = this.#ondragend;
+        this.onfocus = this.#onfocus;
+        this.onblur = this.#onblur;
         this.tabIndex = 0;
     }
 
@@ -49,6 +51,14 @@ export class EGC_Event extends EGC_Component {
         this.$.draggableWidth = this.getBoundingClientRect().width;
         e.dataTransfer.effectAllowed = "move";
         this.style.opacity = "20%";
+    }
+
+    #onfocus() {
+        this.$.updateSelectedEventCommand.execute(this.eventId);
+    }
+
+    #onblur() {
+        this.$.updateSelectedEventCommand.execute(null);
     }
 
     #ondragend() {
