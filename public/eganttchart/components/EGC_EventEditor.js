@@ -20,7 +20,8 @@ export class EGC_EventEditor extends EGC_Component {
 
     #applyStyle() {
         this.style.position = "absolute";
-        this.style.width = "25%";
+        this.style.width = "300px";
+        this.style.maxWidth = "100%";
         this.style.height = "100%";
         this.style.zIndex = "2"
         this.style.right = "-100%";

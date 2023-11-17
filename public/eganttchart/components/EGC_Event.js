@@ -4,9 +4,10 @@ import {EGC_EventNameDisplay} from "./EGC_EventNameDisplay.js";
 export class EGC_Event extends EGC_Component {
     constructor($, eventId) {
         super($);
-        this.setAttribute('part', 'event');
         this.#applyStyle();
         this.eventId = eventId;
+        let eventState = this.$.inMemoryGanttChart.getState('events').filter(e => e.id === this.eventId)[0];
+        this.setAttribute('part', eventState.code ? `event-${eventState.code}` : 'event');
         this.appendChild(new EGC_EventNameDisplay(this.$, this.eventId));
         this.$.numColumnsToLoadObserver.subscribe(this);
         this.$.columnWidthObserver.subscribe(this);
@@ -35,6 +36,7 @@ export class EGC_Event extends EGC_Component {
         }
         else this.style.display = "none";
         this.setAttribute('part', eventState.disabled ? 'event-disabled' : 'event');
+        this.setAttribute('part', eventState.code ? `${this.getAttribute('part')}-${eventState.code}` : this.getAttribute('part'));
     }
 
     #applyStyle() {

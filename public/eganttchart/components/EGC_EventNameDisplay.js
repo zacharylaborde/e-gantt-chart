@@ -19,6 +19,7 @@ export class EGC_EventNameDisplay extends EGC_Component {
         this.style.justifyContent = "center";
         this.style.userSelect = "none";
         this.style.pointerEvents = "none";
+
     }
 
     disconnectedCallback() {
