@@ -64,48 +64,40 @@ export class EGC_Instance {
             .repo(this.inMemoryGanttChart)
             .observer(this.titleObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockLoad("title", value));
         this.updateTitleCommand = new EGC_UpdateCommand("title")
             .repo(this.inMemoryGanttChart)
             .observer(this.titleObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockUpdate("title", value));
 
 
         this.loadDateFromMemoryCommand = new EGC_LoadCommand("date")
             .repo(this.inMemoryGanttChart)
             .observer(this.dateObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockLoad("date", value));
         this.updateDateCommand = new EGC_UpdateCommand("date")
             .repo(this.inMemoryGanttChart)
             .observer(this.dateObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockUpdate("date", value));
 
         this.loadTimelineHeightCommand = new EGC_LoadCommand("timelineHeight")
             .repo(this.inMemoryGanttChartSettings)
             .observer(this.timelineHeightObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockLoad("timelineHeight", value))
         this.updateTimelineHeightCommand = new EGC_UpdateCommand("timelineHeight")
             .repo(this.inMemoryGanttChartSettings)
             .observer(this.timelineHeightObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockLoad("timelineHeight", value))
 
 
         this.loadZoomFromMemoryCommand = new EGC_LoadCommand("zoom")
             .repo(this.inMemoryGanttChart)
             .observer(this.zoomObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockLoad("zoom", value))
             .after(value => this.updateColumnWidthCommand.execute(this.inMemoryGanttChartSettings.getState('zoomWidthMap')[value]))
         this.updateZoomCommand = new EGC_UpdateCommand("zoom")
             .repo(this.inMemoryGanttChart)
             .observer(this.zoomObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockUpdate("zoom", value))
             .after(value => this.updateColumnWidthCommand.execute(this.inMemoryGanttChartSettings.getState('zoomWidthMap')[value]))
 
 
@@ -113,35 +105,29 @@ export class EGC_Instance {
             .repo(this.inMemoryGanttChartSettings)
             .observer(this.numColumnsToLoadObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockLoad("numColumnsToLoad", value));
         this.updateNumColumnsToLoadCommand = new EGC_UpdateCommand("numColumnsToLoad")
             .repo(this.inMemoryGanttChartSettings)
             .observer(this.numColumnsToLoadObserver)
-            .errorObserver(this.errorObserver)
-            .before(value => this.#mockUpdate("numColumnsToLoad", value));
+            .errorObserver(this.errorObserver);
 
 
         this.loadColumnWidthCommand = new EGC_LoadCommand("columnWidth")
             .repo(this.inMemoryGanttChartSettings)
             .observer(this.columnWidthObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockLoad("columnWidth", value))
         this.updateColumnWidthCommand = new EGC_UpdateCommand("columnWidth")
             .repo(this.inMemoryGanttChartSettings)
             .observer(this.columnWidthObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockUpdate("columnWidth", value))
 
         this.loadSelectedEventCommand = new EGC_LoadCommand("selectedEvent")
             .repo(this.inMemoryGanttChart)
             .observer(this.selectedEventObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockLoad("selectedEvent", value))
         this.updateSelectedEventCommand = new EGC_UpdateCommand("selectedEvent")
             .repo(this.inMemoryGanttChart)
             .observer(this.selectedEventObserver)
             .errorObserver(this.errorObserver)
-            .before(value => this.#mockUpdate("selectedEvent", value))
 
         this.loadTableBodyNameCommands = []
         for (let i = 0; i < this.inMemoryGanttChart.getState('groups').length; i++) {
@@ -151,7 +137,6 @@ export class EGC_Instance {
                     .repo(this.inMemoryGanttChart)
                     .observer(this.tableBodyObservers.filter(o => o.id === this.inMemoryGanttChart.getState('groups')[i].id)[0].observer)
                     .errorObserver(this.errorObserver)
-                    .before(value => this.#mockLoad(`group ${this.inMemoryGanttChart.getState('rows')[i].id} name`, value))
             });
         }
         this.updateTableBodyNameCommands = []
@@ -162,7 +147,6 @@ export class EGC_Instance {
                     .repo(this.inMemoryGanttChart)
                     .observer(this.tableBodyObservers.filter(o => o.id === this.inMemoryGanttChart.getState('groups')[i].id)[0].observer)
                     .errorObserver(this.errorObserver)
-                    .before(value => this.#mockUpdate(`group ${this.inMemoryGanttChart.getState('rows')[i].id} name`, value))
             });
         }
 
@@ -174,7 +158,6 @@ export class EGC_Instance {
                     .repo(this.inMemoryGanttChart)
                     .observer(this.rowNameObservers.filter(o => o.id === this.inMemoryGanttChart.getState('rows')[i].id)[0].observer)
                     .errorObserver(this.errorObserver)
-                    .before(value => this.#mockLoad(`row ${this.inMemoryGanttChart.getState('rows')[i].id} name`, value))
             });
         }
         this.updateRowNameCommands = []
@@ -185,7 +168,6 @@ export class EGC_Instance {
                     .repo(this.inMemoryGanttChart)
                     .observer(this.rowNameObservers.filter(o => o.id === this.inMemoryGanttChart.getState('rows')[i].id)[0].observer)
                     .errorObserver(this.errorObserver)
-                    .before(value => this.#mockUpdate(`row ${this.inMemoryGanttChart.getState('rows')[i].id} name`, value))
             });
         }
 
@@ -197,7 +179,6 @@ export class EGC_Instance {
                     .repo(this.inMemoryGanttChart)
                     .observer(this.eventNameObservers.filter(o => o.id === this.inMemoryGanttChart.getState('events')[i].id)[0].observer)
                     .errorObserver(this.errorObserver)
-                    .before(value => this.#mockUpdate(`event ${this.inMemoryGanttChart.getState('events')[i].id} name`, value))
             })
         }
 
@@ -209,7 +190,6 @@ export class EGC_Instance {
                     .repo(this.inMemoryGanttChart)
                     .observer(this.eventStartTimeObservers.filter(o => o.id === this.inMemoryGanttChart.getState('events')[i].id)[0].observer)
                     .errorObserver(this.errorObserver)
-                    .before(value => this.#mockUpdate(`event ${this.inMemoryGanttChart.getState('events')[i].id} start time`, value))
             })
         }
         this.updateEventEndTimeCommands = [];
@@ -220,7 +200,6 @@ export class EGC_Instance {
                     .repo(this.inMemoryGanttChart)
                     .observer(this.eventEndTimeObservers.filter(o => o.id === this.inMemoryGanttChart.getState('events')[i].id)[0].observer)
                     .errorObserver(this.errorObserver)
-                    .before(value => this.#mockUpdate(`event ${this.inMemoryGanttChart.getState('events')[i].id} end time`, value))
             })
         }
     }
@@ -495,13 +474,5 @@ export class EGC_Instance {
                     return startDate;
                 })
         }
-    }
-
-    #mockLoad(key, value) {
-        console.log(`Loaded ${key}: ${value}`);
-    }
-
-    #mockUpdate(key, value) {
-        console.log(`Updated ${key}: ${value}`);
     }
 }

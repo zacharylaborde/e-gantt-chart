@@ -116,7 +116,8 @@ document.querySelector('body').appendChild(
                     parentRowIds: [1],
                     startTime: new Date('2023-11-03T13:00:00'),
                     endTime: new Date('2023-11-04T15:00:00'),
-                    name: "Alpha"
+                    name: "Alpha",
+
                 },
                 {
                     id: 2,
@@ -149,5 +150,3 @@ document.querySelector('body').appendChild(
         }
     )
 )
-
-new EGanttChart()

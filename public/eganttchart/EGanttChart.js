@@ -2,6 +2,8 @@ import {EGC_ControlPanel} from "./components/EGC_ControlPanel.js";
 import {EGC_Table} from "./components/EGC_Table.js";
 import {EGC_Instance} from "./instance/EGC_Instance.js";
 import {EGC_MessageBox} from "./components/EGC_MessageBox.js";
+
+
 /**
  * @typedef {Object} Group
  * @property {number} id - the id of the given group.
@@ -26,13 +28,12 @@ import {EGC_MessageBox} from "./components/EGC_MessageBox.js";
  * @property {string} name - The name of the given event.
  * @property {boolean} disabled - Boolean determining if the row is editable by the user.
  */
-
-
 export class EGanttChart extends HTMLElement {
+    #$;
     /**
-     * Represents a EGanttChart.
+     * Represents an instance of the EGanttChart.
      * @constructor
-     * @param {Object} state - The state of the gantt chart.
+     * @param {{date: Date, groups: [{name: string, id: number},{name: string, disabled: boolean, id: number}], zoom: string, title: string, rows: [{name: string, id: number, parentGroupIds: number[]},{name: string, disabled: boolean, id: number, parentGroupIds: number[]},{name: string, id: number, parentGroupIds: number[]},{name: string, id: number, parentGroupIds: number[]},{name: string, id: number, parentGroupIds: number[]},null,null,null,null,null,null,null,null,null,null,null,null,null], events: [{parentRowIds: number[], name: string, startTime: Date, id: number, endTime: Date},{parentRowIds: number[], name: string, startTime: Date, id: number, endTime: Date},{parentRowIds: number[], name: string, startTime: Date, disabled: boolean, id: number, endTime: Date}]}} state - The state of the gantt chart.
      * @param {string} state.title - The initial title of the gantt chart.
      * @param {Date} state.date - The starting date of the gantt chart. (UTC Time)
      * @param {string} state.zoom - An enum of 'hour', 'shift', 'day' or 'month' which represents the zoom level of the gantt chart.
@@ -55,21 +56,21 @@ export class EGanttChart extends HTMLElement {
         super();
         this.root = this.attachShadow({mode: 'closed'});
         this.#applyStyles()
-        this.$ = new EGC_Instance(state, settings);
-        this.root.appendChild(new EGC_ControlPanel(this.$));
-        this.root.appendChild(new EGC_Table(this.$));
-        this.root.appendChild(new EGC_MessageBox(this.$));
+        this.#$ = new EGC_Instance(state, settings);
+        this.root.appendChild(new EGC_ControlPanel(this.#$));
+        this.root.appendChild(new EGC_Table(this.#$));
+        this.root.appendChild(new EGC_MessageBox(this.#$));
     }
 
     connectedCallback() {
-        this.$.loadDateFromMemoryCommand.execute();
-        this.$.loadTitleFromMemoryCommand.execute();
-        this.$.loadZoomFromMemoryCommand.execute();
-        this.$.loadNumColumnsToLoadCommand.execute();
-        this.$.loadColumnWidthCommand.execute();
-        this.$.loadTableBodyNameCommands.forEach(x => x.command.execute());
-        this.$.loadRowNameFromMemoryCommands.forEach(x => x.command.execute());
-        this.$.loadEventNameCommands.forEach(x => x.command.execute());
+        this.#$.loadDateFromMemoryCommand.execute();
+        this.#$.loadTitleFromMemoryCommand.execute();
+        this.#$.loadZoomFromMemoryCommand.execute();
+        this.#$.loadNumColumnsToLoadCommand.execute();
+        this.#$.loadColumnWidthCommand.execute();
+        this.#$.loadTableBodyNameCommands.forEach(x => x.command.execute());
+        this.#$.loadRowNameFromMemoryCommands.forEach(x => x.command.execute());
+        this.#$.loadEventNameCommands.forEach(x => x.command.execute());
     }
 
     #applyStyles() {
