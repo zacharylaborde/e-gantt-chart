@@ -14,6 +14,7 @@ export class EGC_Event extends EGC_Component {
         this.$.dateObserver.subscribe(this);
         this.$.eventStartTimeObservers.filter(o => o.id === this.eventId)[0].observer.subscribe(this);
         this.$.eventEndTimeObservers.filter(o => o.id === this.eventId)[0].observer.subscribe(this);
+        this.$.selectedEventObserver.subscribe(this);
         this.ondragstart = this.#ondragstart;
         this.ondragend = this.#ondragend;
         this.onfocus = this.#onfocus;
@@ -37,6 +38,7 @@ export class EGC_Event extends EGC_Component {
         else this.style.display = "none";
         this.setAttribute('part', eventState.disabled ? 'event-disabled' : 'event');
         this.setAttribute('part', eventState.code ? `${this.getAttribute('part')}-${eventState.code}` : this.getAttribute('part'));
+        this.setAttribute('part', this.$.inMemoryGanttChart.getState('selectedEvent') === this.eventId ? `${this.getAttribute('part')}-selected` : this.getAttribute('part'));
     }
 
     #applyStyle() {

@@ -6,6 +6,7 @@ document.querySelector('body').appendChild(
             title: "No Title",
             date: new Date('2023-11-02T20:00:00'),
             zoom: "day",
+            selectedEvent: null,
             groups: [
                 {
                     id: 1,

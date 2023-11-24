@@ -17,9 +17,10 @@ e-gantt-chart::part(event-disabled) {
     transition: letter-spacing 0.3s;
 }
 
-e-gantt-chart::part(event):focus {
+e-gantt-chart::part(event-selected) {
     background: #444444;
     letter-spacing: 0.3rem;
+    transition: 0.3s;
 }
 
 e-gantt-chart::part(row-header) {
