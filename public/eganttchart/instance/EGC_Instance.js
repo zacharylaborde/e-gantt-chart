@@ -3,6 +3,7 @@ import {EGC_Observer} from "../infrastructure/observers/EGC_Observer.js";
 import {EGC_LoadCommand} from "../infrastructure/commands/EGC_LoadCommand.js";
 import {EGC_UpdateCommand} from "../infrastructure/commands/EGC_UpdateCommand.js";
 import {EGC_ZoomService} from "../infrastructure/services/EGC_ZoomService.js";
+import {EGC_DeleteCommand} from "../infrastructure/commands/EGC_DeleteCommand.js";
 
 export class EGC_Instance {
     constructor(state, settings) {
@@ -35,6 +36,13 @@ export class EGC_Instance {
                 id: this.inMemoryGanttChart.getState('rows')[i].id,
                 observer: new EGC_Observer()
             });
+        }
+        this.eventObservers = [];
+        for (let i = 0; i < this.inMemoryGanttChart.getState('events').length; i++) {
+            this.eventObservers.push({
+                id: this.inMemoryGanttChart.getState('events')[i].id,
+                observer: new EGC_Observer()
+            })
         }
         this.eventNameObservers = []
         for (let i = 0; i < this.inMemoryGanttChart.getState('events').length; i++) {
@@ -169,6 +177,17 @@ export class EGC_Instance {
                     .observer(this.rowNameObservers.filter(o => o.id === this.inMemoryGanttChart.getState('rows')[i].id)[0].observer)
                     .errorObserver(this.errorObserver)
             });
+        }
+
+        this.deleteEventCommands = [];
+        for (let i = 0; i < this.inMemoryGanttChart.getState('events').length; i++) {
+            this.deleteEventCommands.push({
+                id: this.inMemoryGanttChart.getState('events')[i].id,
+                command: new EGC_DeleteCommand('events', i)
+                    .repo(this.inMemoryGanttChart)
+                    .observer(this.eventObservers.filter(o => o.id === this.inMemoryGanttChart.getState('events')[i].id)[0].observer)
+                    .errorObserver(this.errorObserver)
+            })
         }
 
         this.loadEventNameCommands = []

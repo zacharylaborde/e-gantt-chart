@@ -30,6 +30,35 @@ export class EGC_InMemoryRepository {
         }
     }
 
+    delete(...keys) {
+        if (keys.length === 0) {
+            throw new Error('At least one key must be provided');
+        }
+
+        let currentObj = this.state;
+        for (let i = 0; i < keys.length - 1; i++) {
+            const key = keys[i];
+            if (Array.isArray(currentObj) && !Number.isNaN(Number(key))) {
+                // If the current object is an array and the key is a valid index, continue to the next index
+                currentObj = currentObj[Number(key)];
+            } else if (currentObj.hasOwnProperty(key) && typeof currentObj[key] === 'object') {
+                // If the current object is an object, navigate to the next object property
+                currentObj = currentObj[key];
+            } else {
+                return; // Key path not found, nothing to delete
+            }
+        }
+
+        const lastKey = keys[keys.length - 1];
+        if (Array.isArray(currentObj) && !Number.isNaN(Number(lastKey))) {
+            // If the last key is a valid index, remove the element from the array
+            currentObj.splice(Number(lastKey), 1);
+        } else if (currentObj.hasOwnProperty(lastKey)) {
+            // If the last key is an object property, delete it
+            delete currentObj[lastKey];
+        }
+    }
+
     getState(...keys) {
         if (keys.length === 0) throw new Error("Provide at least one key");
         try {

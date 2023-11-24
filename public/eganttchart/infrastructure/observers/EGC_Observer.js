@@ -8,7 +8,7 @@ export class EGC_Observer {
     }
 
     unsubscribe(subscriber) {
-        this.subscribers.remove(subscriber);
+        this.subscribers = this.subscribers.filter(s => s !== subscriber);
     }
 
     update() {

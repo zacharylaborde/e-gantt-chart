@@ -12,7 +12,8 @@ e-gantt-chart::part(event) {
 }
 
 
-e-gantt-chart::part(event-disabled) {
+e-gantt-chart::part(event-disabled),
+e-gantt-chart::part(event-disabled-selected){
     background: #555555;
     transition: letter-spacing 0.3s;
 }

@@ -13,6 +13,7 @@ export class EGC_Event extends EGC_Component {
         this.$.columnWidthObserver.subscribe(this);
         this.$.dateObserver.subscribe(this);
         this.$.eventStartTimeObservers.filter(o => o.id === this.eventId)[0].observer.subscribe(this);
+        this.$.eventObservers.filter(o => o.id === this.eventId)[0].observer.subscribe(this);
         this.$.eventEndTimeObservers.filter(o => o.id === this.eventId)[0].observer.subscribe(this);
         this.$.selectedEventObserver.subscribe(this);
         this.ondragstart = this.#ondragstart;
@@ -23,9 +24,16 @@ export class EGC_Event extends EGC_Component {
     }
 
     dataDidUpdate() {
+        let eventState = this.$.inMemoryGanttChart.getState('events').filter(e => e.id === this.eventId);
+        if (eventState.length === 0) {
+            this.blur();
+            this.remove();
+            return;
+        } else {
+            eventState = eventState[0];
+        }
         let startTime = this.$.inMemoryGanttChart.getState('date');
         let endTime = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getEndTime();
-        let eventState = this.$.inMemoryGanttChart.getState('events').filter(e => e.id === this.eventId)[0];
         this.setAttribute('draggable', `${!eventState.disabled}`);
         let startOfEvent = eventState.startTime >= startTime ? eventState.startTime : startTime;
         let endOfEvent = eventState.endTime <= endTime ? eventState.endTime : endTime;
@@ -53,20 +61,35 @@ export class EGC_Event extends EGC_Component {
         }));
         this.$.dragStartPosition = e.clientX - this.getBoundingClientRect().left;
         this.$.draggableWidth = this.getBoundingClientRect().width;
-        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.effectAllowed = e.shiftKey ? "copy" : "move";
         this.style.opacity = "20%";
     }
 
     #onfocus() {
         this.$.updateSelectedEventCommand.execute(this.eventId);
+        this.onkeydown = this.#onkeydown;
     }
 
     #onblur() {
         this.$.updateSelectedEventCommand.execute(null);
+        this.onkeydown = null;
     }
 
     #ondragend() {
         this.style.opacity = "100%";
+    }
+
+    #onkeydown(e) {
+        e.preventDefault();
+        if (e.key === "Delete") {
+            this.$.deleteEventCommands.filter(c => c.id === this.eventId)[0].command.execute();
+        } else if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
+            console.log("The event will move right");
+        } else if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
+            console.log("The event will move left");
+        } else if (e.key === "Escape") {
+            this.blur();
+        }
     }
 
     disconnectedCallback() {

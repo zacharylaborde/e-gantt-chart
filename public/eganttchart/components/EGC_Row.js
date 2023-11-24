@@ -66,7 +66,7 @@ export class EGC_Row extends EGC_Component {
         let newStartDate = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getStartTimeFromIndex(droppedColumn);
         let newEndDate = this.$.zoomService[this.$.inMemoryGanttChart.getState('zoom')].getEndTimeFromIndex(droppedColumn + indexDiff)
         this.$.updateEventStartTimeCommands.filter(c => c.id === parseInt(id))[0].command.execute(newStartDate);
-        this.$.updateEventEndTimeCommands.filter(c => c.id === parseInt(id))[0].command.execute(new Date(newEndDate));
+        this.$.updateEventEndTimeCommands.filter(c => c.id === parseInt(id))[0].command.execute(newEndDate);
         this.rowHeader.style.height = `${this.getBoundingClientRect().height}`;
     }
 

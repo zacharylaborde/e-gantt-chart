@@ -141,7 +141,7 @@ document.querySelector('body').appendChild(
             numColumnsToLoad: 92,
             columnWidth: 20,
             leftHeaderWidth: 100,
-            filterRowsWithNoVisibleEvents: false,
+            filterRowsWithNoVisibleEvents: true,
             zoomWidthMap: {
                 month: 20,
                 day: 50,
