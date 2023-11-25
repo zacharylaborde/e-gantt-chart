@@ -5,11 +5,13 @@ export class EGC_DeleteCommand {
 
     async execute() {
         try {
-            const data = this.repo.delete(...this.keys);
+            const generator = await this.repo.delete(...this.keys);
+            const data = generator.next().value;
+            generator.next();
             if (this.beforeCallback) await this.beforeCallback(data);
             if (this.observer) this.observer.update(data);
-            if (this.cleanupCallback) await this.cleanupCallback();
             if (this.afterCallback) await this.afterCallback(data);
+            if (this.cleanupCallback) await this.cleanupCallback(data);
         } catch (err) {
             const data = this.repo.getState(this.keys);
             if (this.errorObserver) this.errorObserver.update(err);
