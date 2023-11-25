@@ -1,4 +1,4 @@
-# [E-Gantt-Chart](https://website-name.com)
+# [E-Gantt-Chart]()
 The E-Gantt-Chart aims to be a versatile and highly customizable 
 open-source tool for developers, designed to simplify the creation 
 of scheduling and project management applications without us devs 
