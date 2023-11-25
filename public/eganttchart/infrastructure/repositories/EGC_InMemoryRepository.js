@@ -30,7 +30,7 @@ export class EGC_InMemoryRepository {
         }
     }
 
-    delete(...keys) {
+    *delete(...keys) {
         if (keys.length === 0) {
             throw new Error('At least one key must be provided');
         }
@@ -50,6 +50,7 @@ export class EGC_InMemoryRepository {
         }
 
         const lastKey = keys[keys.length - 1];
+        yield currentObj[lastKey];
         if (Array.isArray(currentObj) && !Number.isNaN(Number(lastKey))) {
             // If the last key is a valid index, remove the element from the array
             currentObj.splice(Number(lastKey), 1);

@@ -21,6 +21,7 @@ export class EGC_Row extends EGC_Component {
             .forEach(async event => {
                 this.appendChild(new EGC_Event(this.$, event.id));
             })
+        this.$.eventObservers.forEach(o => o.observer.subscribe(this));
         this.$.numColumnsToLoadObserver.subscribe(this);
         this.$.columnWidthObserver.subscribe(this);
         this.$.dateObserver.subscribe(this);

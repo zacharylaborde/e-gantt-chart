@@ -179,17 +179,6 @@ export class EGC_Instance {
             });
         }
 
-        this.deleteEventCommands = [];
-        for (let i = 0; i < this.inMemoryGanttChart.getState('events').length; i++) {
-            this.deleteEventCommands.push({
-                id: this.inMemoryGanttChart.getState('events')[i].id,
-                command: new EGC_DeleteCommand('events', i)
-                    .repo(this.inMemoryGanttChart)
-                    .observer(this.eventObservers.filter(o => o.id === this.inMemoryGanttChart.getState('events')[i].id)[0].observer)
-                    .errorObserver(this.errorObserver)
-            })
-        }
-
         this.loadEventNameCommands = []
         for (let i = 0; i < this.inMemoryGanttChart.getState('events').length; i++) {
             this.loadEventNameCommands.push({
@@ -218,6 +207,33 @@ export class EGC_Instance {
                 command: new EGC_UpdateCommand('events', i, 'endTime')
                     .repo(this.inMemoryGanttChart)
                     .observer(this.eventEndTimeObservers.filter(o => o.id === this.inMemoryGanttChart.getState('events')[i].id)[0].observer)
+                    .errorObserver(this.errorObserver)
+            })
+        }
+
+        this.deleteEventCommands = [];
+        for (let i = 0; i < this.inMemoryGanttChart.getState('events').length; i++) {
+            this.deleteEventCommands.push({
+                id: this.inMemoryGanttChart.getState('events')[i].id,
+                command: new EGC_DeleteCommand('events', i)
+                    .repo(this.inMemoryGanttChart)
+                    .observer(this.eventObservers.filter(o => o.id === this.inMemoryGanttChart.getState('events')[i].id)[0].observer)
+                    .cleanup(eventData => {
+                        // clean commands
+                        this.loadEventNameCommands = this.loadEventNameCommands.filter(c => c.id !== eventData.id);
+                        this.updateEventStartTimeCommands = this.updateEventStartTimeCommands.filter(c => c.id !== eventData.id);
+                        this.updateEventEndTimeCommands = this.updateEventEndTimeCommands.filter(c => c.id !== eventData.id);
+                        this.updateEventEndTimeCommands = this.updateEventEndTimeCommands.filter(c => c.id !== eventData.id);
+
+                        // clean observers
+                        this.eventObservers = this.eventObservers.filter(o => o.id !== eventData.id);
+                        this.eventNameObservers = this.eventNameObservers.filter(o => o.id !== eventData.id);
+                        this.eventStartTimeObservers = this.eventStartTimeObservers.filter(o => o.id !== eventData.id);
+                        this.eventEndTimeObservers = this.eventEndTimeObservers.filter(o => o.id !== eventData.id);
+
+                        // clean this command
+                        this.deleteEventCommands = this.deleteEventCommands.filter(c => c.id !== eventData.id);
+                    })
                     .errorObserver(this.errorObserver)
             })
         }

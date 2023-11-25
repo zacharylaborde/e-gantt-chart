@@ -8,6 +8,7 @@ export class EGC_DeleteCommand {
             const data = this.repo.delete(...this.keys);
             if (this.beforeCallback) await this.beforeCallback(data);
             if (this.observer) this.observer.update(data);
+            if (this.cleanupCallback) await this.cleanupCallback();
             if (this.afterCallback) await this.afterCallback(data);
         } catch (err) {
             const data = this.repo.getState(this.keys);
@@ -34,6 +35,11 @@ export class EGC_DeleteCommand {
 
     before(callback) {
         this.beforeCallback = callback;
+        return this;
+    }
+
+    cleanup(callback) {
+        this.cleanupCallback = callback;
         return this;
     }
 
